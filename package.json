@@ -1,0 +1,50 @@
+{
+  "name": "kyma-cap-s4ems",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@sap/cds": "^4",
+    "@sap/hana-client": "^2.7.21",
+    "@sap/xb-msg-amqp-v100": "^0.9.39",
+    "express": "^4",
+    "hdb": "^0.18.2",
+    "postcode-validator": "^3.1.0"
+  },
+  "devDependencies": {
+    "sqlite3": "4.2"
+  },
+  "scripts": {
+    "start": "cds run"
+  },
+  "cds": {
+    "hana": {
+      "deploy-format": "hdbtable"
+    },
+    "requires": {
+      "db": {
+        "kind": "sql",
+        "model": [
+          "db",
+          "srv"
+        ]
+      },
+      "messaging": {
+        "kind": "enterprise-messaging",
+        "queue": {
+          "name": "refapps/bpems/event-listener/CAP/0001"
+        }
+      },
+      "API_BUSINESS_PARTNER": {
+        "kind": "odata",
+        "model": "srv/external/API_BUSINESS_PARTNER",
+        "credentials": {
+          "destination": "s4-hana-cloud-starchy-bone",
+          "requestTimeout": 18000000
+        }
+      }
+    }
+  }
+}
