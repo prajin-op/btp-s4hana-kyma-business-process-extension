@@ -7,7 +7,6 @@
   "private": true,
   "dependencies": {
     "@sap/cds": "^4",
-    "@sap/hana-client": "^2.7.21",
     "@sap/xb-msg-amqp-v100": "^0.9.39",
     "express": "^4",
     "hdb": "^0.18.2",
