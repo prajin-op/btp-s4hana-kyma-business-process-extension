@@ -12,7 +12,7 @@ module.exports = async srv => {
     srv.on("READ", BusinessPartnerAddress, req => bupaSrv.tx(req).run(req.query))
     srv.on("READ", BusinessPartner, req => bupaSrv.tx(req).run(req.query))
   //works locally
-    messaging.on("sap/S4HANAOD/s4gr/ce/sap/s4/beh/businesspartner/v1/BusinessPartner/Created/v1", async msg => {
+    messaging.on("sap/S4HANAOD/s4ne/ce/sap/s4/beh/businesspartner/v1/BusinessPartner/Created/v1", async msg => {
       console.log("<< event caught", msg);
       const BUSINESSPARTNER = (+(msg.data.BusinessPartner)).toString();
       // ID has prefix 000 needs to be removed to read address
@@ -31,7 +31,7 @@ module.exports = async srv => {
       }
     });
   
-    messaging.on("sap/S4HANAOD/s4gr/ce/sap/s4/beh/businesspartner/v1/BusinessPartner/Changed/v1", async msg => {
+    messaging.on("sap/S4HANAOD/s4ne/ce/sap/s4/beh/businesspartner/v1/BusinessPartner/Changed/v1", async msg => {
       console.log("<< event caught", msg);
       const BUSINESSPARTNER = (+(msg.data.BusinessPartner)).toString();
       const bpIsAlive = await cds.tx(msg).run(SELECT.one(Notifications, (n) => n.verificationStatus_code).where({businessPartnerId: BUSINESSPARTNER}));
