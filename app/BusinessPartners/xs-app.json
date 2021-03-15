@@ -1,14 +1,17 @@
 {
 	"welcomeFile": "webapp/index.html",
+	"authenticationMethod": "route",
 	"routes": [{
 			"source": "^/sales/(.*)$",
-			"destination": "srv-binding"
+			"destination": "srv-binding",
+			"authenticationType": "xsuaa"
 		},
 
 		{
 	      "source": "^/webapp/(.*)$",
 	      "target": "$1",
-	      "localDir": "webapp"
+	      "localDir": "webapp",
+		  "authenticationType": "xsuaa"
 	    }
 	]
 }

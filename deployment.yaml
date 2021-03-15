@@ -31,12 +31,12 @@ stringData:
       {
       "binding_name": null,
       "credentials": {
-        "namespace": "refapps/emkymanew/event-listener",
-        "xsappname": "default-250f2608-994c-43a0-91af-a6be59be363b-clone!b18171|xbem-service-broker-!b1010",
+        "namespace": "refapps/emkymanew1/event-listener",
+        "xsappname": "default-766d07dd-b490-42e9-b4d2-962f7327ee2a-clone!b18171|xbem-service-broker-!b1010",
         "management": [{
           "oa2": {
-            "clientid": "sb-default-250f2608-994c-43a0-91af-a6be59be363b-clone!b18171|xbem-service-broker-!b1010",
-            "clientsecret": "3616d74a-ab59-43ca-a52c-a57a4e3c2df9$M1ZOgWpp6aigFdim-EsQYSMaz1HH6Tno4a1aGNFV-u8=",
+            "clientid": "sb-default-766d07dd-b490-42e9-b4d2-962f7327ee2a-clone!b18171|xbem-service-broker-!b1010",
+            "clientsecret": "b33c9077-387b-46fd-beea-c4fcfd6b862d$dUU-K_W9yvK0TIpAcoRFZluc9DN-fyrg9vs9xmhrpso=",
             "tokenendpoint": "https://ref-kyma.authentication.sap.hana.ondemand.com/oauth/token",
             "granttype": "client_credentials"
           },
@@ -44,8 +44,8 @@ stringData:
         }],
         "messaging": [{
             "oa2": {
-              "clientid": "sb-default-250f2608-994c-43a0-91af-a6be59be363b-clone!b18171|xbem-service-broker-!b1010",
-              "clientsecret": "3616d74a-ab59-43ca-a52c-a57a4e3c2df9$M1ZOgWpp6aigFdim-EsQYSMaz1HH6Tno4a1aGNFV-u8=",
+              "clientid": "sb-default-766d07dd-b490-42e9-b4d2-962f7327ee2a-clone!b18171|xbem-service-broker-!b1010",
+              "clientsecret": "b33c9077-387b-46fd-beea-c4fcfd6b862d$dUU-K_W9yvK0TIpAcoRFZluc9DN-fyrg9vs9xmhrpso=",
               "tokenendpoint": "https://ref-kyma.authentication.sap.hana.ondemand.com/oauth/token",
               "granttype": "client_credentials"
             },
@@ -59,8 +59,8 @@ stringData:
           },
           {
             "oa2": {
-              "clientid": "sb-default-250f2608-994c-43a0-91af-a6be59be363b-clone!b18171|xbem-service-broker-!b1010",
-              "clientsecret": "3616d74a-ab59-43ca-a52c-a57a4e3c2df9$M1ZOgWpp6aigFdim-EsQYSMaz1HH6Tno4a1aGNFV-u8=",
+              "clientid": "sb-default-766d07dd-b490-42e9-b4d2-962f7327ee2a-clone!b18171|xbem-service-broker-!b1010",
+              "clientsecret": "b33c9077-387b-46fd-beea-c4fcfd6b862d$dUU-K_W9yvK0TIpAcoRFZluc9DN-fyrg9vs9xmhrpso=",
               "tokenendpoint": "https://ref-kyma.authentication.sap.hana.ondemand.com/oauth/token",
               "granttype": "client_credentials"
             },
@@ -74,8 +74,8 @@ stringData:
           },
           {
             "oa2": {
-              "clientid": "sb-default-250f2608-994c-43a0-91af-a6be59be363b-clone!b18171|xbem-service-broker-!b1010",
-              "clientsecret": "3616d74a-ab59-43ca-a52c-a57a4e3c2df9$M1ZOgWpp6aigFdim-EsQYSMaz1HH6Tno4a1aGNFV-u8=",
+              "clientid": "sb-default-766d07dd-b490-42e9-b4d2-962f7327ee2a-clone!b18171|xbem-service-broker-!b1010",
+              "clientsecret": "b33c9077-387b-46fd-beea-c4fcfd6b862d$dUU-K_W9yvK0TIpAcoRFZluc9DN-fyrg9vs9xmhrpso=",
               "granttype": "client_credentials",
               "tokenendpoint": "https://ref-kyma.authentication.sap.hana.ondemand.com/oauth/token"
             },
@@ -85,11 +85,11 @@ stringData:
             "uri": "https://enterprise-messaging-pubsub.cfapps.sap.hana.ondemand.com"
           }
         ],
-        "serviceinstanceid": "250f2608-994c-43a0-91af-a6be59be363b"
+        "serviceinstanceid": "766d07dd-b490-42e9-b4d2-962f7327ee2a"
       },
-      "instance_name": "emkymanew",
+      "instance_name": "emkymanew1",
       "label": "enterprise-messaging",
-      "name": "enterprise-messaging-buoyant-teach",
+      "name": "emkymanew1",
       "plan": "default",
       "provider": null,
       "syslog_drain_url": null,
@@ -141,12 +141,12 @@ stringData:
               "instance_name": "cpapp-uaa",
               "binding_name": null,
               "credentials": {
-                "tenantmode": "shared",
+                "tenantmode": "dedicated",
                 "sburl": "https://internal-xsuaa.authentication.sap.hana.ondemand.com",
                 "subaccountid": "716e0189-1710-4ed0-9c51-bf59c28fa820",
-                "clientid": "sb-na-deba8855-eb7a-45f5-b3a6-41f91187f99b!t18171",
-                "xsappname": "na-deba8855-eb7a-45f5-b3a6-41f91187f99b!t18171",
-                "clientsecret": "kF5P8t1c9VfnHdVT9/Nw149Uhqc=",
+                "clientid": "sb-BusinessPartnerValidationnew!t18171",
+                "xsappname": "BusinessPartnerValidationnew!t18171",
+                "clientsecret": "JvtBpEWJGt5h8++wO7IoxeBtsO4=",
                 "url": "https://ref-kyma.authentication.sap.hana.ondemand.com",
                 "uaadomain": "authentication.sap.hana.ondemand.com",
                 "verificationkey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnhGoL4IRv1e7Zet2b8n4nYdmJx9ip1TSnX7d+hOibiRkD5UBHQQ9gMAjt6EXki65t6EOkDCMjcucazedeeNbxyVvicO8DLtmT+5FE3P8woRsVDNKMN3TkOayOR7dNVsNZT3tFmOqbqSzcOdtDvMDr74TZ8qOBY/TrsQWovajqP0TNU+vgCytpI3Ce7NI+zhCaY3GEedWj7imlFDTtDB0zOkACCEbIvNkmjWs4MaVxEFGRhlrvk18jBiCaLoYOHvc/Cnyfhf4n3ou+0ULoyua35vlXaHRqOjkW3chD7h/1ycOVcrHG1r3NeKQRT7tuAD4kTa+zOV9ZF5VE0kjePkS8QIDAQAB-----END PUBLIC KEY-----",

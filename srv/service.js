@@ -13,7 +13,7 @@ module.exports = async srv => {
     srv.on("READ", BusinessPartner, req => bupaSrv.tx(req).run(req.query))
   //works locally
     messaging.on("sap/S4HANAOD/s4ne/ce/sap/s4/beh/businesspartner/v1/BusinessPartner/Created/v1", async msg => {
-      console.log("<< event caught", msg);
+      console.log("<< event caught created", msg);
       const BUSINESSPARTNER = (+(msg.data.BusinessPartner)).toString();
       // ID has prefix 000 needs to be removed to read address
       console.log(BUSINESSPARTNER);
@@ -21,7 +21,6 @@ module.exports = async srv => {
       const bpEntity = await bupaSrv.tx(msg).run(SELECT.one(BusinessPartner).where({businessPartnerId: BUSINESSPARTNER}));
       const result = await cds.tx(msg).run(INSERT.into(Notifications).entries({businessPartnerId:BUSINESSPARTNER, verificationStatus_code:'N', businessPartnerName:bpEntity.businessPartnerName}));
       const address = await bupaSrv.tx(msg).run(SELECT.one(BusinessPartnerAddress).where({businessPartnerId: BUSINESSPARTNER}));
-      console.log("address", address);
       // for the address to notification association - extra field
       if(address){
         const notificationObj = await cds.tx(msg).run(SELECT.one(Notifications).columns("ID").where({businessPartnerId: BUSINESSPARTNER}));
@@ -32,7 +31,7 @@ module.exports = async srv => {
     });
   
     messaging.on("sap/S4HANAOD/s4ne/ce/sap/s4/beh/businesspartner/v1/BusinessPartner/Changed/v1", async msg => {
-      console.log("<< event caught", msg);
+      console.log("<< event caught changed", msg);
       const BUSINESSPARTNER = (+(msg.data.BusinessPartner)).toString();
       const bpIsAlive = await cds.tx(msg).run(SELECT.one(Notifications, (n) => n.verificationStatus_code).where({businessPartnerId: BUSINESSPARTNER}));
       if(bpIsAlive && bpIsAlive.verificationStatus_code == "V"){
@@ -83,7 +82,7 @@ module.exports = async srv => {
         "country":  resultJoin.country,
         "addressModified":  resultJoin.isModified
       }
-      console.log("<< formatted >>>>>", payload);
+      console.log("<< formatted message>>>>>", payload);
       console.log("namespace",namespace);
       messaging.tx(req).emit(`${namespace}/SalesService/d41d/BusinessPartnerVerified`, payload)
     }
