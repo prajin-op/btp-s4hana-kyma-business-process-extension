@@ -35,7 +35,7 @@
       "messaging": {
         "kind": "enterprise-messaging-shared",
         "queue": {
-          "name": "refapps/emkymanew1/event-listener/CAP/0001"
+          "name": "refapps/emkymanew/event-listener/CAP/0001"
         }
       },
       "API_BUSINESS_PARTNER": {

@@ -1,19 +1,12 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: kyma-secret
+  name: hana-secret
   namespace: grs
 type: opaque
 stringData: 
-  VCAP_SERVICES: >
-   {
-    "hana": [
-      {
-        "name": "cpapp-kyma-hdi",
-        "tags": [
-          "hana"
-        ],
-        "credentials": {
+  hana-credentials: >
+          {
             "url": "jdbc:sap://930653ef-22d9-46ea-ab5e-5856ee2e107f.hana.prod-eu20.hanacloud.ondemand.com:443?encrypt=true&validateCertificate=true&currentschema=16FD9AFD29DF4EC1AE95EA3A8C043015",
             "certificate": "-----BEGIN CERTIFICATE-----\nMIIDrzCCApegAwIBAgIQCDvgVpBCRrGhdWrJWZHHSjANBgkqhkiG9w0BAQUFADBh\nMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3\nd3cuZGlnaWNlcnQuY29tMSAwHgYDVQQDExdEaWdpQ2VydCBHbG9iYWwgUm9vdCBD\nQTAeFw0wNjExMTAwMDAwMDBaFw0zMTExMTAwMDAwMDBaMGExCzAJBgNVBAYTAlVT\nMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5j\nb20xIDAeBgNVBAMTF0RpZ2lDZXJ0IEdsb2JhbCBSb290IENBMIIBIjANBgkqhkiG\n9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4jvhEXLeqKTTo1eqUKKPC3eQyaKl7hLOllsB\nCSDMAZOnTjC3U/dDxGkAV53ijSLdhwZAAIEJzs4bg7/fzTtxRuLWZscFs3YnFo97\nnh6Vfe63SKMI2tavegw5BmV/Sl0fvBf4q77uKNd0f3p4mVmFaG5cIzJLv07A6Fpt\n43C/dxC//AH2hdmoRBBYMql1GNXRor5H4idq9Joz+EkIYIvUX7Q6hL+hqkpMfT7P\nT19sdl6gSzeRntwi5m3OFBqOasv+zbMUZBfHWymeMr/y7vrTC0LUq7dBMtoM1O/4\ngdW7jVg/tRvoSSiicNoxBN33shbyTApOB6jtSj1etX+jkMOvJwIDAQABo2MwYTAO\nBgNVHQ8BAf8EBAMCAYYwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUA95QNVbR\nTLtm8KPiGxvDl7I90VUwHwYDVR0jBBgwFoAUA95QNVbRTLtm8KPiGxvDl7I90VUw\nDQYJKoZIhvcNAQEFBQADggEBAMucN6pIExIK+t1EnE9SsPTfrgT1eXkIoyQY/Esr\nhMAtudXH/vTBH1jLuG2cenTnmCmrEbXjcKChzUyImZOMkXDiqw8cvpOp/2PV5Adg\n06O/nVsJ8dWO41P0jmP6P6fbtGbfYmbW0W5BjfIttep3Sp+dWOIrWcBAI+0tKIJF\nPnlUkiaY4IBIqDfv8NZ5YBberOgOzW6sRBc4L0na4UU+Krk2U886UAb3LujEV0ls\nYSEY1QSteDwsOoBrp+uvFRTp2InBuThs4pFsiv9kuXclVzDAGySj4dzp30d8tbQk\nCAUw7C29C79Fv1C5qfPrmAESrciIxpg0X40KPMbp1ZWVbd4=\n-----END CERTIFICATE-----",
             "driver": "com.sap.db.jdbc.Driver",
@@ -24,152 +17,10 @@ stringData:
             "port": "443",
             "schema": "16FD9AFD29DF4EC1AE95EA3A8C043015",
             "user": "16FD9AFD29DF4EC1AE95EA3A8C043015_56SNXBIODY7UE4P9DLHTLFVVW_RT"
-        }
-      }
-    ],
-    "enterprise-messaging": [
-      {
-      "binding_name": null,
-      "credentials": {
-        "namespace": "refapps/emkymanew1/event-listener",
-        "xsappname": "default-766d07dd-b490-42e9-b4d2-962f7327ee2a-clone!b18171|xbem-service-broker-!b1010",
-        "management": [{
-          "oa2": {
-            "clientid": "sb-default-766d07dd-b490-42e9-b4d2-962f7327ee2a-clone!b18171|xbem-service-broker-!b1010",
-            "clientsecret": "b33c9077-387b-46fd-beea-c4fcfd6b862d$dUU-K_W9yvK0TIpAcoRFZluc9DN-fyrg9vs9xmhrpso=",
-            "tokenendpoint": "https://ref-kyma.authentication.sap.hana.ondemand.com/oauth/token",
-            "granttype": "client_credentials"
-          },
-          "uri": "https://enterprise-messaging-hub-backend.cfapps.sap.hana.ondemand.com"
-        }],
-        "messaging": [{
-            "oa2": {
-              "clientid": "sb-default-766d07dd-b490-42e9-b4d2-962f7327ee2a-clone!b18171|xbem-service-broker-!b1010",
-              "clientsecret": "b33c9077-387b-46fd-beea-c4fcfd6b862d$dUU-K_W9yvK0TIpAcoRFZluc9DN-fyrg9vs9xmhrpso=",
-              "tokenendpoint": "https://ref-kyma.authentication.sap.hana.ondemand.com/oauth/token",
-              "granttype": "client_credentials"
-            },
-            "protocol": [
-              "amqp10ws"
-            ],
-            "broker": {
-              "type": "sapmgw"
-            },
-            "uri": "wss://enterprise-messaging-messaging-gateway.cfapps.sap.hana.ondemand.com/protocols/amqp10ws"
-          },
-          {
-            "oa2": {
-              "clientid": "sb-default-766d07dd-b490-42e9-b4d2-962f7327ee2a-clone!b18171|xbem-service-broker-!b1010",
-              "clientsecret": "b33c9077-387b-46fd-beea-c4fcfd6b862d$dUU-K_W9yvK0TIpAcoRFZluc9DN-fyrg9vs9xmhrpso=",
-              "tokenendpoint": "https://ref-kyma.authentication.sap.hana.ondemand.com/oauth/token",
-              "granttype": "client_credentials"
-            },
-            "protocol": [
-              "mqtt311ws"
-            ],
-            "broker": {
-              "type": "saprestmgw"
-            },
-            "uri": "wss://enterprise-messaging-messaging-gateway.cfapps.sap.hana.ondemand.com/protocols/mqtt311ws"
-          },
-          {
-            "oa2": {
-              "clientid": "sb-default-766d07dd-b490-42e9-b4d2-962f7327ee2a-clone!b18171|xbem-service-broker-!b1010",
-              "clientsecret": "b33c9077-387b-46fd-beea-c4fcfd6b862d$dUU-K_W9yvK0TIpAcoRFZluc9DN-fyrg9vs9xmhrpso=",
-              "granttype": "client_credentials",
-              "tokenendpoint": "https://ref-kyma.authentication.sap.hana.ondemand.com/oauth/token"
-            },
-            "protocol": [
-              "httprest"
-            ],
-            "uri": "https://enterprise-messaging-pubsub.cfapps.sap.hana.ondemand.com"
           }
-        ],
-        "serviceinstanceid": "766d07dd-b490-42e9-b4d2-962f7327ee2a"
-      },
-      "instance_name": "emkymanew1",
-      "label": "enterprise-messaging",
-      "name": "emkymanew1",
-      "plan": "default",
-      "provider": null,
-      "syslog_drain_url": null,
-      "tags": [
-        "enterprise-messaging"
-      ],
-      "volume_mounts": []
-      }
-    ],
-    "destination": [
-            {
-                "label": "destination",
-                "provider": null,
-                "plan": "lite",
-                "name": "destination-cpapp",
-                "tags": [
-                    "destination",
-                    "conn",
-                    "connsvc"
-                 ],
-                "instance_name": "destination-cpapp",
-                "binding_name": null,
-                "credentials": {
-                    "uaadomain": "authentication.sap.hana.ondemand.com",
-                    "tenantmode": "dedicated",
-                    "clientid": "sb-clone99e300552fba4de49383022ebc6c3321!b18171|destination-xsappname!b433",
-                    "instanceid": "99e30055-2fba-4de4-9383-022ebc6c3321",
-                    "verificationkey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnhGoL4IRv1e7Zet2b8n4nYdmJx9ip1TSnX7d+hOibiRkD5UBHQQ9gMAjt6EXki65t6EOkDCMjcucazedeeNbxyVvicO8DLtmT+5FE3P8woRsVDNKMN3TkOayOR7dNVsNZT3tFmOqbqSzcOdtDvMDr74TZ8qOBY/TrsQWovajqP0TNU+vgCytpI3Ce7NI+zhCaY3GEedWj7imlFDTtDB0zOkACCEbIvNkmjWs4MaVxEFGRhlrvk18jBiCaLoYOHvc/Cnyfhf4n3ou+0ULoyua35vlXaHRqOjkW3chD7h/1ycOVcrHG1r3NeKQRT7tuAD4kTa+zOV9ZF5VE0kjePkS8QIDAQAB-----END PUBLIC KEY-----",
-                    "xsappname": "clone99e300552fba4de49383022ebc6c3321!b18171|destination-xsappname!b433",
-                    "identityzone": "ref-kyma",
-                    "clientsecret": "659f15aa-4a2f-48ac-96df-c93053b93ccf$e8MpSCztKBxpgt18K5s9BBXqNn2TokKUpK_8G7L9gOE=",
-                    "tenantid": "716e0189-1710-4ed0-9c51-bf59c28fa820",
-                    "uri": "https://destination-configuration.cfapps.sap.hana.ondemand.com",
-                    "url": "https://ref-kyma.authentication.sap.hana.ondemand.com"
-                },
-                "syslog_drain_url": null,
-                "volume_mounts": []
-            }
-        ],
-        "xsuaa": [
-            {
-              "label": "xsuaa",
-              "provider": null,
-              "plan": "application",
-              "name": "xsuaa-cpapp",
-              "tags": [
-                "xsuaa"
-              ],
-              "instance_name": "cpapp-uaa",
-              "binding_name": null,
-              "credentials": {
-                "tenantmode": "dedicated",
-                "sburl": "https://internal-xsuaa.authentication.sap.hana.ondemand.com",
-                "subaccountid": "716e0189-1710-4ed0-9c51-bf59c28fa820",
-                "clientid": "sb-BusinessPartnerValidationnew!t18171",
-                "xsappname": "BusinessPartnerValidationnew!t18171",
-                "clientsecret": "JvtBpEWJGt5h8++wO7IoxeBtsO4=",
-                "url": "https://ref-kyma.authentication.sap.hana.ondemand.com",
-                "uaadomain": "authentication.sap.hana.ondemand.com",
-                "verificationkey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnhGoL4IRv1e7Zet2b8n4nYdmJx9ip1TSnX7d+hOibiRkD5UBHQQ9gMAjt6EXki65t6EOkDCMjcucazedeeNbxyVvicO8DLtmT+5FE3P8woRsVDNKMN3TkOayOR7dNVsNZT3tFmOqbqSzcOdtDvMDr74TZ8qOBY/TrsQWovajqP0TNU+vgCytpI3Ce7NI+zhCaY3GEedWj7imlFDTtDB0zOkACCEbIvNkmjWs4MaVxEFGRhlrvk18jBiCaLoYOHvc/Cnyfhf4n3ou+0ULoyua35vlXaHRqOjkW3chD7h/1ycOVcrHG1r3NeKQRT7tuAD4kTa+zOV9ZF5VE0kjePkS8QIDAQAB-----END PUBLIC KEY-----",
-                "apiurl": "https://api.authentication.sap.hana.ondemand.com",
-                "identityzone": "ref-kyma",
-                "identityzoneid": "716e0189-1710-4ed0-9c51-bf59c28fa820",
-                "tenantid": "716e0189-1710-4ed0-9c51-bf59c28fa820",
-                "zoneid": "716e0189-1710-4ed0-9c51-bf59c28fa820"
-              },
-              "syslog_drain_url": null,
-              "volume_mounts": []
-            }
-          ],
-          "destinations":[{
-                "forwardAuthToken" : true,
-                "name" : "srv-binding",
-                "strictSSL" : true,
-                "url" : "https://kymacap.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com"
-          } ]
-   }
-
 
 ---
+
 
 apiVersion: apps/v1
 kind: Deployment
@@ -197,9 +48,96 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 4004
-        envFrom:
-          - secretRef:
-              name: kyma-secret
+        env:
+          - name: HANA_CREDENTIALS
+            valueFrom:
+              secretKeyRef:
+                  name: hana-secret
+                  key: hana-credentials
+          - name: DEST_CREDENTIALS
+            valueFrom:
+                secretKeyRef:
+                  key: credentials
+                  name: gifted-beaver
+          - name: XSUAA_CREDENTIALS
+            valueFrom:
+                secretKeyRef:
+                  key: credentials
+                  name: confident-golick
+          - name: EM_CREDENTIALS
+            valueFrom:
+                secretKeyRef:
+                  key: credentials
+                  name: elated-hopper
+          - name: VCAP_SERVICES
+            value: >
+              {
+                "hana": [
+                  {
+                    "name": "cpapp-kyma-hdi",
+                    "tags": [
+                      "hana"
+                    ],
+                    "credentials": $(HANA_CREDENTIALS)
+                  }
+                ],
+                "enterprise-messaging": [
+                  {
+                  "binding_name": null,
+                  "credentials": {$(EM_CREDENTIALS)},
+                  "instance_name": "emkymanew",
+                  "label": "enterprise-messaging",
+                  "name": "emkymanew",
+                  "plan": "default",
+                  "provider": null,
+                  "syslog_drain_url": null,
+                  "tags": [
+                    "enterprise-messaging"
+                  ],
+                  "volume_mounts": []
+                  }
+                ],
+                "destination": [
+                        {
+                            "label": "destination",
+                            "provider": null,
+                            "plan": "lite",
+                            "name": "destination-cpapp",
+                            "tags": [
+                                "destination",
+                                "conn",
+                                "connsvc"
+                            ],
+                            "instance_name": "destination-cpapp",
+                            "binding_name": null,
+                            "credentials": {$(DEST_CREDENTIALS)},
+                            "syslog_drain_url": null,
+                            "volume_mounts": []
+                        }
+                    ],
+                    "xsuaa": [
+                        {
+                          "label": "xsuaa",
+                          "provider": null,
+                          "plan": "application",
+                          "name": "xsuaa-cpapp",
+                          "tags": [
+                            "xsuaa"
+                          ],
+                          "instance_name": "cpapp-uaa",
+                          "binding_name": null,
+                          "credentials": {$(XSUAA_CREDENTIALS)},
+                          "syslog_drain_url": null,
+                          "volume_mounts": []
+                        }
+                      ],
+                      "destinations":[{
+                            "forwardAuthToken" : true,
+                            "name" : "srv-binding",
+                            "strictSSL" : true,
+                            "url" : "https://kymacap.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com"
+                      } ]
+              }
 
 ---
 
