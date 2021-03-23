@@ -1,0 +1,19 @@
+apiVersion: gateway.kyma-project.io/v1alpha1
+kind: APIRule
+metadata:
+  namespace: grs
+  labels:
+    app: docker-registry1
+  name: docker-registry1
+spec:
+  service:
+    host: docker-registry1
+    name: docker-registry1
+    port: 5000
+  gateway: kyma-gateway.kyma-system.svc.cluster.local
+  rules:
+    - path: /.*
+      methods: ["GET", "HEAD" ]
+      accessStrategies:
+        - handler: noop
+      mutators: []

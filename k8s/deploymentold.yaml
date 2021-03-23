@@ -192,7 +192,7 @@ spec:
         version: v1
     spec:
       containers:
-      - name: kymacap
+      - name: kymacapcds 
         image: shankarigr/grs
         imagePullPolicy: Always
         ports:
@@ -200,6 +200,8 @@ spec:
         envFrom:
           - secretRef:
               name: kyma-secret
+          - secretRef:
+              name: elated-hopper
 
 ---
 

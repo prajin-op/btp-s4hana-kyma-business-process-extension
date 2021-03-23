@@ -21,6 +21,56 @@ stringData:
 
 ---
 
+apiVersion: servicecatalog.kyma-project.io/v1alpha1
+kind: ServiceBindingUsage
+metadata:
+  name: destservicebindingusage
+  namespace: grs
+spec:
+  parameters:
+    envPrefix:
+      name: dest_
+  serviceBindingRef:
+    name: eloquent-bhaskara
+  usedBy:
+    kind: deployment
+    name: kymacap
+
+---
+
+apiVersion: servicecatalog.kyma-project.io/v1alpha1
+kind: ServiceBindingUsage
+metadata:
+  name: xsuaaservicebindingusage
+  namespace: grs
+spec:
+  parameters:
+    envPrefix:
+      name: xsuaa_
+  serviceBindingRef:
+    name: confident-golick
+  usedBy:
+    kind: deployment
+    name: kymacap
+
+---
+
+apiVersion: servicecatalog.kyma-project.io/v1alpha1
+kind: ServiceBindingUsage
+metadata:
+  name: emservicebindingusage
+  namespace: grs
+spec:
+  parameters:
+    envPrefix:
+      name: em_
+  serviceBindingRef:
+    name: pensive-ride
+  usedBy:
+    kind: deployment
+    name: kymacap
+
+---
 
 apiVersion: apps/v1
 kind: Deployment
@@ -54,21 +104,6 @@ spec:
               secretKeyRef:
                   name: hana-secret
                   key: hana-credentials
-          - name: DEST_CREDENTIALS
-            valueFrom:
-                secretKeyRef:
-                  key: credentials
-                  name: gifted-beaver
-          - name: XSUAA_CREDENTIALS
-            valueFrom:
-                secretKeyRef:
-                  key: credentials
-                  name: confident-golick
-          - name: EM_CREDENTIALS
-            valueFrom:
-                secretKeyRef:
-                  key: credentials
-                  name: elated-hopper
           - name: VCAP_SERVICES
             value: >
               {
@@ -81,10 +116,16 @@ spec:
                     "credentials": $(HANA_CREDENTIALS)
                   }
                 ],
-                "enterprise-messaging": [
+                 "enterprise-messaging": [
                   {
                   "binding_name": null,
-                  "credentials": {$(EM_CREDENTIALS)},
+                  "credentials": {
+                    "namespace": "$(em_namespace)",
+                    "xsappname": "$(em_xsappname)",
+                    "management": $(em_management),
+                    "messaging": $(em_messaging),
+                    "serviceinstanceid": "$(em_serviceinstanceid)"
+                  },
                   "instance_name": "emkymanew",
                   "label": "enterprise-messaging",
                   "name": "emkymanew",
@@ -110,7 +151,19 @@ spec:
                             ],
                             "instance_name": "destination-cpapp",
                             "binding_name": null,
-                            "credentials": {$(DEST_CREDENTIALS)},
+                            "credentials": {
+                                 "uaadomain": "$(dest_uaadomain)",
+                                "tenantmode": "$(dest_tenantmode)",
+                                "clientid": "$(dest_clientid)",
+                                "instanceid": "$(dest_instanceid)",
+                                "verificationkey": "$(dest_verificationkey)",
+                                "xsappname": "$(dest_xsappname)",
+                                "identityzone": "$(dest_identityzone)",
+                                "clientsecret": "$(dest_clientsecret)",
+                                "tenantid": "$(dest_tenantid)",
+                                "uri": "$(dest_uri)",
+                                "url": "$(dest_url)"
+                            },
                             "syslog_drain_url": null,
                             "volume_mounts": []
                         }
@@ -126,7 +179,22 @@ spec:
                           ],
                           "instance_name": "cpapp-uaa",
                           "binding_name": null,
-                          "credentials": {$(XSUAA_CREDENTIALS)},
+                          "credentials": {
+                            "tenantmode": "$(xsuaa_tenantmode)",
+                            "sburl": "$(xsuaa_sburl)",
+                            "subaccountid": "$(xsuaa_subaccountid)",
+                            "clientid": "$(xsuaa_clientid)",
+                            "xsappname": "$(xsuaa_xsappname)",
+                            "clientsecret": "$(xsuaa_clientsecret)",
+                            "url": "$(xsuaa_url)",
+                            "uaadomain": "$(xsuaa_uaadomain)",
+                            "verificationkey": "$(xsuaa_verificationkey)",
+                            "apiurl": "$(xsuaa_apiurl)",
+                            "identityzone": "$(xsuaa_identityzone)",
+                            "identityzoneid": "$(xsuaa_identityzoneid)",
+                            "tenantid": "$(xsuaa_tenantid)",
+                            "zoneid": "$(xsuaa_zoneid)"
+                          },
                           "syslog_drain_url": null,
                           "volume_mounts": []
                         }
