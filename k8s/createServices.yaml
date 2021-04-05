@@ -1,0 +1,197 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cloudmessaging
+  namespace: grs
+type: opaque
+stringData:
+  messagingsecret: 
+    '{
+      "emClientId": "s4te",
+      "systemName": "grss4hanacloud"
+    }'
+
+
+---
+
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceInstance
+metadata:
+  name: s4test
+  namespace: grs
+spec: 
+  clusterServiceClassExternalName: s4-hana-cloud
+  clusterServicePlanExternalName: messaging
+  parametersFrom: 
+    - secretKeyRef: 
+        name: cloudmessaging
+        key: messagingsecret
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: apiaccessmessaging
+  namespace: grs
+type: opaque
+stringData:
+  apiaccesssecret: 
+    '	{
+	  "systemName": "grss4hanacloud",
+	  "communicationArrangement": {
+	    "communicationArrangementName": "s4hanademo1",
+	    "scenarioId": "SAP_COM_0008",
+	    "inboundAuthentication": "BasicAuthentication",
+	    "outboundAuthentication": "BasicAuthentication",
+	    "outboundServices": [
+	      {
+	        "name": "Replicate Customers from S/4 System to Client",
+	        "isServiceActive": false
+	      },
+	      {
+	        "name": "Replicate Suppliers from S/4 System to Client",
+	        "isServiceActive": false
+	      },
+	      {
+	        "name": "Replicate Company Addresses from S/4 System to Client",
+	        "isServiceActive": false
+	      },
+	      {
+	        "name": "Replicate Workplace Addresses from S/4 System to Client",
+	        "isServiceActive": false
+	      },
+	      {
+	        "name": "Replicate Personal Addresses from S/4 System to Client",
+	        "isServiceActive": false
+	      },
+	      {
+	        "name": "Business Partner - Replicate from SAP S/4HANA Cloud to Client",
+	        "isServiceActive": false
+	      },
+	      {
+	        "name": "Business Partner Relationship - Replicate from SAP S/4HANA Cloud to Client",
+	        "isServiceActive": false
+	      },
+	      {
+	        "name": "Business Partner - Send Confirmation from SAP S/4HANA Cloud to Client",
+	        "isServiceActive": false
+	      },
+	      {
+	        "name": "BP Relationship - Send Confirmation from SAP S/4HANA Cloud to Client",
+	        "isServiceActive": false
+	      }
+	    ],
+	    "communicationSystem": {
+	      "communicationSystemHostname": "https://default.com",
+	      "outboundCommunicationUser": {
+	        "username": "DefaultUser",
+	        "password": "DefaultPassword"
+	      }
+	    }
+	  }
+	}'
+
+
+---
+
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceInstance
+metadata:
+  name: s4apiaccess
+  namespace: grs
+spec: 
+  clusterServiceClassExternalName: s4-hana-cloud
+  clusterServicePlanExternalName: api-access
+  parametersFrom: 
+    - secretKeyRef: 
+        name: apiaccessmessaging
+        key: apiaccesssecret
+
+---
+
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceInstance
+metadata:
+  name: xsuaademo
+  namespace: grs
+spec:
+  clusterServiceClassExternalName: xsuaa
+  clusterServicePlanExternalName: application
+  parameters:
+    xsappname: BusinessPartnerValidationdemo
+    tenant-mode: dedicated
+    oauth2-configuration:
+      redirect-uris:
+        - https://*/**
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: emdemo
+  namespace: grs
+type: opaque
+stringData:
+  emsecret: 
+    '{
+        "emname": "emkymademo",
+        "namespace": "refapps/emkymademo/event-listener",
+        "options": {
+          "management": true,
+          "messaging": true,
+          "messagingrest": true
+        },
+        "rules": {
+          "queueRules": {
+            "publishFilter": [
+            "${namespace}/*"
+          ],
+          "subscribeFilter": [
+            "${namespace}/*",
+            "sap/S4HANAOD/s4ne/*"
+          ]
+        },
+        "topicRules": {
+          "publishFilter": [
+          "${namespace}/*"
+        ],
+        "subscribeFilter": [
+          "${namespace}/*",
+          "sap/S4HANAOD/s4ne/*"
+        ]
+        }
+      },
+      "version": "1.1.0"
+    }'
+
+
+---
+
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceInstance
+metadata:
+  name: emdemo
+  namespace: grs
+spec: 
+  clusterServiceClassExternalName: enterprise-messaging
+  clusterServicePlanExternalName: default
+  parametersFrom: 
+    - secretKeyRef: 
+        name: emdemo
+        key: emsecret
+
+---
+
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceInstance
+metadata:
+  name: destdemo
+  namespace: grs
+spec: 
+  clusterServiceClassExternalName: destination
+  clusterServicePlanExternalName: lite
+
+
+
+    

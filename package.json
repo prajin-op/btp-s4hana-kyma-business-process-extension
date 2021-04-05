@@ -7,7 +7,7 @@
   "private": true,
   "dependencies": {
     "@sap/cds": "^4",
-    "@sap/xb-msg-amqp-v100": "^0.9.39",
+    "@sap/xb-msg-amqp-v100": "0.9.48",
     "express": "^4",
     "hdb": "^0.18.2",
     "postcode-validator": "^3.1.0",
@@ -35,7 +35,7 @@
       "messaging": {
         "kind": "enterprise-messaging-shared",
         "queue": {
-          "name": "refapps/emkymanew/event-listener/CAP/0001"
+          "name": "refapps/emkymanew2/event-listener/CAP/0001"
         }
       },
       "API_BUSINESS_PARTNER": {

@@ -65,7 +65,7 @@ spec:
     envPrefix:
       name: em_
   serviceBindingRef:
-    name: pensive-ride
+    name: eager-heisenberg
   usedBy:
     kind: deployment
     name: kymacap
@@ -94,7 +94,7 @@ spec:
     spec:
       containers:
       - name: kymacap
-        image: shankarigr/grs
+        image: docker-registry1.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com/kymaapp
         imagePullPolicy: Always
         ports:
         - containerPort: 4004
@@ -245,7 +245,6 @@ spec:
       accessStrategies:
         - handler: noop
       mutators: []
-
 
 
 

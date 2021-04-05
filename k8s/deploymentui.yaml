@@ -82,7 +82,3 @@ spec:
             headers:
               x-forwarded-host: approuterkyma.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com # TODO: Update URL here
               x-forwarded-proto: https
-
-
-
-
