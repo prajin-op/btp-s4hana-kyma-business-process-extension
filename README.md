@@ -1,25 +1,49 @@
 # Getting Started
+ 
+Welcome to S/4 HANA Extend Business logic on Kyma Scenario. 
 
-Welcome to your new project.
+## Steps to Build and Deploy the application
 
-It contains these folders and files, following our recommended project layout:
-
-File or Folder | Purpose
----------|----------
-`app/` | content for UI frontends goes here
-`db/` | your domain models and data go here
-`srv/` | your service models and code go here
-`package.json` | project metadata and configuration
-`readme.md` | this getting started guide
-
-
-## Next Steps
-
-- Open a new terminal and run `cds watch` 
-- (in VS Code simply choose _**Terminal** > Run Task > cds watch_)
-- Start adding content, for example, a [db/schema.cds](db/schema.cds).
+1. Connect S/4 HANA Cloud System To your global account
+2. Configure Entelments 
+3. Creating HDI Container in Cloud Foundry Space
+4. Clone the project and Build the project
+6. Push Image to helm repository
+7. Configure the deployment files.
+8. Deploy the project
 
 
-## Learn More
+## Connect S/4 HANA Cloud System to global account 
+To connect S/4 HANA Cloud System, please follow this [Link:](https://help.sap.com/viewer/65de2977205c403bbc107264b8eccf4b/Cloud/en-US/2ffdaff0f1454acdb046876045321c91.html)
 
-Learn more at https://cap.cloud.sap/docs/get-started/.
+## Configure Entitlements
+For this scenario you will need the following Entitelments.
+1. HANA Cloud Instance
+2. HDI Containers
+3. EVENT MESH
+4. SAP S/4HANA Cloud Extensibility Service
+5. Cloud Foundry Runtime
+6. Kyma Runtime
+
+## Creating HDI Container in Cloud Foundry Space
+This step pre-requires you to enable cloud foundry and create a space. 
+1. Create HANA Cloud Instance.
+2. Go to Services tab in you CF space.
+3. Click on Services-> Service Market Place.
+4. Search For SAP HANA Schema and Containers, And select it.
+5. Create an instance with name ``kyma-hdi`` and plan ``hdi-shared``.
+6. Once instance is created, Click on it and create a service key, Name it anything.
+7. Download the service key, we will use it in the later steps.
+
+
+## Clone the project and Build the project
+1. Copy the project in your local system.
+2. Open it in VS code.
+4. Now Open terminal with Command ctrl+ j
+5. In the root of project enter `npm i`. This will install all the dependencies
+6. 
+7. 
+
+
+
+
