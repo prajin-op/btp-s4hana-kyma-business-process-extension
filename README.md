@@ -41,8 +41,27 @@ This step pre-requires you to enable cloud foundry and create a space.
 2. Open it in VS code.
 4. Now Open terminal with Command ctrl+ j
 5. In the root of project enter `npm i`. This will install all the dependencies
-6. 
-7. 
+k apply -f ./k8s/createServices.yaml
+	Cds build --production
+	docker build -t kymademo .
+	docker tag kymademo 0.0.0.0:5000/kymademo
+
+	docker build ./app -t kymademoui -f Dockerfileui
+	docker tag kymademoui 0.0.0.0:5000/kymademoui
+	
+	docker build . -t kymahdi -f db.Dockerfile
+	docker tag kymahdi 0.0.0.0:5000/kymahdi 
+	
+	
+	kubectl port-forward deployment/docker-registry -n demo 5000:5000 &
+	docker push 0.0.0.0:5000/kymademo
+	docker push 0.0.0.0:5000/kymademoui
+	docker push 0.0.0.0:5000/kymahdi
+ 
+ helm install ./ --generate-name
+ 
+ 
+
 
 
 
