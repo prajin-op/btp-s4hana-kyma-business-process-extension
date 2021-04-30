@@ -1,0 +1,257 @@
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceBinding
+metadata:
+  name: em-binding
+  namespace: demo
+spec:
+  instanceRef:
+    name: emdemo
+---
+
+apiVersion: servicecatalog.kyma-project.io/v1alpha1
+kind: ServiceBindingUsage
+metadata:
+  name: emservicebindingusage
+  namespace: demo
+spec:
+  parameters: 
+    envPrefix:
+      name: em_
+  serviceBindingRef:
+    name: em-binding
+  usedBy:
+    kind: deployment
+    name: kymacap
+
+---
+
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceBinding
+metadata:
+  name: dest-binding
+  namespace: demo
+spec:
+  instanceRef:
+    name: destdemo
+---
+
+apiVersion: servicecatalog.kyma-project.io/v1alpha1
+kind: ServiceBindingUsage
+metadata:
+  name: destservicebindingusage
+  namespace: demo
+spec:
+  parameters:
+    envPrefix:
+      name: dest_
+  serviceBindingRef:
+    name: dest-binding
+  usedBy:
+    kind: deployment
+    name: kymacap
+
+---
+
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceBinding
+metadata:
+  name: xsuaa-binding
+  namespace: demo
+spec:
+  instanceRef:
+    name: xsuaademo
+
+---
+apiVersion: servicecatalog.kyma-project.io/v1alpha1
+kind: ServiceBindingUsage
+metadata:
+  name: xsuaaservicebindingusage
+  namespace: demo
+spec:
+  parameters:
+    envPrefix:
+      name: xsuaa_
+  serviceBindingRef:
+    name: xsuaa-binding
+  usedBy:
+    kind: deployment
+    name: kymacap
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kymacap
+  labels:
+    app: kymacap
+    version: v1
+  namespace: demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kymacap
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: kymacap
+        version: v1
+    spec:
+      containers:
+      - name: kymacap
+        image: docker-registrynew.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com/kymademo
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 4004
+        env:
+          - name: HANA_CREDENTIALS
+            valueFrom:
+              secretKeyRef:
+                  name: hana-secret
+                  key: hana-credentials
+          - name: VCAP_SERVICES
+            value: >
+              {
+                "hana": [
+                  {
+                    "name": "cpapp-kyma-hdi",
+                    "tags": [
+                      "hana"
+                    ],
+                    "credentials": $(HANA_CREDENTIALS)
+                  }
+                ],
+                 "enterprise-messaging": [
+                  {
+                  "binding_name": null,
+                  "credentials": {
+                    "namespace": "$(em_namespace)",
+                    "xsappname": "$(em_xsappname)",
+                    "management": $(em_management),
+                    "messaging": $(em_messaging),
+                    "serviceinstanceid": "$(em_serviceinstanceid)"
+                  },
+                  "instance_name": "emkymanew",
+                  "label": "enterprise-messaging",
+                  "name": "emkymanew",
+                  "plan": "default",
+                  "provider": null,
+                  "syslog_drain_url": null,
+                  "tags": [
+                    "enterprise-messaging"
+                  ],
+                  "volume_mounts": []
+                  }
+                ],
+                "destination": [
+                        {
+                            "label": "destination",
+                            "provider": null,
+                            "plan": "lite",
+                            "name": "destination-cpapp",
+                            "tags": [
+                                "destination",
+                                "conn",
+                                "connsvc"
+                            ],
+                            "instance_name": "destination-cpapp",
+                            "binding_name": null,
+                            "credentials": {
+                                 "uaadomain": "$(dest_uaadomain)",
+                                "tenantmode": "$(dest_tenantmode)",
+                                "clientid": "$(dest_clientid)",
+                                "instanceid": "$(dest_instanceid)",
+                                "verificationkey": "$(dest_verificationkey)",
+                                "xsappname": "$(dest_xsappname)",
+                                "identityzone": "$(dest_identityzone)",
+                                "clientsecret": "$(dest_clientsecret)",
+                                "tenantid": "$(dest_tenantid)",
+                                "uri": "$(dest_uri)",
+                                "url": "$(dest_url)"
+                            },
+                            "syslog_drain_url": null,
+                            "volume_mounts": []
+                        }
+                    ],
+                    "xsuaa": [
+                        {
+                          "label": "xsuaa",
+                          "provider": null,
+                          "plan": "application",
+                          "name": "xsuaa-cpapp",
+                          "tags": [
+                            "xsuaa"
+                          ],
+                          "instance_name": "cpapp-uaa",
+                          "binding_name": null,
+                          "credentials": {
+                            "tenantmode": "$(xsuaa_tenantmode)",
+                            "sburl": "$(xsuaa_sburl)",
+                            "subaccountid": "$(xsuaa_subaccountid)",
+                            "clientid": "$(xsuaa_clientid)",
+                            "xsappname": "$(xsuaa_xsappname)",
+                            "clientsecret": "$(xsuaa_clientsecret)",
+                            "url": "$(xsuaa_url)",
+                            "uaadomain": "$(xsuaa_uaadomain)",
+                            "verificationkey": "$(xsuaa_verificationkey)",
+                            "apiurl": "$(xsuaa_apiurl)",
+                            "identityzone": "$(xsuaa_identityzone)",
+                            "identityzoneid": "$(xsuaa_identityzoneid)",
+                            "tenantid": "$(xsuaa_tenantid)",
+                            "zoneid": "$(xsuaa_zoneid)"
+                          },
+                          "syslog_drain_url": null,
+                          "volume_mounts": []
+                        }
+                      ],
+                      "destinations":[{
+                            "forwardAuthToken" : true,
+                            "name" : "srv-binding",
+                            "strictSSL" : true,
+                            "url" : "https://kymacap.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com"
+                      } ]
+              }
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: kymacap
+  namespace: demo
+  labels:
+    app: kymacap
+    service: kymacap
+spec:
+  ports:
+  - port: 4004
+    name: http
+  selector:
+    app: kymacap
+
+---
+
+apiVersion: gateway.kyma-project.io/v1alpha1
+kind: APIRule
+metadata:
+  namespace: demo
+  labels:
+    app: kymacap
+  name: kymacap
+spec:
+  service:
+    host: kymacap
+    name: kymacap
+    port: 4004
+  gateway: kyma-gateway.kyma-system.svc.cluster.local
+  rules:
+    - path: /.*
+      methods: ["GET", "PUT", "POST", "HEAD", "PATCH", "DELETE" ]
+      accessStrategies:
+        - handler: noop
+      mutators: []
+
+
+

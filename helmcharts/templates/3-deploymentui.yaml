@@ -1,0 +1,84 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: approuterkymaui
+  labels:
+    app: approuterkymaui
+    version: v1
+  namespace: demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: approuterkymaui
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: approuterkymaui
+        version: v1
+    spec:
+      containers:
+      - name: approuterkymaui
+        image: docker-registrynew.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com/kymademoui
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+        volumeMounts:
+        - name: xsuaa-volume
+          mountPath: "/etc/secrets/sapcp/xsuaa/xsuaaInst"
+          readOnly: true
+        env:
+        - name: destinations
+          value: '[ {"name":"srv-binding", "url":"https://kymacap.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com","forwardAuthToken": true }]'
+      volumes:
+      - name: xsuaa-volume
+        secret:
+          secretName: confident-golick
+       
+          
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: approuterkymaui
+  namespace: demo
+  labels:
+    app: approuterkymaui
+    service: approuterkymaui
+spec:
+  ports:
+  - port: 5000
+    name: http
+  selector:
+    app: approuterkymaui
+
+---
+
+apiVersion: gateway.kyma-project.io/v1alpha1
+kind: APIRule
+metadata:
+  namespace: demo
+  labels:
+    app: approuterkymaui
+  name: approuterkymaui
+spec:
+  service:
+    host: approuterkymaui
+    name: approuterkymaui
+    port: 5000
+  gateway: kyma-gateway.kyma-system.svc.cluster.local
+  rules:
+    - path: /.*
+      methods: ["GET", "PUT", "POST", "HEAD", "PATCH", "DELETE" ]
+      accessStrategies:
+        - handler: noop
+      mutators:
+        - handler: header
+          config:
+            headers:
+              x-forwarded-host: approuterkyma.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com # TODO: Update URL here
+              x-forwarded-proto: https
