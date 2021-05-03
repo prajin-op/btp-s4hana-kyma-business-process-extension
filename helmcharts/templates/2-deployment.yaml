@@ -1,8 +1,10 @@
 apiVersion: servicecatalog.k8s.io/v1beta1
 kind: ServiceBinding
 metadata:
-  name: em-binding
+  name: {{ .Release.Name }}-em-binding
   namespace: demo
+  labels:
+    name: kyma-cap-s4ems
 spec:
   instanceRef:
     name: emdemo
@@ -11,25 +13,29 @@ spec:
 apiVersion: servicecatalog.kyma-project.io/v1alpha1
 kind: ServiceBindingUsage
 metadata:
-  name: emservicebindingusage
+  name: {{ .Release.Name }}-emservicebindingusage
   namespace: demo
+  labels:
+     name: kyma-cap-s4ems
 spec:
   parameters: 
     envPrefix:
       name: em_
   serviceBindingRef:
-    name: em-binding
+    name: {{ .Release.Name }}-em-binding
   usedBy:
     kind: deployment
-    name: kymacap
+    name: {{ .Release.Name }}-kymacap
 
 ---
 
 apiVersion: servicecatalog.k8s.io/v1beta1
 kind: ServiceBinding
 metadata:
-  name: dest-binding
+  name: {{ .Release.Name }}-dest-binding
   namespace: demo
+  labels:
+     name: kyma-cap-s4ems
 spec:
   instanceRef:
     name: destdemo
@@ -38,25 +44,29 @@ spec:
 apiVersion: servicecatalog.kyma-project.io/v1alpha1
 kind: ServiceBindingUsage
 metadata:
-  name: destservicebindingusage
+  name: {{ .Release.Name }}-destservicebindingusage
   namespace: demo
+  labels:
+     name: kyma-cap-s4ems
 spec:
   parameters:
     envPrefix:
       name: dest_
   serviceBindingRef:
-    name: dest-binding
+    name: {{ .Release.Name }}-dest-binding
   usedBy:
     kind: deployment
-    name: kymacap
+    name: {{ .Release.Name }}-kymacap
 
 ---
 
 apiVersion: servicecatalog.k8s.io/v1beta1
 kind: ServiceBinding
 metadata:
-  name: xsuaa-binding
+  name: {{ .Release.Name }}-xsuaa-binding
   namespace: demo
+  labels:
+     name: kyma-cap-s4ems
 spec:
   instanceRef:
     name: xsuaademo
@@ -65,42 +75,46 @@ spec:
 apiVersion: servicecatalog.kyma-project.io/v1alpha1
 kind: ServiceBindingUsage
 metadata:
-  name: xsuaaservicebindingusage
+  name: {{ .Release.Name }}-xsuaaservicebindingusage
   namespace: demo
+  labels:
+     name: kyma-cap-s4ems
 spec:
   parameters:
     envPrefix:
       name: xsuaa_
   serviceBindingRef:
-    name: xsuaa-binding
+    name: {{ .Release.Name }}-xsuaa-binding
   usedBy:
     kind: deployment
-    name: kymacap
+    name: {{ .Release.Name }}-kymacap
 
 ---
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kymacap
+  name: {{ .Release.Name }}-kymacap
   labels:
-    app: kymacap
+    app: {{ .Release.Name }}-kymacap
     version: v1
+    name: kyma-cap-s4ems
   namespace: demo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kymacap
+      app: {{ .Release.Name }}-kymacap
       version: v1
   template:
     metadata:
       labels:
-        app: kymacap
+        app: {{ .Release.Name }}-kymacap
         version: v1
+        name: kyma-cap-s4ems
     spec:
       containers:
-      - name: kymacap
+      - name: {{ .Release.Name }}-kymacap
         image: docker-registrynew.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com/kymademo
         imagePullPolicy: Always
         ports:
@@ -109,7 +123,7 @@ spec:
           - name: HANA_CREDENTIALS
             valueFrom:
               secretKeyRef:
-                  name: hana-secret
+                  name: {{ .Release.Name }}-hana-secret
                   key: hana-credentials
           - name: VCAP_SERVICES
             value: >
@@ -210,7 +224,7 @@ spec:
                             "forwardAuthToken" : true,
                             "name" : "srv-binding",
                             "strictSSL" : true,
-                            "url" : "https://kymacap.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com"
+                            "url" : "https://initial-kymacap.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com"
                       } ]
               }
 
@@ -219,17 +233,18 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: kymacap
+  name: {{ .Release.Name }}-kymacap
   namespace: demo
   labels:
-    app: kymacap
-    service: kymacap
+    app: {{ .Release.Name }}-kymacap
+    service: {{ .Release.Name }}-kymacap
+    name: kyma-cap-s4ems
 spec:
   ports:
   - port: 4004
     name: http
   selector:
-    app: kymacap
+    app: {{ .Release.Name }}-kymacap
 
 ---
 
@@ -238,12 +253,13 @@ kind: APIRule
 metadata:
   namespace: demo
   labels:
-    app: kymacap
-  name: kymacap
+    app: {{ .Release.Name }}-kymacap
+    name: kyma-cap-s4ems
+  name: {{ .Release.Name }}-kymacap
 spec:
   service:
-    host: kymacap
-    name: kymacap
+    host: {{ .Release.Name }}-kymacap
+    name: {{ .Release.Name }}-kymacap
     port: 4004
   gateway: kyma-gateway.kyma-system.svc.cluster.local
   rules:
@@ -252,6 +268,5 @@ spec:
       accessStrategies:
         - handler: noop
       mutators: []
-
 
 

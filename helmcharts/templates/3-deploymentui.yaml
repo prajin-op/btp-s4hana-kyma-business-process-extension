@@ -2,25 +2,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: approuterkymaui
+  name: {{ .Release.Name }}-approuterkymaui
   labels:
-    app: approuterkymaui
+    app: {{ .Release.Name }}-approuterkymaui
+    name: kyma-cap-s4ems
     version: v1
   namespace: demo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: approuterkymaui
+      app: {{ .Release.Name }}-approuterkymaui
       version: v1
   template:
     metadata:
       labels:
-        app: approuterkymaui
+        app: {{ .Release.Name }}-approuterkymaui
+        name: kyma-cap-s4ems
         version: v1
     spec:
       containers:
-      - name: approuterkymaui
+      - name: {{ .Release.Name }}-approuterkymaui
         image: docker-registrynew.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com/kymademoui
         imagePullPolicy: Always
         ports:
@@ -31,11 +33,11 @@ spec:
           readOnly: true
         env:
         - name: destinations
-          value: '[ {"name":"srv-binding", "url":"https://kymacap.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com","forwardAuthToken": true }]'
+          value: '[ {"name":"srv-binding", "url":"https://initial-kymacap.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com","forwardAuthToken": true }]'
       volumes:
       - name: xsuaa-volume
         secret:
-          secretName: confident-golick
+          secretName: {{ .Release.Name }}-xsuaa-binding
        
           
 
@@ -44,17 +46,18 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: approuterkymaui
+  name: {{ .Release.Name }}-approuterkymaui
   namespace: demo
   labels:
-    app: approuterkymaui
-    service: approuterkymaui
+    name: kyma-cap-s4ems
+    app: {{ .Release.Name }}-approuterkymaui
+    service: {{ .Release.Name }}-approuterkymaui
 spec:
   ports:
   - port: 5000
     name: http
   selector:
-    app: approuterkymaui
+    app: {{ .Release.Name }}-approuterkymaui
 
 ---
 
@@ -63,22 +66,24 @@ kind: APIRule
 metadata:
   namespace: demo
   labels:
-    app: approuterkymaui
-  name: approuterkymaui
+    name: kyma-cap-s4ems
+    app: {{ .Release.Name }}-approuterkymaui
+  name: {{ .Release.Name }}-approuterkymaui
 spec:
   service:
-    host: approuterkymaui
-    name: approuterkymaui
+    host: {{ .Release.Name }}-approuterkymaui
+    name: {{ .Release.Name }}-approuterkymaui
     port: 5000
   gateway: kyma-gateway.kyma-system.svc.cluster.local
   rules:
     - path: /.*
       methods: ["GET", "PUT", "POST", "HEAD", "PATCH", "DELETE" ]
+      mutators:
+        - config:
+            headers:
+              x-forwarded-host: >-
+                initial-approuterkymaui.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com
+              x-forwarded-proto: https
+          handler: header
       accessStrategies:
         - handler: noop
-      mutators:
-        - handler: header
-          config:
-            headers:
-              x-forwarded-host: approuterkyma.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com # TODO: Update URL here
-              x-forwarded-proto: https
