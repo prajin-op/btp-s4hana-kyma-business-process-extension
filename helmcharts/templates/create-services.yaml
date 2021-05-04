@@ -1,0 +1,237 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Release.Name }}-cloudmessaging
+  namespace: {{.Values.namespace}}
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-5"
+type: opaque
+stringData:
+  messagingsecret: 
+    '{
+      "emClientId": "s4ka",
+      "systemName": "grss4hanacloud"
+    }'
+
+
+---
+
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceInstance
+metadata:
+  name: {{ .Release.Name }}-s4messaging
+  namespace: {{.Values.namespace}}
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-4"
+spec: 
+  clusterServiceClassExternalName: s4-hana-cloud
+  clusterServicePlanExternalName: messaging
+  parametersFrom: 
+    - secretKeyRef: 
+        name: {{ .Release.Name }}-cloudmessaging
+        key: messagingsecret
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Release.Name }}-apiaccessmessaging
+  namespace: {{.Values.namespace}}
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-3"
+type: opaque
+stringData:
+  apiaccesssecret: 
+    '	{
+	  "systemName": "grss4hanacloud",
+	  "communicationArrangement": {
+	    "communicationArrangementName": "s4hanademo2",
+	    "scenarioId": "SAP_COM_0008",
+	    "inboundAuthentication": "BasicAuthentication",
+	    "outboundAuthentication": "BasicAuthentication",
+	    "outboundServices": [
+	      {
+	        "name": "Replicate Customers from S/4 System to Client",
+	        "isServiceActive": false
+	      },
+	      {
+	        "name": "Replicate Suppliers from S/4 System to Client",
+	        "isServiceActive": false
+	      },
+	      {
+	        "name": "Replicate Company Addresses from S/4 System to Client",
+	        "isServiceActive": false
+	      },
+	      {
+	        "name": "Replicate Workplace Addresses from S/4 System to Client",
+	        "isServiceActive": false
+	      },
+	      {
+	        "name": "Replicate Personal Addresses from S/4 System to Client",
+	        "isServiceActive": false
+	      },
+	      {
+	        "name": "Business Partner - Replicate from SAP S/4HANA Cloud to Client",
+	        "isServiceActive": false
+	      },
+	      {
+	        "name": "Business Partner Relationship - Replicate from SAP S/4HANA Cloud to Client",
+	        "isServiceActive": false
+	      },
+	      {
+	        "name": "Business Partner - Send Confirmation from SAP S/4HANA Cloud to Client",
+	        "isServiceActive": false
+	      },
+	      {
+	        "name": "BP Relationship - Send Confirmation from SAP S/4HANA Cloud to Client",
+	        "isServiceActive": false
+	      }
+	    ],
+	    "communicationSystem": {
+	      "communicationSystemHostname": "https://default.com",
+	      "outboundCommunicationUser": {
+	        "username": "DefaultUser",
+	        "password": "DefaultPassword"
+	      }
+	    }
+	  }
+	}'
+
+
+---
+
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceInstance
+metadata:
+  name: {{ .Release.Name }}-s4apiaccess
+  namespace: {{.Values.namespace}}
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-2"
+spec: 
+  clusterServiceClassExternalName: s4-hana-cloud
+  clusterServicePlanExternalName: api-access
+  parametersFrom: 
+    - secretKeyRef: 
+        name: {{ .Release.Name }}-apiaccessmessaging
+        key: apiaccesssecret
+
+---
+
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceInstance
+metadata:
+  name: {{ .Release.Name }}-xsuaademo
+  namespace: {{.Values.namespace}}
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-2"
+spec:
+  clusterServiceClassExternalName: xsuaa
+  clusterServicePlanExternalName: application
+  parameters:
+    xsappname: BusinessPartnerValidationdemo
+    tenant-mode: dedicated
+    oauth2-configuration:
+      redirect-uris:
+        - https://*/**
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Release.Name }}-emdemo
+  namespace: {{.Values.namespace}}
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-1"
+type: opaque
+stringData:
+  emsecret: 
+    '{
+        "emname": "grs-emdemo",
+        "namespace": "refapps/grs-emdemo/event-listener",
+        "options": {
+          "management": true,
+          "messaging": true,
+          "messagingrest": true
+        },
+        "rules": {
+          "queueRules": {
+            "publishFilter": [
+            "${namespace}/*"
+          ],
+          "subscribeFilter": [
+            "${namespace}/*",
+            "sap/S4HANAOD/s4ka/*"
+          ]
+        },
+        "topicRules": {
+          "publishFilter": [
+          "${namespace}/*"
+        ],
+        "subscribeFilter": [
+          "${namespace}/*",
+          "sap/S4HANAOD/s4ka/*"
+        ]
+        }
+      },
+      "version": "1.1.0"
+    }'
+
+
+---
+
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceInstance
+metadata:
+  name: {{ .Release.Name }}-emdemo
+  namespace: {{.Values.namespace}}
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "0"
+spec: 
+  clusterServiceClassExternalName: enterprise-messaging
+  clusterServicePlanExternalName: default
+  parametersFrom: 
+    - secretKeyRef: 
+        name: {{ .Release.Name }}-emdemo
+        key: emsecret
+
+---
+
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceInstance
+metadata:
+  name: {{ .Release.Name }}-destdemo
+  namespace: {{.Values.namespace}}
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-1"
+spec: 
+  clusterServiceClassExternalName: destination
+  clusterServicePlanExternalName: lite
+
+
+
+    

@@ -7,7 +7,7 @@ metadata:
     app: {{ .Release.Name }}-approuterkymaui
     name: kyma-cap-s4ems
     version: v1
-  namespace: demo
+  namespace: {{.Values.namespace}}
 spec:
   replicas: 1
   selector:
@@ -33,7 +33,7 @@ spec:
           readOnly: true
         env:
         - name: destinations
-          value: '[ {"name":"srv-binding", "url":"https://initial-kymacap.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com","forwardAuthToken": true }]'
+          value: '[ {"name":"srv-binding", "url":"https://grs-kymacap.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com","forwardAuthToken": true }]'
       volumes:
       - name: xsuaa-volume
         secret:
@@ -47,7 +47,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Release.Name }}-approuterkymaui
-  namespace: demo
+  namespace: {{.Values.namespace}}
   labels:
     name: kyma-cap-s4ems
     app: {{ .Release.Name }}-approuterkymaui
@@ -64,7 +64,7 @@ spec:
 apiVersion: gateway.kyma-project.io/v1alpha1
 kind: APIRule
 metadata:
-  namespace: demo
+  namespace: {{.Values.namespace}}
   labels:
     name: kyma-cap-s4ems
     app: {{ .Release.Name }}-approuterkymaui
@@ -82,7 +82,7 @@ spec:
         - config:
             headers:
               x-forwarded-host: >-
-                initial-approuterkymaui.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com
+                grs-approuterkymaui.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com
               x-forwarded-proto: https
           handler: header
       accessStrategies:

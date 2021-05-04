@@ -2,19 +2,19 @@ apiVersion: servicecatalog.k8s.io/v1beta1
 kind: ServiceBinding
 metadata:
   name: {{ .Release.Name }}-em-binding
-  namespace: demo
+  namespace: {{.Values.namespace}}
   labels:
     name: kyma-cap-s4ems
 spec:
   instanceRef:
-    name: emdemo
+    name: {{ .Release.Name }}-emdemo
 ---
 
 apiVersion: servicecatalog.kyma-project.io/v1alpha1
 kind: ServiceBindingUsage
 metadata:
   name: {{ .Release.Name }}-emservicebindingusage
-  namespace: demo
+  namespace: {{.Values.namespace}}
   labels:
      name: kyma-cap-s4ems
 spec:
@@ -33,19 +33,19 @@ apiVersion: servicecatalog.k8s.io/v1beta1
 kind: ServiceBinding
 metadata:
   name: {{ .Release.Name }}-dest-binding
-  namespace: demo
+  namespace: {{.Values.namespace}}
   labels:
      name: kyma-cap-s4ems
 spec:
   instanceRef:
-    name: destdemo
+    name: {{ .Release.Name }}-destdemo
 ---
 
 apiVersion: servicecatalog.kyma-project.io/v1alpha1
 kind: ServiceBindingUsage
 metadata:
   name: {{ .Release.Name }}-destservicebindingusage
-  namespace: demo
+  namespace: {{.Values.namespace}}
   labels:
      name: kyma-cap-s4ems
 spec:
@@ -64,19 +64,19 @@ apiVersion: servicecatalog.k8s.io/v1beta1
 kind: ServiceBinding
 metadata:
   name: {{ .Release.Name }}-xsuaa-binding
-  namespace: demo
+  namespace: {{.Values.namespace}}
   labels:
      name: kyma-cap-s4ems
 spec:
   instanceRef:
-    name: xsuaademo
+    name: {{ .Release.Name }}-xsuaademo
 
 ---
 apiVersion: servicecatalog.kyma-project.io/v1alpha1
 kind: ServiceBindingUsage
 metadata:
   name: {{ .Release.Name }}-xsuaaservicebindingusage
-  namespace: demo
+  namespace: {{.Values.namespace}}
   labels:
      name: kyma-cap-s4ems
 spec:
@@ -99,7 +99,7 @@ metadata:
     app: {{ .Release.Name }}-kymacap
     version: v1
     name: kyma-cap-s4ems
-  namespace: demo
+  namespace: {{.Values.namespace}}
 spec:
   replicas: 1
   selector:
@@ -115,7 +115,7 @@ spec:
     spec:
       containers:
       - name: {{ .Release.Name }}-kymacap
-        image: docker-registrynew.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com/kymademo
+        image: docker-registry1.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com/kymademo
         imagePullPolicy: Always
         ports:
         - containerPort: 4004
@@ -224,7 +224,7 @@ spec:
                             "forwardAuthToken" : true,
                             "name" : "srv-binding",
                             "strictSSL" : true,
-                            "url" : "https://initial-kymacap.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com"
+                            "url" : "https://grs-kymacap.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com"
                       } ]
               }
 
@@ -234,7 +234,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Release.Name }}-kymacap
-  namespace: demo
+  namespace: {{.Values.namespace}}
   labels:
     app: {{ .Release.Name }}-kymacap
     service: {{ .Release.Name }}-kymacap
@@ -251,7 +251,7 @@ spec:
 apiVersion: gateway.kyma-project.io/v1alpha1
 kind: APIRule
 metadata:
-  namespace: demo
+  namespace: {{.Values.namespace}}
   labels:
     app: {{ .Release.Name }}-kymacap
     name: kyma-cap-s4ems
