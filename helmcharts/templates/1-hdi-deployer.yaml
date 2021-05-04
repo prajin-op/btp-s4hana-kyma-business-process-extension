@@ -36,7 +36,7 @@ spec:
     spec:
       containers:
       - name: {{ .Release.Name }}-kymahdi
-        image: docker-registrynew.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com/kymahdi
+        image: {{.Values.hdiimage}}
         resources:
             limits:
               memory: 512Mi

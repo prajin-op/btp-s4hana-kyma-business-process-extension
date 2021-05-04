@@ -115,7 +115,7 @@ spec:
     spec:
       containers:
       - name: {{ .Release.Name }}-kymacap
-        image: docker-registry1.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com/kymademo
+        image: {{.Values.capimage}}
         imagePullPolicy: Always
         ports:
         - containerPort: 4004
@@ -224,7 +224,7 @@ spec:
                             "forwardAuthToken" : true,
                             "name" : "srv-binding",
                             "strictSSL" : true,
-                            "url" : "https://grs-kymacap.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com"
+                            "url" : "{{.Values.capapp}}"
                       } ]
               }
 

@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: {{ .Release.Name }}-approuterkymaui
-        image: docker-registrynew.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com/kymademoui
+        image: {{.Values.uiimage}}
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
@@ -33,7 +33,7 @@ spec:
           readOnly: true
         env:
         - name: destinations
-          value: '[ {"name":"srv-binding", "url":"https://grs-kymacap.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com","forwardAuthToken": true }]'
+          value: '[ {"name":"srv-binding", "url":"{{.Values.capapp}}","forwardAuthToken": true }]'
       volumes:
       - name: xsuaa-volume
         secret:
@@ -82,7 +82,7 @@ spec:
         - config:
             headers:
               x-forwarded-host: >-
-                grs-approuterkymaui.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com
+                {{.Values.uiapp}}
               x-forwarded-proto: https
           handler: header
       accessStrategies:

@@ -1,7 +1,7 @@
 
 #specifies values for HANA secret
 messagingsecret: '{
-    "emClientId": "s4de",
+    "emClientId": "s4ka",
     "systemName": "grss4hanacloud"
    }'
 
@@ -21,7 +21,7 @@ hanacredentials: '{
 apiaccesssecret: '{
 	  "systemName": "grss4hanacloud",
 	  "communicationArrangement": {
-	    "communicationArrangementName": "s4hd",
+	    "communicationArrangementName": "s4ka",
 	    "scenarioId": "SAP_COM_0008",
 	    "inboundAuthentication": "BasicAuthentication",
 	    "outboundAuthentication": "BasicAuthentication",
@@ -74,8 +74,8 @@ apiaccesssecret: '{
 	}'
 
 emsecret: '{
-        "emname": "emkymade",
-        "namespace": "refapps/emkymade/event-listener",
+        "emname": "grs-emdemo",
+        "namespace": "refapps/grs-emdemo/event-listener",
         "options": {
           "management": true,
           "messaging": true,
@@ -88,7 +88,7 @@ emsecret: '{
           ],
           "subscribeFilter": [
             "${namespace}/*",
-            "sap/S4HANAOD/s4de/*"
+            "sap/S4HANAOD/s4ka/*"
           ]
         },
         "topicRules": {
@@ -97,7 +97,7 @@ emsecret: '{
         ],
         "subscribeFilter": [
           "${namespace}/*",
-          "sap/S4HANAOD/s4de/*"
+          "sap/S4HANAOD/s4ka/*"
         ]
         }
       },
@@ -105,3 +105,10 @@ emsecret: '{
     }'
 
 namespace: grs
+
+hdiimage: docker-registrynew.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com/kymahdi
+capimage: docker-registry1.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com/kymademo
+uiimage: docker-registrynew.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com/kymademoui
+
+capapp: https://grs-kymacap.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com
+uiapp: grs-approuterkymaui.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com
