@@ -22,6 +22,8 @@ async function postImage(context, msg, event) {
             console.log(destinationNameFromContext);
             const destinationName = destinationNameFromContext.name;
             const data = await util.readDetails(destination, destinationName, context, logger);
+            console.log(data);
+            console.log("auth token",data.authTokens);
             const response = await processBpPayload(data.authTokens[0].value, data.destinationConfiguration, msg, destinationNameFromContext);
             return response;
                 //return "Success";
