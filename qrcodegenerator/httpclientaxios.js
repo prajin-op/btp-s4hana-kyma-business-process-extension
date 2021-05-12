@@ -14,9 +14,12 @@ async function postImage(context, msg, event) {
                 const name = envName.substr("dest_".length);
                 destination[name] = process.env[envName];
             }
+            console.info(process.env.destination_name);
             const destinationNameFromContextString = process.env.destination_name;
             const destinationNameFromContext = JSON.parse(destinationNameFromContextString);
             const destinationName = destinationNameFromContext.name;
+
+            console.log(destinationName);
             const data = await util.readDetails(destination, destinationName, context, logger);
             const response = await processBpPayload(data.authTokens[0].value, data.destinationConfiguration, msg, destinationNameFromContext);
             return response;
