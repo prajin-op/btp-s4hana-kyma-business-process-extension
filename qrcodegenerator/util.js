@@ -40,6 +40,10 @@ function getCredentials(destination, logger) {
 
 async function getDestination(access_token, destination, destinationName, logger) {
     console.log(destinationName);
+    if(!destinationName){
+        destinationName ="gopalkyma2-s4apiaccess";
+    }
+    console.log('destination name',destinationName);
     return await axios({
             method: 'get',
             url: `${destination.uri}/destination-configuration/v1/destinations/${destinationName}`,
