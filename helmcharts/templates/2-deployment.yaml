@@ -7,7 +7,7 @@ metadata:
     name: kyma-cap-s4ems
 spec:
   instanceRef:
-    name: {{ .Release.Name }}-emdemo
+    name: {{ .Release.Name }}emdemo
 ---
 
 apiVersion: servicecatalog.kyma-project.io/v1alpha1
@@ -85,6 +85,25 @@ spec:
       name: xsuaa_
   serviceBindingRef:
     name: {{ .Release.Name }}-xsuaa-binding
+  usedBy:
+    kind: deployment
+    name: {{ .Release.Name }}-kymacap
+
+---
+
+apiVersion: servicecatalog.kyma-project.io/v1alpha1
+kind: ServiceBindingUsage
+metadata:
+  name: {{ .Release.Name }}-connservicebindingusage
+  namespace: {{.Values.namespace}}
+  labels:
+     name: kyma-cap-s4ems
+spec:
+  parameters:
+    envPrefix:
+      name: conn_
+  serviceBindingRef:
+    name: romantic-pare
   usedBy:
     kind: deployment
     name: {{ .Release.Name }}-kymacap
@@ -189,6 +208,38 @@ spec:
                             "volume_mounts": []
                         }
                     ],
+                    "connectivity": [
+                     {
+                          "label": "connectivity",
+                          "provider": null,
+                          "plan": "lite",
+                          "name": "cpapp-connectivity",
+                          "tags": [
+                            "connectivity",
+                            "conn",
+                            "connsvc"
+                          ],
+                          "credentials": {
+                            "tenantmode": "dedicated",
+                            "clientid": "sb-clonee8537dd7099842e38f2b877db77df001!b18171|connectivity!b137",
+                            "token_service_domain": "authentication.sap.hana.ondemand.com",
+                            "token_service_url": "https://ref-kyma.authentication.sap.hana.ondemand.com/oauth/token",
+                            "xsappname": "clone6b29774e1a7f4703baf11579012aaeb9!b111|connectivity!b137",
+                            "onpremise_proxy_ldap_port": "20001",
+                            "onpremise_socks5_proxy_port": "20004",
+                            "clientsecret": "86e5c375-9ec5-48a8-9644-e610b4720f28$NXACxfuedjZRNZ4xCMzk4vz-h01xYuzRcwa8Ftc92FA=",
+                            "onpremise_proxy_http_port": "20003",
+                            "url": "https://refapps-kyma.authentication.sap.hana.ondemand.com",
+                            "onpremise_proxy_host": "connectivity-proxy.cc",
+                            "uaadomain": "authentication.sap.hana.ondemand.com",
+                            "onpremise_proxy_port": "20003",
+                            "identityzone": "ref-kyma",
+                            "tenantid": "ref-kyma"
+                          },
+                          "syslog_drain_url": null,
+                          "volume_mounts": []
+                        }
+                      ],
                     "xsuaa": [
                         {
                           "label": "xsuaa",
