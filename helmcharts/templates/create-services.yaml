@@ -1,90 +1,9 @@
-apiVersion: v1
-kind: Secret
-metadata:
-  name: {{ .Release.Name }}-cloudmessaging
-  namespace: {{.Values.namespace}}
-  annotations:
-    # This is what defines this resource as a hook. Without this line, the
-    # job is considered part of the release.
-    "helm.sh/hook": pre-install
-    "helm.sh/hook-weight": "-5"
-type: opaque
-stringData:
-  messagingsecret: >
-      {{.Values.messagingsecret}}
-    
-
-
----
-
-apiVersion: servicecatalog.k8s.io/v1beta1
-kind: ServiceInstance
-metadata:
-  name: {{ .Release.Name }}-s4messaging
-  namespace: {{.Values.namespace}}
-  annotations:
-    # This is what defines this resource as a hook. Without this line, the
-    # job is considered part of the release.
-    "helm.sh/hook": pre-install
-    "helm.sh/hook-weight": "-4"
-spec: 
-  clusterServiceClassExternalName: s4-hana-cloud
-  clusterServicePlanExternalName: messaging
-  parametersFrom: 
-    - secretKeyRef: 
-        name: {{ .Release.Name }}-cloudmessaging
-        key: messagingsecret
-
----
-
-apiVersion: v1
-kind: Secret
-metadata:
-  name: {{ .Release.Name }}-apiaccessmessaging
-  namespace: {{.Values.namespace}}
-  annotations:
-    # This is what defines this resource as a hook. Without this line, the
-    # job is considered part of the release.
-    "helm.sh/hook": pre-install
-    "helm.sh/hook-weight": "-3"
-type: opaque
-stringData:
-  apiaccesssecret: >
-    {{.Values.apiaccesssecret}}
-
-
----
-
-apiVersion: servicecatalog.k8s.io/v1beta1
-kind: ServiceInstance
-metadata:
-  name: {{ .Release.Name }}-s4apiaccess
-  namespace: {{.Values.namespace}}
-  annotations:
-    # This is what defines this resource as a hook. Without this line, the
-    # job is considered part of the release.
-    "helm.sh/hook": pre-install
-    "helm.sh/hook-weight": "-2"
-spec: 
-  clusterServiceClassExternalName: s4-hana-cloud
-  clusterServicePlanExternalName: api-access
-  parametersFrom: 
-    - secretKeyRef: 
-        name: {{ .Release.Name }}-apiaccessmessaging
-        key: apiaccesssecret
-
----
 
 apiVersion: servicecatalog.k8s.io/v1beta1
 kind: ServiceInstance
 metadata:
   name: {{ .Release.Name }}-xsuaademo
   namespace: {{.Values.namespace}}
-  annotations:
-    # This is what defines this resource as a hook. Without this line, the
-    # job is considered part of the release.
-    "helm.sh/hook": pre-install
-    "helm.sh/hook-weight": "-2"
 spec:
   clusterServiceClassExternalName: xsuaa
   clusterServicePlanExternalName: application
@@ -101,11 +20,6 @@ kind: Secret
 metadata:
   name: {{ .Release.Name }}-emdemo
   namespace: {{.Values.namespace}}
-  annotations:
-    # This is what defines this resource as a hook. Without this line, the
-    # job is considered part of the release.
-    "helm.sh/hook": pre-install
-    "helm.sh/hook-weight": "-1"
 type: opaque
 stringData: 
   emsecret: >
@@ -117,13 +31,8 @@ stringData:
 apiVersion: servicecatalog.k8s.io/v1beta1
 kind: ServiceInstance
 metadata:
-  name: {{ .Release.Name }}-emdemo
+  name: {{ .Release.Name }}emdemo
   namespace: {{.Values.namespace}}
-  annotations:
-    # This is what defines this resource as a hook. Without this line, the
-    # job is considered part of the release.
-    "helm.sh/hook": pre-install
-    "helm.sh/hook-weight": "0"
 spec: 
   clusterServiceClassExternalName: enterprise-messaging
   clusterServicePlanExternalName: default
@@ -139,11 +48,6 @@ kind: ServiceInstance
 metadata:
   name: {{ .Release.Name }}-destdemo
   namespace: {{.Values.namespace}}
-  annotations:
-    # This is what defines this resource as a hook. Without this line, the
-    # job is considered part of the release.
-    "helm.sh/hook": pre-install
-    "helm.sh/hook-weight": "-1"
 spec: 
   clusterServiceClassExternalName: destination
   clusterServicePlanExternalName: lite
