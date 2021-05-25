@@ -52,6 +52,16 @@ spec:
   clusterServiceClassExternalName: destination
   clusterServicePlanExternalName: lite
 
+---
+
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceInstance
+metadata:
+  name: {{ .Release.Name }}-conndemo
+  namespace: {{.Values.namespace}}
+spec: 
+  clusterServiceClassExternalName: connectivity
+  clusterServicePlanExternalName: connectivity_proxy
 
 
     
