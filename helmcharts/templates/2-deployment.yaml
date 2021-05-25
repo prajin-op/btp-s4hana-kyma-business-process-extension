@@ -91,6 +91,19 @@ spec:
 
 ---
 
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceBinding
+metadata:
+  name: {{ .Release.Name }}-conn-binding
+  namespace: {{.Values.namespace}}
+  labels:
+     name: kyma-cap-s4ems
+spec:
+  instanceRef:
+    name: {{ .Release.Name }}-conndemo
+
+---
+
 apiVersion: servicecatalog.kyma-project.io/v1alpha1
 kind: ServiceBindingUsage
 metadata:
@@ -103,7 +116,7 @@ spec:
     envPrefix:
       name: conn_
   serviceBindingRef:
-    name: romantic-pare
+    name: {{ .Release.Name }}-conn-binding
   usedBy:
     kind: deployment
     name: {{ .Release.Name }}-kymacap
@@ -220,22 +233,11 @@ spec:
                             "connsvc"
                           ],
                           "credentials": {
-                            "tenantmode": "dedicated",
-                            "clientid": "sb-clonee8537dd7099842e38f2b877db77df001!b18171|connectivity!b137",
-                            "token_service_domain": "authentication.sap.hana.ondemand.com",
-                            "token_service_url": "https://ref-kyma.authentication.sap.hana.ondemand.com/oauth/token",
-                            "xsappname": "clone6b29774e1a7f4703baf11579012aaeb9!b111|connectivity!b137",
-                            "onpremise_proxy_ldap_port": "20001",
-                            "onpremise_socks5_proxy_port": "20004",
-                            "clientsecret": "86e5c375-9ec5-48a8-9644-e610b4720f28$NXACxfuedjZRNZ4xCMzk4vz-h01xYuzRcwa8Ftc92FA=",
-                            "onpremise_proxy_http_port": "20003",
-                            "url": "https://refapps-kyma.authentication.sap.hana.ondemand.com",
+                            "clientid": "$(conn_clientid)",
+                            "clientsecret": "$(conn_clientsecret)",
                             "onpremise_proxy_host": "connectivity-proxy.cc",
-                            "uaadomain": "authentication.sap.hana.ondemand.com",
-                            "onpremise_proxy_port": "20003",
-                            "identityzone": "ref-kyma",
-                            "tenantid": "ref-kyma"
-                          },
+                            "onpremise_proxy_port": "20003"
+                            },
                           "syslog_drain_url": null,
                           "volume_mounts": []
                         }
