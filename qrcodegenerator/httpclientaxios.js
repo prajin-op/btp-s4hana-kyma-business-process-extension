@@ -42,14 +42,14 @@ async function processBpPayload(accessToken, destinationConfiguration, msg, dest
                 await updateBpAddress(destinationConfiguration, accessToken, headers, bpDetails, destinationNameFromContext);
                 await updateBp(destinationConfiguration, accessToken, headers, bpDetails, destinationNameFromContext);
                 if(!bpDetails.businessPartnerIsBlocked){
-                   await postGeneratedImage(destinationConfiguration, accessToken, headers, bpDetails, destinationNameFromContext);
+                   //await postGeneratedImage(destinationConfiguration, accessToken, headers, bpDetails, destinationNameFromContext);
                     return "SUCCESS";
                 }
                 return "SUCCESS"; 
             } else {
                 await updateBp(destinationConfiguration, accessToken, headers, bpDetails, destinationNameFromContext);
                 if(!bpDetails.businessPartnerIsBlocked && bpDetails.addressId != undefined){
-                    await postGeneratedImage(destinationConfiguration, accessToken, headers, bpDetails, destinationNameFromContext);
+                    //await postGeneratedImage(destinationConfiguration, accessToken, headers, bpDetails, destinationNameFromContext);
                     return "SUCCESS";
                 }
                 return "SUCCESS";
