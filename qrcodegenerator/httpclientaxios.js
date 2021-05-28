@@ -17,10 +17,11 @@ async function postImage(context, msg, event) {
             }
             console.log(process.env.destination_name);
             const destinationNameFromContextString = process.env.destination_name;
-            //const destinationNameFromContext = JSON.parse(destinationNameFromContextString);
+            const destinationNameFromContext = JSON.parse(destinationNameFromContextString);
             const destinationNameFromContext = destinationNameFromContextString;
             console.log(`parsed destination:`,destinationNameFromContext);
             const destinationName = destinationNameFromContext.name;
+            console.log("destainationName",destinationName);
             const data = await util.readDetails(destination, destinationName, context, logger);
             console.log(data);
             console.log("auth token",data.authTokens);
