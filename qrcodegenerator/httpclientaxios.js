@@ -6,6 +6,7 @@ const { PassThrough } = require('stream');
 const logger = require('cf-nodejs-logging-support');
 logger.setLoggingLevel("info");
 
+
 async function postImage(context, msg, event) {
         try{
             console.log("msg in post image", msg.data);
