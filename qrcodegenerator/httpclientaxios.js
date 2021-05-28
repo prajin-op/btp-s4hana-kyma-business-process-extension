@@ -8,7 +8,7 @@ logger.setLoggingLevel("info");
 
 async function postImage(context, msg, event) {
         try{
-            console.log("Severless Triggered");
+            console.log("Severless Triggered serverless");
             console.log("msg in post image", msg.data);
             const destination = {};
             for (const envName of Object.getOwnPropertyNames(process.env).filter( name => name.startsWith("dest_"))) {
@@ -98,7 +98,8 @@ async function fetchXsrfToken(destinationConfiguration, accessToken, bpDetails, 
             url: destinationConfiguration.URL  + "/A_BusinessPartnerAddress",
             headers: {
                 'Authorization': `Basic ${accessToken}`,
-                'x-csrf-token': 'fetch'
+                'x-csrf-token': 'fetch',
+                'SAP-Connectivity-SCC-Location_ID': 'KYMA'
             }
         }).then(response => {
                 var cookies = '"';
@@ -114,8 +115,9 @@ async function fetchXsrfToken(destinationConfiguration, accessToken, bpDetails, 
              console.log("success fetching xsrf token");
                 return headers;
         }).catch(error => {
+            console.log("erro rin fetching xsrf token");
             logger.info("Error - Fetching CSRF token Error");
-             console.log("erro rin fetching xsrf token");
+             
             throw util.errorHandler(error, logger);
         });
 }
@@ -129,15 +131,18 @@ async function updateBpAddress(destinationConfiguration, accessToken, headers, b
                 'Authorization': `Basic ${accessToken}`,
                 'Content-Type': 'application/json',
                 'x-csrf-token': headers.token,
-                'Cookie': headers.cookie
+                'Cookie': headers.cookie,
+                 'SAP-Connectivity-SCC-Location_ID': 'KYMA'  
             },
             data: {
                 "PostalCode": bpDetails.postalCode,
                 "StreetName": bpDetails.streetName
             }
         }).then(response =>{
+             console.log("SUCCESS - Updating BP Address");
             logger.info("SUCCESS - Updating BP Address");
         }).catch(error => {
+                 console.log("Failed - Updating BP Address");
             logger.info("Error Updating BP Address", error);
             throw util.errorHandler(error, logger);
         });
@@ -154,7 +159,8 @@ async function updateBp(destinationConfiguration, accessToken, headers, bpDetail
                 'Authorization': `Basic ${accessToken}`,
                 'Content-Type': 'application/json',
                 'x-csrf-token': headers.token,
-                'Cookie': headers.cookie
+                'Cookie': headers.cookie,
+                 'SAP-Connectivity-SCC-Location_ID': 'KYMA'
             },
             data: {
                 "SearchTerm1": bpDetails.searchTerm1,
@@ -183,7 +189,8 @@ async function postGeneratedImage(destinationConfiguration, accessToken, headers
                         'BusinessObjectTypeName': businessObjectTypeName,
                         'LinkedSAPObjectKey': bp.padStart(10,0),
                         'x-csrf-token': headers.token,
-                        'Cookie': headers.cookie
+                        'Cookie': headers.cookie,
+                        'SAP-Connectivity-SCC-Location_ID': 'KYMA'
                     },
                     data: image,
                 }).then(response =>{
