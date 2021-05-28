@@ -13,6 +13,7 @@ async function readDestinationUrl(destination, destinationName, logger) {
         try{
             console.log("In read destination");
             console.log(destinationName);
+                console.log("estination",destination);
             const credentials = getCredentials(destination, logger);
             console.log(credentials);
             const access_token = await oauth.token(credentials, logger);
