@@ -41,14 +41,14 @@ async function processBpPayload(accessToken, destinationConfiguration, msg, dest
                 await updateBpAddress(destinationConfiguration, accessToken, headers, bpDetails, destinationNameFromContext);
                 await updateBp(destinationConfiguration, accessToken, headers, bpDetails, destinationNameFromContext);
                 if(!bpDetails.businessPartnerIsBlocked){
-                   // await postGeneratedImage(destinationConfiguration, accessToken, headers, bpDetails, destinationNameFromContext);
+                   await postGeneratedImage(destinationConfiguration, accessToken, headers, bpDetails, destinationNameFromContext);
                     return "SUCCESS";
                 }
                 return "SUCCESS"; 
             } else {
                 await updateBp(destinationConfiguration, accessToken, headers, bpDetails, destinationNameFromContext);
                 if(!bpDetails.businessPartnerIsBlocked && bpDetails.addressId != undefined){
-                    //await postGeneratedImage(destinationConfiguration, accessToken, headers, bpDetails, destinationNameFromContext);
+                    await postGeneratedImage(destinationConfiguration, accessToken, headers, bpDetails, destinationNameFromContext);
                     return "SUCCESS";
                 }
                 return "SUCCESS";
@@ -170,6 +170,7 @@ async function updateBp(destinationConfiguration, accessToken, headers, bpDetail
 
 async function postGeneratedImage(destinationConfiguration, accessToken, headers, bpDetails, destinationNameFromContext) {
     const attachmentSrvApi = destinationNameFromContext.attachmentSrvApi;
+        const location = '';
     const businessObjectTypeName = destinationNameFromContext.businessObjectTypeName;
             return await generateQRCode(bpDetails).then(async image =>{
                 const bp = bpDetails.businessPartner;
@@ -177,7 +178,7 @@ async function postGeneratedImage(destinationConfiguration, accessToken, headers
                     method: 'post',
                     url: destinationConfiguration.URL + attachmentSrvApi + "/AttachmentContentSet",
                     headers: {
-                        'Authorization': `Bearer ${accessToken}`,
+                        'Authorization': `Basic ${accessToken}`,
                         'Content-Type': 'Image/jpg',
                         'Slug': bp + '.jpg',
                         'BusinessObjectTypeName': businessObjectTypeName,
