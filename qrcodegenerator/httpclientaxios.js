@@ -178,7 +178,7 @@ async function postGeneratedImage(destinationConfiguration, accessToken, headers
                 const bp = bpDetails.businessPartner;
                 return await axios({
                     method: 'post',
-                    url: destinationConfiguration.URL + attachmentSrvApi + "/AttachmentContentSet",
+                    url: destinationConfiguration.URL + "/API_CV_ATTACHMENT_SRV/AttachmentContentSet",
                     headers: {
                         'Authorization': `Basic ${accessToken}`,
                         'Content-Type': 'Image/jpg',
