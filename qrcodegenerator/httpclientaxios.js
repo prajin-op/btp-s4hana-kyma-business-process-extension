@@ -8,23 +8,16 @@ logger.setLoggingLevel("info");
 
 async function postImage(context, msg, event) {
         try{
-            console.log("Severless Triggered serverless");
             console.log("msg in post image", msg.data);
             const destination = {};
             for (const envName of Object.getOwnPropertyNames(process.env).filter( name => name.startsWith("dest_"))) {
                 const name = envName.substr("dest_".length);
                 destination[name] = process.env[envName];
             }
-            console.log(process.env.destination_name);
             const destinationNameFromContextString = process.env.destination_name;
             const destinationNameFromContext = JSON.parse(destinationNameFromContextString);
-            //const destinationNameFromContext = destinationNameFromContextString;
-            console.log(`parsed destination:`,destinationNameFromContext);
             const destinationName = destinationNameFromContext.name;
-            console.log("destainationName",destinationName);
             const data = await util.readDetails(destination, destinationName, context, logger);
-            console.log(data);
-            console.log("auth token",data.authTokens);
             const response = await processBpPayload(data.authTokens[0].value, data.destinationConfiguration, msg, destinationNameFromContext);
             return response;
                 //return "Success";
