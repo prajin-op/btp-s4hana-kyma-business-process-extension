@@ -195,6 +195,7 @@ async function postGeneratedImage(destinationConfiguration, accessToken, headers
                     logger.info("SUCCESS - Uploading Image");
                 }).catch(error => {
                     console.log("uploading image", error);
+                        
                     logger.info("ERROR - Uploading Image");
                     throw util.errorHandler(error, logger);
                 });
