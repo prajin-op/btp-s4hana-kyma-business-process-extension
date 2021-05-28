@@ -11,13 +11,8 @@ async function readDetails(destination, destinationName, context, logger) {
 
 async function readDestinationUrl(destination, destinationName, logger) {
         try{
-            console.log("In read destination");
-            console.log(destinationName);
-                console.log("estination",destination);
             const credentials = getCredentials(destination, logger);
-            console.log(credentials);
             const access_token = await oauth.token(credentials, logger);
-            console.log(access_token);
             const destinationConfiguration = await getDestination(access_token, destination, destinationName, logger);
             return(destinationConfiguration);
         }catch(error) {
@@ -40,11 +35,9 @@ function getCredentials(destination, logger) {
 }
 
 async function getDestination(access_token, destination, destinationName, logger) {
-    console.log(destinationName);
     if(!destinationName){
         destinationName ="gopalkyma2-s4apiaccess";
     }
-    console.log('destination name',destinationName);
     return await axios({
             method: 'get',
             url: `${destination.uri}/destination-configuration/v1/destinations/${destinationName}`,
