@@ -18,7 +18,7 @@ async function postImage(context, msg, event) {
             console.log(process.env.destination_name);
             const destinationNameFromContextString = process.env.destination_name;
             const destinationNameFromContext = JSON.parse(destinationNameFromContextString);
-            const destinationNameFromContext = destinationNameFromContextString;
+            //const destinationNameFromContext = destinationNameFromContextString;
             console.log(`parsed destination:`,destinationNameFromContext);
             const destinationName = destinationNameFromContext.name;
             console.log("destainationName",destinationName);
