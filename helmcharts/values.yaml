@@ -1,7 +1,7 @@
 
 #specifies values for HANA secret
 messagingsecret: '{
-    "emClientId": "s4cc",
+    "emClientId": "s4c1",
     "systemName": "grss4hanacloud"
    }'
 
@@ -21,7 +21,7 @@ hanacredentials: '{
 apiaccesssecret: '{
 	  "systemName": "grss4hanacloud",
 	  "communicationArrangement": {
-	    "communicationArrangementName": "s4cc",
+	    "communicationArrangementName": "s4c1",
 	    "scenarioId": "SAP_COM_0008",
 	    "inboundAuthentication": "BasicAuthentication",
 	    "outboundAuthentication": "BasicAuthentication",
@@ -74,8 +74,8 @@ apiaccesssecret: '{
 	}'
 
 emsecret: '{
-        "emname": "ccemdemo",
-        "namespace": "refapps/ccemdemo/event",
+        "emname": "ccdemogr",
+        "namespace": "refapps/ccdemogr/event",
         "options": {
           "management": true,
           "messaging": true,
@@ -88,7 +88,7 @@ emsecret: '{
           ],
           "subscribeFilter": [
             "${namespace}/*",
-            "sap/S4HANAOD/s4cc/*"
+            "sap/S4HANAOD/s4c1/*"
           ]
         },
         "topicRules": {
@@ -97,18 +97,26 @@ emsecret: '{
         ],
         "subscribeFilter": [
           "${namespace}/*",
-          "sap/S4HANAOD/s4cc/*"
+          "sap/S4HANAOD/s4c1/*"
         ]
         }
       },
       "version": "1.1.0"
     }'
 
-namespace: cc
+namespace: grs
 
-hdiimage: docker-registrycc.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com/kymahdi
-capimage: docker-registrycc.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com/kymademo
-uiimage: docker-registrycc.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com/kymademoui
+hdiimage: docker-registry1.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com/kymahdigr
+capimage: docker-registry1.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com/kymademogr
+uiimage: docker-registry1.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com/kymademouigr
 
-capapp: https://cc-kymacap.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com
-uiapp: cc-approuterkymaui.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com
+capapp: https://gr-kymacap.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com
+uiapp: gr-approuterkymaui.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com
+
+gitusername: c2hhbmthcmkuZy5yQHNhcC5jb20=
+gitpassword: ZjhlMWY5MjhkNGZhOGQ2NWYwZGNmYTdiODJlMWZmZTI3YjMwODBkMw==
+giturl: https://github.tools.sap/refapps/kyma-cap-s4ems.git
+gitbranch: kyma-onpremise
+
+functionshttpproxy: https://connectivity-proxy.cc:20003
+functionsenv: '{ "name":"s4h", "attachmentSrvApi":"API_CV_ATTACHMENT_SRV", "businessPartnerSrvApi":"API_BUSINESS_PARTNER", "businessObjectTypeName" : "BUS1006" }'
