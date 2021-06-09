@@ -8,5 +8,5 @@ metadata:
 data:
   http_proxy: {{.Values.functionshttpproxy}}
   destination_name: |
-      {{.Values.functionshttpproxy}}
+      {{.Values.functionsenv}}
  
