@@ -113,8 +113,8 @@ uiimage: docker-registry1.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com/ky
 capapp: https://gr-kymacap.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com
 uiapp: gr-approuterkymaui.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com
 
-gitusername: c2hhbmthcmkuZy5yQHNhcC5jb20=
-gitpassword: ZjhlMWY5MjhkNGZhOGQ2NWYwZGNmYTdiODJlMWZmZTI3YjMwODBkMw==
+gitusername: <EMAIL_ID>
+gitpassword: <GIT_DEVELOPER_TOKEN>
 giturl: https://github.tools.sap/refapps/kyma-cap-s4ems.git
 gitbranch: kyma-onpremise
 
