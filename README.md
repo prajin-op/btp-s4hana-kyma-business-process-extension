@@ -63,7 +63,7 @@ The application requires below set of SAP Business Technology Platform Entitleme
 ### Step 2: [Setup connectivity between S/4HANA system, SAP BTP](https://github.com/SAP-samples/cloud-extension-s4hana-business-process/blob/mission/mission/cloud-connector/README.md)
 
 ### Step 3: HANA setup
-1. [Create an instance od SAP HANA Cloud](https://help.sap.com/viewer/9ae9104a46f74a6583ce5182e7fb20cb/hanacloud/en-US/f7febb16072b41f7ac90abf5ea1d4b86.html)
+1. [Create an instance of SAP HANA Cloud](https://help.sap.com/viewer/9ae9104a46f74a6583ce5182e7fb20cb/hanacloud/en-US/f7febb16072b41f7ac90abf5ea1d4b86.html)
 2. Click on Services
 3. Click on Service Maketplace
 4. Look for HDI container and Schema and create an instance for the same.
@@ -83,11 +83,6 @@ The application requires below set of SAP Business Technology Platform Entitleme
 9. Set environment variable for kubectl with the value as path for the folder
 10. Set environment variable for KUBECONFIG with the value as path for the pasted config file
 11. Execute `kubectl get pods` to test the setup
-
-#### Steps to deploy locally
-
-- Open terminal in VSCode
-- Run `cds watch`
 
 #### Steps to deploy the application on kyma runtime
 
