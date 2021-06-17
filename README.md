@@ -65,7 +65,7 @@ The application requires below set of SAP Business Technology Platform Entitleme
 ### Step 4: Build and deploy the CAP application
 
 #### Kubeconfig setup
-1. Load the kyma dashboard opened above
+1. Open the Kyma Console UI
 2. Click on the right side corner on the user icon
 3. Click on get KubeConfig
 4. Goto the folder where you have downloaded the kubeconfig file
