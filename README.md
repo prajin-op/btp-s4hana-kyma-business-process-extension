@@ -60,7 +60,14 @@ The application requires below set of SAP Business Technology Platform Entitleme
 
 ### Step 1: [S/4HANA Enable OData Service for business partner](https://github.com/SAP-samples/cloud-extension-s4hana-business-process/blob/mission/mission/configure-oData-Service/README.md)
 
-### Step 3: [Setup connectivity between S/4HANA system, SAP BTP](https://github.com/SAP-samples/cloud-extension-s4hana-business-process/blob/mission/mission/cloud-connector/README.md)
+### Step 2: [Setup connectivity between S/4HANA system, SAP BTP](https://github.com/SAP-samples/cloud-extension-s4hana-business-process/blob/mission/mission/cloud-connector/README.md)
+
+### Step 3: HANA setup
+1. [Create an instance od SAP HANA Cloud](https://help.sap.com/viewer/9ae9104a46f74a6583ce5182e7fb20cb/hanacloud/en-US/f7febb16072b41f7ac90abf5ea1d4b86.html)
+2. Click on Services
+3. Click on Service Maketplace
+4. Look for HDI container and Schema and create an instance for the same.
+5. Create a service key for the created instance and copy it in the clipboard for later use.
 
 ### Step 4: Build and deploy the CAP application
 
@@ -125,7 +132,7 @@ The application requires below set of SAP Business Technology Platform Entitleme
 10. Click on Create
 11. Click on actions dropdown and trigger handshake.
 
-### Step 6: [Configure event based communication between S/4HANA and Event Mesh](https://help.sap.com/viewer/810dfd34f2cc4f39aa8d946b5204fd9c/1809.000/en-US/fbb2a5980cb54110a96d381e136e0dd8.html)
+### Step 5: [Configure event based communication between S/4HANA and Event Mesh](https://help.sap.com/viewer/810dfd34f2cc4f39aa8d946b5204fd9c/1809.000/en-US/fbb2a5980cb54110a96d381e136e0dd8.html)
 
 
 ## Demo script
