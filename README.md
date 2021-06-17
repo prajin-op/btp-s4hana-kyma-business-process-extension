@@ -72,7 +72,7 @@ The application requires below set of SAP Business Technology Platform Entitleme
 5. Right click and copy the file
 6. Goto my computer
 7. Create folder and name it kubectl
-8. Paste the file there, This file is to be replaced when then token is expired
+8. Paste the file there, This file is to be replaced when the token is expired
 9. Set environment variable for kubectl with the value as path for the folder
 10. Set environment variable for KUBECONFIG with the value as path for the pasted config file
 11. Execute `kubectl get pods` to test the setup
@@ -88,14 +88,15 @@ The application requires below set of SAP Business Technology Platform Entitleme
 2. Build the application
    `cds build --production`  
 3. Build and push images:
-   `docker build --pull --rm -f "db.Dockerfile" -t <dockerrepo>/kymahdi:latest "."`
-   `docker build --pull --rm -f "Dockerfile" -t <dockerrepo>/kymacaps4ems:latest "."`
-   `docker build --pull --rm -f "app\Dockerfileui" -t <dockerrepo>/kymacaps4ui:latest "app"`
-   `docker push <dockerrepo>/kymahdi:latest`
-   `docker push <dockerrepo>/kymacaps4ems:latest `
-   `docker push <dockerrepo>/kymacaps4ui:latest`
+   - `docker build --pull --rm -f "db.Dockerfile" -t <dockerrepo>/kymahdi:latest "."`
+   - `docker build --pull --rm -f "Dockerfile" -t <dockerrepo>/kymacaps4ems:latest "."`
+   - `docker build --pull --rm -f "app\Dockerfileui" -t <dockerrepo>/kymacaps4ui:latest "app"`
+   - `docker push <dockerrepo>/kymahdi:latest`
+   - `docker push <dockerrepo>/kymacaps4ems:latest `
+   - `docker push <dockerrepo>/kymacaps4ui:latest`
 4. Open helmcharts/values.yaml
    - replace the hdi secrets
+   - Under emsecret: Change the value of emname and namespace with the appropriate values
    - Change System Name with the system name of your S/4  HANA, its something you have created in the subaccount
    - Change hdiimage:"value" with the value you have give for your docker for hdi container 
    - change capimage to CAP app's image name 
