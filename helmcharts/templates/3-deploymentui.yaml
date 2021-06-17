@@ -25,6 +25,13 @@ spec:
       - name: {{ .Release.Name }}-approuterkymaui
         image: {{.Values.uiimage}}
         imagePullPolicy: Always
+        resources:
+            limits:
+              memory: 256Mi
+              cpu: "0.1"
+            requests:
+              memory: 256Mi
+              cpu: "0.1"
         ports:
         - containerPort: 5000
         volumeMounts:

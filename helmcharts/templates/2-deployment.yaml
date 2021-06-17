@@ -149,6 +149,13 @@ spec:
       - name: {{ .Release.Name }}-kymacap
         image: {{.Values.capimage}}
         imagePullPolicy: Always
+        resources:
+            limits:
+              memory: 256Mi
+              cpu: "0.1"
+            requests:
+              memory: 256Mi
+              cpu: "0.1"
         ports:
         - containerPort: 4004
         env:

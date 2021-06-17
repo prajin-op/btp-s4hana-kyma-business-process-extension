@@ -39,11 +39,11 @@ spec:
         image: {{.Values.hdiimage}}
         resources:
             limits:
-              memory: 512Mi
-              cpu: "1"
+              memory: 256Mi
+              cpu: "0.1"
             requests:
               memory: 256Mi
-              cpu: "0.2"
+              cpu: "0.1"
         imagePullPolicy: Always
         ports:
         - containerPort: 4004
