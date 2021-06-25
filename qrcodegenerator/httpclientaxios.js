@@ -97,7 +97,7 @@ async function fetchXsrfToken(destinationConfiguration, accessToken, bpDetails, 
             headers: {
                 'Authorization': `Basic ${accessToken}`,
                 'x-csrf-token': 'fetch',
-                'SAP-Connectivity-SCC-Location_ID': 'KYMADEMO'
+                'SAP-Connectivity-SCC-Location_ID': 'TEST'
             }
         }).then(response => {
                 var cookies = '"';
@@ -130,7 +130,7 @@ async function updateBpAddress(destinationConfiguration, accessToken, headers, b
                 'Content-Type': 'application/json',
                 'x-csrf-token': headers.token,
                 'Cookie': headers.cookie,
-                 'SAP-Connectivity-SCC-Location_ID': 'KYMADEMO'  
+                 'SAP-Connectivity-SCC-Location_ID': 'TEST'  
             },
             data: {
                 "PostalCode": bpDetails.postalCode,
@@ -158,7 +158,7 @@ async function updateBp(destinationConfiguration, accessToken, headers, bpDetail
                 'Content-Type': 'application/json',
                 'x-csrf-token': headers.token,
                 'Cookie': headers.cookie,
-                 'SAP-Connectivity-SCC-Location_ID': 'KYMADEMO'
+                 'SAP-Connectivity-SCC-Location_ID': 'TEST'
             },
             data: {
                 "SearchTerm1": bpDetails.searchTerm1,
@@ -189,7 +189,7 @@ async function postGeneratedImage(destinationConfiguration, accessToken, headers
                         'LinkedSAPObjectKey': bp.padStart(10,0),
                         'x-csrf-token': headers.token,
                         'Cookie': headers.cookie,
-                        'SAP-Connectivity-SCC-Location_ID': 'KYMADEMO'
+                        'SAP-Connectivity-SCC-Location_ID': 'TEST'
                     },
                     data: image,
                 }).then(response =>{
