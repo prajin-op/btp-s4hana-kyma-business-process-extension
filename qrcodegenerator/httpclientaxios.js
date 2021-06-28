@@ -99,7 +99,7 @@ async function fetchXsrfToken(destinationConfiguration, accessToken, bpDetails, 
             headers: {
                 'Authorization': `Basic ${accessToken}`,
                 'x-csrf-token': 'fetch',
-                'SAP-Connectivity-SCC-Location_ID': CloudConnectorLocationId
+                'SAP-Connectivity-SCC-Location_ID': destinationConfiguration.CloudConnectorLocationId 
             }
         }).then(response => {
                 var cookies = '"';
