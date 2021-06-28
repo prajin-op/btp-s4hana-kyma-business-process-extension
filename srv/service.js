@@ -13,7 +13,7 @@ module.exports = async srv => {
     srv.on("READ", BusinessPartnerAddress, req => bupaSrv.tx(req).run(req.query))
     srv.on("READ", BusinessPartner, req => bupaSrv.tx(req).run(req.query))
   //works locally
-    messaging.on("sap/S4HANAOD/s4sh/ce/sap/s4/beh/businesspartner/v1/BusinessPartner/Created/v1", async msg => {
+    messaging.on(`${namespace}/ce/sap/s4/beh/businesspartner/v1/BusinessPartner/Created/v1`, async msg => {
       console.log("<< event caught created", msg);
       // if(bp != (+(msg.data.BusinessPartner)).toString())
       // {
@@ -37,7 +37,7 @@ module.exports = async srv => {
       // }
     });
   
-    messaging.on("sap/S4HANAOD/s4sh/ce/sap/s4/beh/businesspartner/v1/BusinessPartner/Changed/v1", async msg => {
+    messaging.on(`${namespace}/ce/sap/s4/beh/businesspartner/v1/BusinessPartner/Changed/v1`, async msg => {
       console.log("<< event caught changed", msg);
       // if(bpupdate != (+(msg.data.BusinessPartner)).toString())
       // {
