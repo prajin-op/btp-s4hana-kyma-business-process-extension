@@ -98,7 +98,7 @@ async function fetchXsrfToken(destinationConfiguration, accessToken, bpDetails, 
             headers: {
                 'Authorization': `Basic ${accessToken}`,
                 'x-csrf-token': 'fetch',
-                'SAP-Connectivity-SCC-Location_ID': 'TEST'
+                'SAP-Connectivity-SCC-Location_ID': CloudConnectorLocationId
             }
         }).then(response => {
                 var cookies = '"';
@@ -122,7 +122,9 @@ async function fetchXsrfToken(destinationConfiguration, accessToken, bpDetails, 
 }
 
 async function updateBpAddress(destinationConfiguration, accessToken, headers, bpDetails, destinationNameFromContext) {
+        console.log("destinationConfiguration in updateBpAddress",destinationConfiguration.CloudConnectorLocationId)
         const businessPartnerSrvApi = destinationNameFromContext.businessPartnerSrvApi;
+        console.log("businessPartnerSrvApi in updateBpAddress",businessPartnerSrvApi)
         return await axios({
             method: 'patch',
             url: destinationConfiguration.URL +"/A_BusinessPartnerAddress(BusinessPartner='" + bpDetails.businessPartner + "',AddressID='" + bpDetails.addressId + "')",
@@ -131,7 +133,7 @@ async function updateBpAddress(destinationConfiguration, accessToken, headers, b
                 'Content-Type': 'application/json',
                 'x-csrf-token': headers.token,
                 'Cookie': headers.cookie,
-                 'SAP-Connectivity-SCC-Location_ID': 'TEST'  
+                 'SAP-Connectivity-SCC-Location_ID': destinationConfiguration.CloudConnectorLocationId  
             },
             data: {
                 "PostalCode": bpDetails.postalCode,
@@ -148,8 +150,6 @@ async function updateBpAddress(destinationConfiguration, accessToken, headers, b
 }
 
 async function updateBp(destinationConfiguration, accessToken, headers, bpDetails, destinationNameFromContext) {
-        console.log("inside updateBP", headers.token);
-        console.log("inside updateBP", headers.cookie);
     const businessPartnerSrvApi = destinationNameFromContext.businessPartnerSrvApi;
        return await axios({
             method: 'patch',
@@ -159,7 +159,7 @@ async function updateBp(destinationConfiguration, accessToken, headers, bpDetail
                 'Content-Type': 'application/json',
                 'x-csrf-token': headers.token,
                 'Cookie': headers.cookie,
-                 'SAP-Connectivity-SCC-Location_ID': 'TEST'
+                 'SAP-Connectivity-SCC-Location_ID': destinationConfiguration.CloudConnectorLocationId
             },
             data: {
                 "SearchTerm1": bpDetails.searchTerm1,
@@ -181,7 +181,7 @@ async function postGeneratedImage(destinationConfiguration, accessToken, headers
                 const bp = bpDetails.businessPartner;
                 return await axios({
                     method: 'post',
-                    url: "http://s4h:500/sap/opu/odata/sap/API_CV_ATTACHMENT_SRV/AttachmentContentSet",
+                    url: destinationConfiguration.URL + "/API_CV_ATTACHMENT_SRV/AttachmentContentSet",
                     headers: {
                         'Authorization': `Basic ${accessToken}`,
                         'Content-Type': 'Image/jpg',
@@ -190,7 +190,7 @@ async function postGeneratedImage(destinationConfiguration, accessToken, headers
                         'LinkedSAPObjectKey': bp.padStart(10,0),
                         'x-csrf-token': headers.token,
                         'Cookie': headers.cookie,
-                        'SAP-Connectivity-SCC-Location_ID': 'TEST'
+                        'SAP-Connectivity-SCC-Location_ID': destinationConfiguration.CloudConnectorLocationId
                     },
                     data: image,
                 }).then(response =>{
