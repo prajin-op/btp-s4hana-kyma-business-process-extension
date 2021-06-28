@@ -59,7 +59,7 @@ async function processBpPayload(accessToken, destinationConfiguration, msg, dest
                 return "SUCCESS";
             }
         }catch(error){
-            logger.info("error", error);
+            logger.info("error in process BP Payload", error);
             return error;
         }
 }
