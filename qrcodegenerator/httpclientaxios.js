@@ -9,7 +9,7 @@ logger.setLoggingLevel("info");
 
 async function postImage(context, msg, event) {
         try{
-            console.log("msg in onprem image", msg.data);
+            logger.info("msg in onprem image", msg.data);
                 
             const destination = {};
             for (const envName of Object.getOwnPropertyNames(process.env).filter( name => name.startsWith("dest_"))) {
@@ -17,13 +17,9 @@ async function postImage(context, msg, event) {
                 destination[name] = process.env[envName];
             }
             const destinationNameFromContextString = process.env.destination_name;
-                console.log("destinationNameFromContextString", destinationNameFromContextString);
             const destinationNameFromContext = JSON.parse(destinationNameFromContextString);
-                console.log("destinationNameFromContext", destinationNameFromContext);
             const destinationName = destinationNameFromContext.name;
-                console.log("destinationName", destinationName);
             const data = await util.readDetails(destination, destinationName, context, logger);
-            console.log("destinationConfiguration", data.destinationConfiguration);
             const response = await processBpPayload(data.authTokens[0].value, data.destinationConfiguration, msg, destinationNameFromContext);
             return response;
                 //return "Success";
@@ -95,7 +91,7 @@ async function fetchXsrfToken(destinationConfiguration, accessToken, bpDetails, 
     const businessPartnerSrvApi = destinationNameFromContext.businessPartnerSrvApi;
     return await axios({
             method: 'get',
-            url: destinationConfiguration.URL  + "/A_BusinessPartnerAddress",
+            url: destinationConfiguration.URL  + businessPartnerSrvApi+"/A_BusinessPartnerAddress",
             headers: {
                 'Authorization': `Basic ${accessToken}`,
                 'x-csrf-token': 'fetch',
@@ -123,12 +119,10 @@ async function fetchXsrfToken(destinationConfiguration, accessToken, bpDetails, 
 }
 
 async function updateBpAddress(destinationConfiguration, accessToken, headers, bpDetails, destinationNameFromContext) {
-        console.log("destinationConfiguration in updateBpAddress",destinationConfiguration.CloudConnectorLocationId)
         const businessPartnerSrvApi = destinationNameFromContext.businessPartnerSrvApi;
-        console.log("businessPartnerSrvApi in updateBpAddress",businessPartnerSrvApi)
         return await axios({
             method: 'patch',
-            url: destinationConfiguration.URL +"/A_BusinessPartnerAddress(BusinessPartner='" + bpDetails.businessPartner + "',AddressID='" + bpDetails.addressId + "')",
+            url: destinationConfiguration.URL + businessPartnerSrvApi+"/A_BusinessPartnerAddress(BusinessPartner='" + bpDetails.businessPartner + "',AddressID='" + bpDetails.addressId + "')",
             headers: {
                 'Authorization': `Basic ${accessToken}`,
                 'Content-Type': 'application/json',
@@ -154,7 +148,7 @@ async function updateBp(destinationConfiguration, accessToken, headers, bpDetail
     const businessPartnerSrvApi = destinationNameFromContext.businessPartnerSrvApi;
        return await axios({
             method: 'patch',
-            url: destinationConfiguration.URL + "/A_BusinessPartner('" + bpDetails.businessPartner + "')",
+            url: destinationConfiguration.URL + businessPartnerSrvApi+ "/A_BusinessPartner('" + bpDetails.businessPartner + "')",
             headers: {
                 'Authorization': `Basic ${accessToken}`,
                 'Content-Type': 'application/json',
@@ -176,13 +170,12 @@ async function updateBp(destinationConfiguration, accessToken, headers, bpDetail
 
 async function postGeneratedImage(destinationConfiguration, accessToken, headers, bpDetails, destinationNameFromContext) {
     const attachmentSrvApi = destinationNameFromContext.attachmentSrvApi;
-        const location = '';
     const businessObjectTypeName = destinationNameFromContext.businessObjectTypeName;
             return await generateQRCode(bpDetails).then(async image =>{
                 const bp = bpDetails.businessPartner;
                 return await axios({
                     method: 'post',
-                    url: destinationConfiguration.URL + "/API_CV_ATTACHMENT_SRV/AttachmentContentSet",
+                    url: destinationConfiguration.URL + attachmentSrvApi+ "/AttachmentContentSet",
                     headers: {
                         'Authorization': `Basic ${accessToken}`,
                         'Content-Type': 'Image/jpg',

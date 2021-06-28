@@ -59,4 +59,4 @@ giturl: https://github.tools.sap/refapps/kyma-cap-s4ems.git
 gitbranch: kyma-onpremise
 
 functionshttpproxy: https://connectivity-proxy.cc:20003
-functionsenv: '{ "name":"s4h_demo", "attachmentSrvApi":"API_CV_ATTACHMENT_SRV1", "businessPartnerSrvApi":"API_BUSINESS_PARTNER", "businessObjectTypeName" : "BUS1006" }'
+functionsenv: '{ "name":"s4h_demo", "attachmentSrvApi":"API_CV_ATTACHMENT_SRV", "businessPartnerSrvApi":"API_BUSINESS_PARTNER", "businessObjectTypeName" : "BUS1006" }'
