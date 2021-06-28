@@ -43,3 +43,26 @@ spec:
           name: {{ .Release.Name }}-qrcodeconfig
           key: destination_name
 
+---
+
+apiVersion: gateway.kyma-project.io/v1alpha1
+kind: APIRule
+metadata:
+  namespace: {{.Values.namespace}}
+  labels:
+    app: {{ .Release.Name }}-qrcodegenerator
+    name: kyma-cap-s4ems
+  name: {{ .Release.Name }}-qrcodegenerator
+spec:
+  service:
+    host: {{ .Release.Name }}-qrcodegenerator.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com
+    name: {{ .Release.Name }}-qrcodegenerator
+    port: 80
+  gateway: kyma-gateway.kyma-system.svc.cluster.local
+  rules:
+    - path: /.*
+      methods: ["GET", "PUT", "POST", "HEAD", "PATCH", "DELETE" ]
+      accessStrategies:
+        - handler: allow
+      mutators: []
+

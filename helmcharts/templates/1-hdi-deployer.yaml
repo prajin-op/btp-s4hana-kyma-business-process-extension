@@ -58,7 +58,7 @@ spec:
               {
                 "hana": [
                   {
-                    "name": "cpapp-kyma-hdi",
+                    "name": "grs-kymahdi",
                     "tags": [
                       "hana"
                     ],
