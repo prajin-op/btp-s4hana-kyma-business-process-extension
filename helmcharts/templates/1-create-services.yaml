@@ -8,7 +8,7 @@ spec:
   clusterServiceClassExternalName: xsuaa
   clusterServicePlanExternalName: application
   parameters:
-    xsappname: BusinessPartnerValidationdemo
+    xsappname: {{ .Release.Name }}-BusinessPartnerValidation
     tenant-mode: dedicated
     oauth2-configuration:
       redirect-uris:

@@ -43,7 +43,7 @@
         "model": "srv/external/API_BUSINESS_PARTNER",
         "credentials": {
           "destination": "s4h_demo",
-          "path": "API_BUSINESS_PARTNER",
+          "path": "/sap/opu/odata/sap/API_BUSINESS_PARTNER",
           "requestTimeout": 18000000
         }
       }

@@ -91,7 +91,7 @@ async function fetchXsrfToken(destinationConfiguration, accessToken, bpDetails, 
     const businessPartnerSrvApi = destinationNameFromContext.businessPartnerSrvApi;
     return await axios({
             method: 'get',
-            url: destinationConfiguration.URL  + "/" + businessPartnerSrvApi+"/A_BusinessPartnerAddress",
+            url: destinationConfiguration.URL  + "/sap/opu/odata/sap/" + businessPartnerSrvApi+"/A_BusinessPartnerAddress",
             headers: {
                 'Authorization': `Basic ${accessToken}`,
                 'x-csrf-token': 'fetch',
@@ -122,7 +122,7 @@ async function updateBpAddress(destinationConfiguration, accessToken, headers, b
         const businessPartnerSrvApi = destinationNameFromContext.businessPartnerSrvApi;
         return await axios({
             method: 'patch',
-            url: destinationConfiguration.URL + "/" + businessPartnerSrvApi+"/A_BusinessPartnerAddress(BusinessPartner='" + bpDetails.businessPartner + "',AddressID='" + bpDetails.addressId + "')",
+            url: destinationConfiguration.URL + "/sap/opu/odata/sap/" + businessPartnerSrvApi+"/A_BusinessPartnerAddress(BusinessPartner='" + bpDetails.businessPartner + "',AddressID='" + bpDetails.addressId + "')",
             headers: {
                 'Authorization': `Basic ${accessToken}`,
                 'Content-Type': 'application/json',
@@ -148,7 +148,7 @@ async function updateBp(destinationConfiguration, accessToken, headers, bpDetail
     const businessPartnerSrvApi = destinationNameFromContext.businessPartnerSrvApi;
        return await axios({
             method: 'patch',
-            url: destinationConfiguration.URL + "/" + businessPartnerSrvApi+ "/A_BusinessPartner('" + bpDetails.businessPartner + "')",
+            url: destinationConfiguration.URL + "/sap/opu/odata/sap/" + businessPartnerSrvApi+ "/A_BusinessPartner('" + bpDetails.businessPartner + "')",
             headers: {
                 'Authorization': `Basic ${accessToken}`,
                 'Content-Type': 'application/json',
@@ -175,7 +175,7 @@ async function postGeneratedImage(destinationConfiguration, accessToken, headers
                 const bp = bpDetails.businessPartner;
                 return await axios({
                     method: 'post',
-                    url: destinationConfiguration.URL + "/" + attachmentSrvApi+ "/AttachmentContentSet",
+                    url: destinationConfiguration.URL + "/sap/opu/odata/sap/" + attachmentSrvApi+ "/AttachmentContentSet",
                     headers: {
                         'Authorization': `Basic ${accessToken}`,
                         'Content-Type': 'Image/jpg',

@@ -5,9 +5,7 @@ module.exports = async srv => {
     const bupaSrv = await cds.connect.to("API_BUSINESS_PARTNER");
     const messaging = await cds.connect.to('messaging')
     const namespace = messaging.options.credentials && messaging.options.credentials.namespace
-    // var bp = "";
-    // var bpupdate = "";
-  
+
     const {postcodeValidator} = require('postcode-validator');
     
     srv.on("READ", BusinessPartnerAddress, req => bupaSrv.tx(req).run(req.query))
@@ -15,15 +13,10 @@ module.exports = async srv => {
   //works locally
     messaging.on(`${namespace}/ce/sap/s4/beh/businesspartner/v1/BusinessPartner/Created/v1`, async msg => {
       console.log("<< event caught created", msg);
-      // if(bp != (+(msg.data.BusinessPartner)).toString())
-      // {
         bp="";
         bp = (+(msg.data.BusinessPartner)).toString();
         console.log("bp",bp);
         const BUSINESSPARTNER = (+(msg.data.BusinessPartner)).toString();
-        // ID has prefix 000 needs to be removed to read address
-        // console.log(BUSINESSPARTNER);
-        // messaging.tx(msg).emit(`${namespace}/SalesService/d41d/BusinessPartnerVerified`, msg.data)
         const bpEntity = await bupaSrv.tx(msg).run(SELECT.one(BusinessPartner).where({businessPartnerId: BUSINESSPARTNER}));
         const result = await cds.tx(msg).run(INSERT.into(Notifications).entries({businessPartnerId:BUSINESSPARTNER, verificationStatus_code:'N', businessPartnerName:bpEntity.businessPartnerName}));
         const address = await bupaSrv.tx(msg).run(SELECT.one(BusinessPartnerAddress).where({businessPartnerId: BUSINESSPARTNER}));
@@ -34,24 +27,19 @@ module.exports = async srv => {
           const res = await cds.tx(msg).run(INSERT.into(Addresses).entries(address));
           console.log("Address inserted");
         }
-      // }
     });
   
     messaging.on(`${namespace}/ce/sap/s4/beh/businesspartner/v1/BusinessPartner/Changed/v1`, async msg => {
       console.log("<< event caught changed", msg);
-      // if(bpupdate != (+(msg.data.BusinessPartner)).toString())
-      // {
         bpupdate="";
         bpupdate = (+(msg.data.BusinessPartner)).toString();
         console.log("bpupdate",bpupdate);
         const BUSINESSPARTNER = (+(msg.data.BusinessPartner)).toString();
         const bpIsAlive = await cds.tx(msg).run(SELECT.one(Notifications, (n) => n.verificationStatus_code).where({businessPartnerId: BUSINESSPARTNER}));
         if(bpIsAlive && bpIsAlive.verificationStatus_code == "V"){
-          // console.log("bpIsAlive.verificationStatus_code");
           const bpMarkVerified= await cds.tx(msg).run(UPDATE(Notifications).where({businessPartnerId: BUSINESSPARTNER}).set({verificationStatus_code:"C"}));
         }    
         console.log("<< BP marked verified >>")
-      // }
     });
   
     srv.after("UPDATE", "Notifications", (data, req) => {
@@ -95,7 +83,6 @@ module.exports = async srv => {
         "addressModified":  resultJoin.isModified
       }
       console.log("<< formatted message>>>>>", payload);
-      // console.log("namespace",namespace);
       messaging.tx(req).emit(`${namespace}/SalesService/d41d/BusinessPartnerVerified`, payload)
     }
   
