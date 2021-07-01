@@ -12,7 +12,6 @@ module.exports = async srv => {
     srv.on("READ", BusinessPartner, req => bupaSrv.tx(req).run(req.query))
   //works locally
     messaging.on(`${namespace}/ce/sap/s4/beh/businesspartner/v1/BusinessPartner/Created/v1`, async msg => {
-      console.log("<< event caught created", msg);
         bp="";
         bp = (+(msg.data.BusinessPartner)).toString();
         console.log("bp",bp);
@@ -30,7 +29,6 @@ module.exports = async srv => {
     });
   
     messaging.on(`${namespace}/ce/sap/s4/beh/businesspartner/v1/BusinessPartner/Changed/v1`, async msg => {
-      console.log("<< event caught changed", msg);
         bpupdate="";
         bpupdate = (+(msg.data.BusinessPartner)).toString();
         console.log("bpupdate",bpupdate);
