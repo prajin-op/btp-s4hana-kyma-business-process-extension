@@ -98,7 +98,7 @@ The application requires below set of SAP Business Technology Platform Entitleme
    - `docker push <dockerrepo>/kymacaps4ui:latest`
 4. Open helmcharts/values.yaml
    - replace the hdi secrets
-   - Under emsecret: Change the value of emname and namespace with the appropriate values
+   - Under emsecret: Change the value of emname and namespace with the appropriate values. The namespace should be same as in package.json.
    - Change System Name with the system name of your S/4  HANA, its something you have created in the subaccount
    - Change hdiimage:"value" with the value you have give for your docker for hdi container 
    - change capimage to CAP app's image name 
