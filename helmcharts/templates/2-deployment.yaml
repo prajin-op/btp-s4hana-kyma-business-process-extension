@@ -159,6 +159,8 @@ spec:
         ports:
         - containerPort: 4004
         env:
+          - name: SERVERLESS_URL
+            value: "https://s4op-qrcodegenerator.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com"
           - name: HANA_CREDENTIALS
             valueFrom:
               secretKeyRef:
