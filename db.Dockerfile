@@ -14,6 +14,3 @@ RUN apt-get update
 RUN apt-get install -y openssl
 COPY --from=build /usr/src/app/node_modules node_modules
 COPY gen/db .
-
-EXPOSE 4004
-CMD [ "npm", "start" ]
