@@ -1,3 +1,16 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Release.Name }}-hana-secret
+  namespace: {{.Values.namespace}}
+  labels:
+     name: kyma-cap-s4ems
+type: opaque
+stringData: 
+  hana-credentials: >
+         {{.Values.hanacredentials}}
+---
+
 apiVersion: servicecatalog.k8s.io/v1beta1
 kind: ServiceBinding
 metadata:
@@ -145,6 +158,37 @@ spec:
         version: v1
         name: kyma-cap-s4ems
     spec:
+      initContainers:
+      - name: {{ .Release.Name }}-initdbservice
+        image: {{.Values.hdiimage}}
+        command: [ "npm", "start", "--", "--exit" ]
+        resources:
+            limits:
+              memory: 256Mi
+              cpu: "0.1"
+            requests:
+              memory: 256Mi
+              cpu: "0.1"
+        imagePullPolicy: Always
+        env:
+          - name: HANA_CREDENTIALS
+            valueFrom:
+              secretKeyRef:
+                  name: {{ .Release.Name }}-hana-secret
+                  key: hana-credentials
+          - name: VCAP_SERVICES
+            value: >
+              {
+                "hana": [
+                  {
+                    "name": "grs-kymahdi1",
+                    "tags": [
+                      "hana"
+                    ],
+                    "credentials": $(HANA_CREDENTIALS)
+                  }
+                ]
+              }
       containers:
       - name: {{ .Release.Name }}-kymacap
         image: {{.Values.capimage}}
@@ -159,6 +203,8 @@ spec:
         ports:
         - containerPort: 4004
         env:
+          - name: SERVERLESS_URL
+            value: https://{{ .Release.Name }}-qrcodegenerator.{{ .Values.clusterurl }}
           - name: HANA_CREDENTIALS
             valueFrom:
               secretKeyRef:
@@ -169,7 +215,7 @@ spec:
               {
                 "hana": [
                   {
-                    "name": "grs-kymahdi",
+                    "name": "grs-kymahdi1",
                     "tags": [
                       "hana"
                     ],
@@ -284,7 +330,7 @@ spec:
                             "forwardAuthToken" : true,
                             "name" : "srv-binding",
                             "strictSSL" : true,
-                            "url" : "{{.Values.capapp}}"
+                            "url" : "https://{{ .Release.Name }}-kymacap.{{ .Values.clusterurl }}"
                       } ]
               }
 

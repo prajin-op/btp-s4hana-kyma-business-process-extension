@@ -2,10 +2,10 @@
 
 module.exports = async srv => {
   const {BusinessPartnerAddress, Notifications, Addresses, BusinessPartner} = srv.entities;
+  const axios = require('axios');
     const bupaSrv = await cds.connect.to("API_BUSINESS_PARTNER");
     const messaging = await cds.connect.to('messaging')
     const namespace = messaging.options.credentials && messaging.options.credentials.namespace
-
     const {postcodeValidator} = require('postcode-validator');
     
     srv.on("READ", BusinessPartnerAddress, req => bupaSrv.tx(req).run(req.query))
@@ -43,7 +43,7 @@ module.exports = async srv => {
     srv.after("UPDATE", "Notifications", (data, req) => {
       console.log("Notification update", data.businessPartnerId);
       if(data.verificationStatus_code === "V" || data.verificationStatus_code === "INV")
-      emitEvent(data, req);
+        emitEvent(data, req);
     });
   
     srv.before("SAVE", "Notifications", req => {
@@ -67,6 +67,7 @@ module.exports = async srv => {
     });
   
     async function emitEvent(result, req){
+      console.log("emit event");
       const resultJoin =  await cds.tx(req).run(SELECT.one("my.businessPartnerValidation.Notifications as N").leftJoin("my.businessPartnerValidation.Addresses as A").on("N.businessPartnerId = A.businessPartnerId").where({"N.ID": result.ID}));
       const statusValues={"N":"NEW", "P":"PROCESS", "INV":"INVALID", "V":"VERIFIED"}
       // Format JSON as per serverless requires
@@ -83,7 +84,5 @@ module.exports = async srv => {
       console.log("<< formatted message>>>>>", payload);
       messaging.tx(req).emit(`${namespace}/SalesService/d41d/BusinessPartnerVerified`, payload)
     }
-  
-    
   }
   
