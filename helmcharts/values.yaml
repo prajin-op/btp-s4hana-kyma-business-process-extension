@@ -45,9 +45,8 @@ namespace: <KYMA_NAMESPACE>
 hdiimage: <DOCKER_HDI_IMAGE>
 capimage: <DOCKER_CAP_IMAGE>
 uiimage: <DOCKER_UI_IMAGE>
+clusterurl: <CLUSTER_URL>
 
-capapp: <URL_CAP_APP>
-uiapp: <URL_UI_APP>
 
 gitusername: <GIT_USERNAME>
 gitpassword: <GIT_PASSWORD

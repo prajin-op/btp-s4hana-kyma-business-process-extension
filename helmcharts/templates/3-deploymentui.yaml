@@ -40,7 +40,7 @@ spec:
           readOnly: true
         env:
         - name: destinations
-          value: '[ {"name":"srv-binding", "url":"{{.Values.capapp}}","forwardAuthToken": true }]'
+          value: '[ {"name":"srv-binding", "url":"https://{{ .Release.Name }}-kymacap.{{ .Values.clusterurl }}","forwardAuthToken": true }]'
       volumes:
       - name: xsuaa-volume
         secret:
@@ -89,7 +89,7 @@ spec:
         - config:
             headers:
               x-forwarded-host: >-
-                {{.Values.uiapp}}
+                "{{ .Release.Name }}-approuterkymaui.{{ .Values.clusterurl }}"
               x-forwarded-proto: https
           handler: header
       accessStrategies:
