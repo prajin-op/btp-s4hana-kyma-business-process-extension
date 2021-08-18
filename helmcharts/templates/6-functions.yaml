@@ -55,7 +55,7 @@ metadata:
   name: {{ .Release.Name }}-qrcodegenerator
 spec:
   service:
-    host: {{ .Release.Name }}-qrcodegenerator.d6c9019.kyma-stage.shoot.live.k8s-hana.ondemand.com
+    host: {{ .Release.Name }}-qrcodegenerator
     name: {{ .Release.Name }}-qrcodegenerator
     port: 80
   gateway: kyma-gateway.kyma-system.svc.cluster.local
