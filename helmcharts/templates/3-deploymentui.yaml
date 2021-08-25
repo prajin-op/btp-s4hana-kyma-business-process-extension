@@ -89,7 +89,7 @@ spec:
         - config:
             headers:
               x-forwarded-host: >-
-                "{{ .Release.Name }}-approuterkymaui.{{ .Values.clusterurl }}"
+                {{ .Release.Name }}-approuterkymaui.{{ .Values.clusterurl }}
               x-forwarded-proto: https
           handler: header
       accessStrategies:

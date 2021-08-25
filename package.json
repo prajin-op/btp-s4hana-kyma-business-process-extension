@@ -6,13 +6,13 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@sap/cds": "^5.1.5",
+    "@sap/cds": "^5.4.3",
     "@sap/xb-msg-amqp-v100": "0.9.48",
     "express": "^4",
     "hdb": "^0.18.2",
     "postcode-validator": "^3.1.0",
     "passport": "^0.4.1",
-    "@sap/xssec": "^2.2.3"
+    "@sap/xssec": "^3.2.3"
   },
   "devDependencies": {
     "sqlite3": "^4.1.1"
@@ -35,7 +35,7 @@
       "messaging": {
         "kind": "enterprise-messaging-shared",
         "queue": {
-          "name": "refapps/ccdemo/event/CAP/0001"
+          "name": "refapps/gg/event/CAP/0001"
         }
       },
       "uaa": {
@@ -45,7 +45,7 @@
         "kind": "odata",
         "model": "srv/external/API_BUSINESS_PARTNER",
         "credentials": {
-          "destination": "s4h_demo",
+          "destination": "s4h",
           "path": "/sap/opu/odata/sap/API_BUSINESS_PARTNER"
         }
       }
