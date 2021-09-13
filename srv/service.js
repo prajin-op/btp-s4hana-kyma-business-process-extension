@@ -24,7 +24,7 @@ module.exports = async srv => {
           console.log(`address recieved:`);
           console.log(address);
           const notificationObj = await cds.tx(msg).run(SELECT.one(Notifications).columns("ID").where({businessPartnerId: BUSINESSPARTNER}));
-          address.notifications_id=notificationObj.ID;
+          address.notifications_ID = notificationObj.ID;
           const res = await cds.tx(msg).run(INSERT.into(Addresses).entries(address));
           console.log("Address inserted");
         }
