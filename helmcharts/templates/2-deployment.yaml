@@ -289,7 +289,8 @@ spec:
                             "clientid": "$(conn_clientid)",
                             "clientsecret": "$(conn_clientsecret)",
                             "onpremise_proxy_host": "connectivity-proxy.cc",
-                            "onpremise_proxy_port": "20003"
+                            "onpremise_proxy_port": "20003",
+                            "url": "$(conn_token_service_url)"
                             },
                           "syslog_drain_url": null,
                           "volume_mounts": []
