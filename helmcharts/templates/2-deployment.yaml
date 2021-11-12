@@ -7,8 +7,39 @@ metadata:
      name: kyma-cap-s4ems
 type: opaque
 stringData: 
-  hana-credentials: >
-         {{.Values.hanacredentials}}
+      {{.Values.hanacredentials}}
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Release.Name }}-hana-secret1
+  namespace: {{.Values.namespace}}
+  labels:
+     name: kyma-cap-s4ems
+type: opaque
+stringData:
+  VCAP_SERVICES: > 
+    {
+        "hana": [
+            {
+            "binding_name": null,
+            "credentials": {{.Values.hanacredentials}},
+            "instance_name": "hana",
+            "label": "hana",
+            "name": "hana",
+            "plan": "hdi-shared",
+            "provider": null,
+            "syslog_drain_url": null,
+            "tags": [
+              "hana",
+              "database",
+              "relational"
+            ],
+            "volume_mounts": []
+            }
+        ]
+    }
 ---
 
 apiVersion: servicecatalog.k8s.io/v1beta1
@@ -33,7 +64,7 @@ metadata:
 spec:
   parameters: 
     envPrefix:
-      name: em_
+      name: cds_requires_messaging_credentials_
   serviceBindingRef:
     name: {{ .Release.Name }}-em-binding
   usedBy:
@@ -64,7 +95,7 @@ metadata:
 spec:
   parameters:
     envPrefix:
-      name: dest_
+      name: cds_requires_destination_credentials_
   serviceBindingRef:
     name: {{ .Release.Name }}-dest-binding
   usedBy:
@@ -95,7 +126,7 @@ metadata:
 spec:
   parameters:
     envPrefix:
-      name: xsuaa_
+      name: cds_requires_xsuaa_credentials_
   serviceBindingRef:
     name: {{ .Release.Name }}-xsuaa-binding
   usedBy:
@@ -158,6 +189,10 @@ spec:
         version: v1
         name: kyma-cap-s4ems
     spec:
+      volumes:
+        - name: hana-credentials-vol
+          secret:
+            secretName: {{ .Release.Name }}-hana-secret
       initContainers:
       - name: {{ .Release.Name }}-initdbservice
         image: {{.Values.hdiimage}}
@@ -170,25 +205,9 @@ spec:
               memory: 256Mi
               cpu: "0.1"
         imagePullPolicy: Always
-        env:
-          - name: HANA_CREDENTIALS
-            valueFrom:
-              secretKeyRef:
-                  name: {{ .Release.Name }}-hana-secret
-                  key: hana-credentials
-          - name: VCAP_SERVICES
-            value: >
-              {
-                "hana": [
-                  {
-                    "name": "grs-kymahdi1",
-                    "tags": [
-                      "hana"
-                    ],
-                    "credentials": $(HANA_CREDENTIALS)
-                  }
-                ]
-              }
+        envFrom:
+          - secretRef:
+              name: {{ .Release.Name }}-hana-secret1
       containers:
       - name: {{ .Release.Name }}-kymacap
         image: {{.Values.capimage}}
@@ -203,77 +222,13 @@ spec:
         ports:
         - containerPort: 4004
         env:
+          - name: CDS_CONFIG
+            value: /etc/secrets/cds
           - name: SERVERLESS_URL
             value: https://{{ .Release.Name }}-qrcodegenerator.{{ .Values.clusterurl }}
-          - name: HANA_CREDENTIALS
-            valueFrom:
-              secretKeyRef:
-                  name: {{ .Release.Name }}-hana-secret
-                  key: hana-credentials
           - name: VCAP_SERVICES
             value: >
               {
-                "hana": [
-                  {
-                    "name": "grs-kymahdi1",
-                    "tags": [
-                      "hana"
-                    ],
-                    "credentials": $(HANA_CREDENTIALS)
-                  }
-                ],
-                 "enterprise-messaging": [
-                  {
-                  "binding_name": null,
-                  "credentials": {
-                    "namespace": "$(em_namespace)",
-                    "xsappname": "$(em_xsappname)",
-                    "management": $(em_management),
-                    "messaging": $(em_messaging),
-                    "serviceinstanceid": "$(em_serviceinstanceid)"
-                  },
-                  "instance_name": "emkymanew",
-                  "label": "enterprise-messaging",
-                  "name": "emkymanew",
-                  "plan": "default",
-                  "provider": null,
-                  "syslog_drain_url": null,
-                  "tags": [
-                    "enterprise-messaging"
-                  ],
-                  "volume_mounts": []
-                  }
-                ],
-                "destination": [
-                        {
-                            "label": "destination",
-                            "provider": null,
-                            "plan": "lite",
-                            "name": "destination-cpapp",
-                            "tags": [
-                                "destination",
-                                "conn",
-                                "connsvc"
-                            ],
-                            "instance_name": "destination-cpapp",
-                            "binding_name": null,
-                            "credentials": {
-                                 "uaadomain": "$(dest_uaadomain)",
-                                "tenantmode": "$(dest_tenantmode)",
-                                "clientid": "$(dest_clientid)",
-                                "instanceid": "$(dest_instanceid)",
-                                "verificationkey": "$(dest_verificationkey)",
-                                "xsappname": "$(dest_xsappname)",
-                                "identityzone": "$(dest_identityzone)",
-                                "clientsecret": "$(dest_clientsecret)",
-                                "tenantid": "$(dest_tenantid)",
-                                "uri": "$(dest_uri)",
-                                "url": "$(dest_url)"
-                            },
-                            "syslog_drain_url": null,
-                            "volume_mounts": []
-                        }
-                    ],
                     "connectivity": [
                      {
                           "label": "connectivity",
@@ -295,45 +250,13 @@ spec:
                           "syslog_drain_url": null,
                           "volume_mounts": []
                         }
-                      ],
-                    "xsuaa": [
-                        {
-                          "label": "xsuaa",
-                          "provider": null,
-                          "plan": "application",
-                          "name": "xsuaa-cpapp",
-                          "tags": [
-                            "xsuaa"
-                          ],
-                          "instance_name": "cpapp-uaa",
-                          "binding_name": null,
-                          "credentials": {
-                            "tenantmode": "$(xsuaa_tenantmode)",
-                            "sburl": "$(xsuaa_sburl)",
-                            "subaccountid": "$(xsuaa_subaccountid)",
-                            "clientid": "$(xsuaa_clientid)",
-                            "xsappname": "$(xsuaa_xsappname)",
-                            "clientsecret": "$(xsuaa_clientsecret)",
-                            "url": "$(xsuaa_url)",
-                            "uaadomain": "$(xsuaa_uaadomain)",
-                            "verificationkey": "$(xsuaa_verificationkey)",
-                            "apiurl": "$(xsuaa_apiurl)",
-                            "identityzone": "$(xsuaa_identityzone)",
-                            "identityzoneid": "$(xsuaa_identityzoneid)",
-                            "tenantid": "$(xsuaa_tenantid)",
-                            "zoneid": "$(xsuaa_zoneid)"
-                          },
-                          "syslog_drain_url": null,
-                          "volume_mounts": []
-                        }
-                      ],
-                      "destinations":[{
-                            "forwardAuthToken" : true,
-                            "name" : "srv-binding",
-                            "strictSSL" : true,
-                            "url" : "https://{{ .Release.Name }}-kymacap.{{ .Values.clusterurl }}"
-                      } ]
+                      ]
               }
+        volumeMounts:
+          - name: hana-credentials-vol
+            mountPath: /etc/secrets/cds/requires/db/credentials
+            readOnly: true
+  
 
 ---
 

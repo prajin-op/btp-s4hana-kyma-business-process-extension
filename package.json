@@ -6,7 +6,7 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@sap/cds": "^5.4.3",
+    "@sap/cds": "5.6.2",
     "@sap/xb-msg-amqp-v100": "0.9.52",
     "@sap/xssec": "^3.2.3",
     "express": "^4",
@@ -21,6 +21,9 @@
     "start": "cds run"
   },
   "cds": {
+    "features": {
+      "emulate_vcap_services": true
+    },
     "hana": {
       "deploy-format": "hdbtable"
     },
@@ -30,16 +33,35 @@
         "model": [
           "db",
           "srv"
-        ]
+        ],
+        "vcap": {
+          "label": "hana"
+        }
       },
       "messaging": {
         "kind": "enterprise-messaging-shared",
         "queue": {
-          "name": "refapps/gg/event/CAP/0001"
+          "name": "refapps/vcap/event/CAP/0001"
+        },
+        "vcap": {
+          "label": "enterprise-messaging"
         }
       },
       "uaa": {
-        "kind": "xsuaa"
+        "kind": "xsuaa",
+        "vcap": {
+          "label": "xsuaa"
+        }
+      },
+      "destination": {
+        "vcap": {
+          "label": "destination"
+        }
+      },
+      "connectivity": {
+        "vcap": {
+          "label": "connectivity"
+        }
       },
       "API_BUSINESS_PARTNER": {
         "kind": "odata",
