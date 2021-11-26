@@ -1,96 +1,121 @@
-
-apiVersion: apps/v1
-kind: Deployment
+---
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceInstance
 metadata:
-  name: {{ .Release.Name }}-approuterkymaui
-  labels:
-    app: {{ .Release.Name }}-approuterkymaui
-    name: kyma-cap-s4ems
-    version: v1
-  namespace: {{.Values.namespace}}
+  name: kyma-app-host-instance
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: {{ .Release.Name }}-approuterkymaui
-      version: v1
+  clusterServiceClassExternalName: html5-apps-repo
+  clusterServicePlanExternalName: app-host
+
+---
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceBinding
+metadata:
+  name: kyma-app-host-binding
+spec:
+  instanceRef:
+    name: kyma-app-host-instance
+
+
+---
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceBinding
+metadata:
+  name: kyma-xsuaa-binding
+spec:
+  instanceRef:
+    name: {{ .Release.Name }}-xsuaademo
+
+---
+apiVersion: servicecatalog.kyma-project.io/v1alpha1
+kind: ServiceBindingUsage
+metadata:
+  name: kyma-xsuaa-binding
+  namespace: {{.Values.namespace}}
+  labels:
+     name: kyma-xsuaa-binding
+spec:
+  serviceBindingRef:
+    name: kyma-xsuaa-binding
+  usedBy:
+    kind: Deployment
+    name: html5appdeployer
+---
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceInstance
+metadata:
+  name: kyma-destination-instance
+spec:
+  clusterServiceClassExternalName: destination
+  clusterServicePlanExternalName: lite
+  parameters:
+    HTML5Runtime_enabled: true
+    version: "1.0.0"
+
+---
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceBinding
+metadata:
+  name: kyma-destination-binding
+spec:
+  instanceRef:
+    name: kyma-destination-instance       
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: html5appdeployer
+  namespace: {{.Values.namespace}}
+  labels:
+    app: html5appdeployer
+spec:
+  ttlSecondsAfterFinished: 0
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}-approuterkymaui
-        name: kyma-cap-s4ems
-        version: v1
+        app: html5appdeployer
+      annotations:
+        sidecar.istio.io/inject: "false"
     spec:
+      restartPolicy: OnFailure
       containers:
-      - name: {{ .Release.Name }}-approuterkymaui
-        image: {{.Values.uiimage}}
-        imagePullPolicy: Always
-        resources:
-            limits:
-              memory: 256Mi
-              cpu: "0.1"
-            requests:
-              memory: 256Mi
-              cpu: "0.1"
-        ports:
-        - containerPort: 5000
-        volumeMounts:
-        - name: xsuaa-volume
-          mountPath: "/etc/secrets/sapcp/xsuaa/xsuaaInst"
-          readOnly: true
-        env:
-        - name: destinations
-          value: '[ {"name":"srv-binding", "url":"https://{{ .Release.Name }}-kymacap.{{ .Values.clusterurl }}","forwardAuthToken": true }]'
+        - image: {{.Values.uiimage}}
+          imagePullPolicy: Always
+          name: html5appdeployer
+          volumeMounts:
+            - name: html5-repo-app-host-volume
+              mountPath: /etc/secrets/sapcp/html5-apps-repo/kyma-app-host-instance
+              readOnly: true
+            - name: xsuaa-volume
+              mountPath: /etc/secrets/sapcp/xsuaa/{{ .Release.Name }}-xsuaademo
+              readOnly: true
+            - name: destination-volume
+              mountPath: /etc/secrets/sapcp/destination/kyma-destination-instance
+              readOnly: true
+          env:
+            - name: EXIT_PROCESS_AFTER_UPLOAD
+              value: "true"
+            - name: PORT
+              value: "5000"
+            - name: SAP_CLOUD_SERVICE
+              value: "sap.bp"
+            - name: BACKEND_DESTINATIONS
+              value: "[{
+              \"Name\":\"srv-binding\",
+              \"Description\":\"My application backend\",
+              \"Type\":\"HTTP\",
+              \"ProxyType\":\"Internet\",
+              \"URL\":\"https://{{ .Release.Name }}-kymacap.{{ .Values.clusterurl }}\",
+              \"Authentication\":\"NoAuthentication\",
+              \"HTML5.ForwardAuthToken\": true}]"
       volumes:
-      - name: xsuaa-volume
-        secret:
-          secretName: {{ .Release.Name }}-xsuaa-binding
-       
-          
-
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ .Release.Name }}-approuterkymaui
-  namespace: {{.Values.namespace}}
-  labels:
-    name: kyma-cap-s4ems
-    app: {{ .Release.Name }}-approuterkymaui
-    service: {{ .Release.Name }}-approuterkymaui
-spec:
-  ports:
-  - port: 5000
-    name: http
-  selector:
-    app: {{ .Release.Name }}-approuterkymaui
-
----
-
-apiVersion: gateway.kyma-project.io/v1alpha1
-kind: APIRule
-metadata:
-  namespace: {{.Values.namespace}}
-  labels:
-    name: kyma-cap-s4ems
-    app: {{ .Release.Name }}-approuterkymaui
-  name: {{ .Release.Name }}-approuterkymaui
-spec:
-  service:
-    host: {{ .Release.Name }}-approuterkymaui
-    name: {{ .Release.Name }}-approuterkymaui
-    port: 5000
-  gateway: kyma-gateway.kyma-system.svc.cluster.local
-  rules:
-    - path: /.*
-      methods: ["GET", "PUT", "POST", "HEAD", "PATCH", "DELETE" ]
-      mutators:
-        - config:
-            headers:
-              x-forwarded-host: >-
-                {{ .Release.Name }}-approuterkymaui.{{ .Values.clusterurl }}
-              x-forwarded-proto: https
-          handler: header
-      accessStrategies:
-        - handler: noop
+        - name: html5-repo-app-host-volume
+          secret:
+            secretName: kyma-app-host-binding
+        - name: xsuaa-volume
+          secret:
+            secretName: kyma-xsuaa-binding
+        - name: destination-volume
+          secret:
+            secretName: kyma-destination-binding

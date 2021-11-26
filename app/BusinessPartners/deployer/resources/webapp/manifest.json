@@ -1,7 +1,7 @@
 {
     "_version": "1.15.0",
     "sap.app": {
-        "id": "com.sap.bp.BusinessPartners",
+        "id": "businesspartner",
         "type": "application",
         "i18n": "i18n/i18n.properties",
         "applicationVersion": {
@@ -12,12 +12,12 @@
         "ach": "CA-UI5-FE",
         "dataSources": {
             "mainService": {
-                "uri": "/sales/",
+                "uri": "sales/",
                 "type": "OData",
                 "settings": {
                     "annotations": [
                         "annotation"
-                    ],
+                    ], 
                     "odataVersion": "4.0",
                     "localUri": "localService/metadata.xml"
                 }
@@ -35,6 +35,21 @@
         "sourceTemplate": {
             "id": "ui5template.fiorielements.v4.lrop",
             "version": "1.0.0"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "com-sap-refapps-businesspartner-inbound": {
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    },
+                    "semanticObject": "businesspartner",
+                    "action": "display",
+                    "title": "{{flpTitle}}",
+                    "subTitle": "{{flpSubtitle}}",
+                    "icon": ""
+                }
+            }
         }
     },
     "sap.ui": {
@@ -53,13 +68,17 @@
             "phone": true
         }
     },
+    "sap.cloud": {
+		"public": true,
+		"service": "sap.bp"
+	},
     "sap.ui5": {
         "resources": {
             "js": [],
             "css": []
         },
         "dependencies": {
-            "minUI5Version": "1.76.0",
+            "minUI5Version": "1.76.0", 
             "libs": {
                 "sap.fe": {},
                 "sap.ui.fl": {}

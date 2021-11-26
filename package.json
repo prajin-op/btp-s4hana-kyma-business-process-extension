@@ -15,10 +15,12 @@
     "postcode-validator": "^3.5.3"
   },
   "devDependencies": {
+    "@sap/ux-specification": "^1.90.14",
     "sqlite3": "^4.2.0"
   },
   "scripts": {
-    "start": "cds run"
+    "start": "cds run",
+    "watch-businesspartner": "cds watch --open businesspartner/webapp/index.html#fe-lrop-v4"
   },
   "cds": {
     "features": {
