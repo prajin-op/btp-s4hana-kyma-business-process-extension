@@ -6,9 +6,7 @@ annotate my.Addresses with @(
         HeaderInfo: {
             TypeName: 'Address',
             TypeNamePlural: 'Addresses',
-            Title: { $Type: 'UI.DataField', Value: addressId }
         },
-        SelectionFields: [ identifier, title, availability, price],
         LineItem: [
             {$Type: 'UI.DataField', Value: addressId},
             {$Type: 'UI.DataField', Value: businessPartnerId},
@@ -16,13 +14,7 @@ annotate my.Addresses with @(
             {$Type: 'UI.DataField', Value: cityName},
             {$Type: 'UI.DataField', Value: country},
             {$Type: 'UI.DataField', Value: postalCode}
-        ],
-        HeaderFacets: [
-            {$Type: 'UI.ReferenceFacet', ID: 'BP', Target: '@UI.DataPoint#BP'},
-            {$Type: 'UI.ReferenceFacet', ID: 'Status', Target: '@UI.DataPoint#Status'}
-        ],
-        DataPoint#BP: {Value: businessPartnerId, Title: 'Business Partner ID'},
-        DataPoint#Status: {Value: notification.verificationStatus, Title: 'Verification Status'}
+        ]
     }
 );
 
@@ -47,7 +39,7 @@ annotate my.Notifications with @(
         HeaderInfo: {
             TypeName: '{i18n>Notification}',
             TypeNamePlural: '{i18n>Notifications}',
-            Title: { $Type: 'UI.DataField', Value: businessPartnerId }
+            Title: { $Type: 'UI.DataField', Value: businessPartnerId , }
         },
          SelectionFields: [ businessPartnerId, businessPartnerName,verificationStatus_code],
         LineItem: [
@@ -66,7 +58,7 @@ annotate my.Notifications with @(
         ],
          DataPoint#BpName: {Value: businessPartnerName, Title: 'Business Partner Name'},
           FieldGroup #Detail : {Data : [
-              {$Type: 'UI.DataField', Value: verificationStatus_code, Title: 'Verification Status'}
+              {$Type: 'UI.DataField', Value: verificationStatus_code, Label: 'Verification Status', }
           ]}
     }
 );

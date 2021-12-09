@@ -1,7 +1,7 @@
 {
-    "_version": "1.15.0",
+    "_version": "1.32.0",
     "sap.app": {
-        "id": "businesspartner",
+        "id": "com.bp.businesspartners",
         "type": "application",
         "i18n": "i18n/i18n.properties",
         "applicationVersion": {
@@ -9,24 +9,12 @@
         },
         "title": "{{appTitle}}",
         "description": "{{appDescription}}",
-        "ach": "CA-UI5-FE",
         "dataSources": {
             "mainService": {
                 "uri": "sales/",
                 "type": "OData",
                 "settings": {
-                    "annotations": [
-                        "annotation"
-                    ], 
-                    "odataVersion": "4.0",
-                    "localUri": "localService/metadata.xml"
-                }
-            },
-            "annotation": {
-                "type": "ODataAnnotation",
-                "uri": "annotations/annotation.xml",
-                "settings": {
-                    "localUri": "annotations/annotation.xml"
+                    "odataVersion": "4.0"
                 }
             }
         },
@@ -38,16 +26,16 @@
         },
         "crossNavigation": {
             "inbounds": {
-                "com-sap-refapps-businesspartner-inbound": {
+                "com-bp-businesspartners-inbound": {
                     "signature": {
                         "parameters": {},
                         "additionalParameters": "allowed"
                     },
-                    "semanticObject": "businesspartner",
+                    "semanticObject": "notifications",
                     "action": "display",
                     "title": "{{flpTitle}}",
                     "subTitle": "{{flpSubtitle}}",
-                    "icon": ""
+                    "icon": "sap-icon://bell"
                 }
             }
         }
@@ -68,29 +56,30 @@
             "phone": true
         }
     },
-    "sap.cloud": {
-		"public": true,
-		"service": "sap.bp"
-	},
     "sap.ui5": {
         "resources": {
             "js": [],
             "css": []
         },
         "dependencies": {
-            "minUI5Version": "1.76.0", 
+            "minUI5Version": "1.97.0",
             "libs": {
-                "sap.fe": {},
-                "sap.ui.fl": {}
+                "sap.ui.core": {},
+                "sap.fe.templates": {}
             }
         },
         "models": {
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
             "i18n": {
                 "type": "sap.ui.model.resource.ResourceModel",
                 "uri": "i18n/i18n.properties"
             },
             "": {
                 "dataSource": "mainService",
+                "preload": true,
                 "settings": {
                     "synchronizationMode": "None",
                     "operationMode": "Server",
@@ -102,30 +91,20 @@
         "routing": {
             "routes": [
                 {
-                    "pattern": "",
-                    "name": "NotificationList",
-                    "target": [
-                        "NotificationList"
-                    ]
+                    "pattern": ":?query:",
+                    "name": "NotificationsList",
+                    "target": "NotificationsList"
                 },
                 {
-                    "pattern": "Notifications({key})",
-                    "name": "NotificationObjectPage",
-                    "target": [
-                        "NotificationList",
-                        "NotificationObjectPage"
-                    ]
-                },
-                {
-                    "pattern": "Notifications({key})/addresses({key2}):?query:",
-                    "name": "AddressObjectPage_address",
-                    "target": "AddressObjectPage_address"
+                    "pattern": "Notifications({key}):?query:",
+                    "name": "NotificationsObjectPage",
+                    "target": "NotificationsObjectPage"
                 }
             ],
             "targets": {
-                "NotificationList": {
+                "NotificationsList": {
                     "type": "Component",
-                    "id": "NotificationList",
+                    "id": "NotificationsList",
                     "name": "sap.fe.templates.ListReport",
                     "options": {
                         "settings": {
@@ -134,37 +113,26 @@
                             "navigation": {
                                 "Notifications": {
                                     "detail": {
-                                        "route": "NotificationObjectPage"
+                                        "route": "NotificationsObjectPage"
                                     }
                                 }
                             }
                         }
                     }
                 },
-                "NotificationObjectPage": {
+                "NotificationsObjectPage": {
                     "type": "Component",
-                    "id": "NotificationObjectPage",
+                    "id": "NotificationsObjectPage",
                     "name": "sap.fe.templates.ObjectPage",
                     "options": {
                         "settings": {
+                            "editableHeaderContent": true,
                             "entitySet": "Notifications",
                             "navigation": {}
                         }
                     }
-                },
-                "AddressObjectPage_address": {
-                    "type": "Component",
-                    "id": "AddressObjectPage_address",
-                    "name": "sap.fe.templates.ObjectPage",
-                    "options": {
-                        "settings": {
-                            "entitySet": "Addresses",
-                            "navigation": {}
-                        }
-                    }
                 }
-            },
-            "config": {}
+            }
         },
         "contentDensities": {
             "compact": true,
@@ -175,6 +143,10 @@
         "_version": "1.1.0",
         "uri": ""
     },
+    "sap.cloud": {
+		"public": true,
+		"service": "sap.bp"
+	},
     "sap.platform.hcp": {
         "_version": "1.1.0",
         "uri": ""

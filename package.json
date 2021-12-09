@@ -15,12 +15,13 @@
     "postcode-validator": "^3.5.3"
   },
   "devDependencies": {
-    "@sap/ux-specification": "^1.90.14",
+    "@sap/ux-specification": "^1.90.15",
     "sqlite3": "^4.2.0"
   },
   "scripts": {
     "start": "cds run",
-    "watch-businesspartner": "cds watch --open businesspartner/webapp/index.html#fe-lrop-v4"
+    "watch-businesspartner": "cds watch --open businesspartner/webapp/index.html#fe-lrop-v4",
+    "watch-businesspartners": "cds watch --open businesspartners/webapp/index.html#fe-lrop-v4"
   },
   "cds": {
     "features": {
@@ -30,23 +31,28 @@
       "deploy-format": "hdbtable"
     },
     "requires": {
-      "db": {
-        "kind": "sql",
-        "model": [
-          "db",
-          "srv"
-        ],
-        "vcap": {
-          "label": "hana"
+      "[production]": {
+        "db": {
+          "kind": "sql",
+          "model": [
+            "db",
+            "srv"
+          ],
+          "vcap": {
+            "label": "hana"
+          }
         }
       },
       "messaging": {
-        "kind": "enterprise-messaging-shared",
-        "queue": {
-          "name": "refapps/vcap/event/CAP/0001"
-        },
-        "vcap": {
-          "label": "enterprise-messaging"
+        "kind": "local-messaging",
+        "[production]": {
+          "kind": "enterprise-messaging-shared",
+          "queue": {
+            "name": "refapps/vcap/event/CAP/0001"
+          },
+          "vcap": {
+            "label": "enterprise-messaging"
+          }
         }
       },
       "uaa": {
@@ -68,11 +74,17 @@
       "API_BUSINESS_PARTNER": {
         "kind": "odata",
         "model": "srv/external/API_BUSINESS_PARTNER",
-        "credentials": {
-          "destination": "s4h",
-          "path": "/sap/opu/odata/sap/API_BUSINESS_PARTNER"
+        "[production]": {
+          "credentials": {
+            "destination": "s4h",
+            "path": "/sap/opu/odata/sap/API_BUSINESS_PARTNER"
+          }
         }
       }
     }
-  }
+  },
+  "sapux": [
+    "app/businesspartners",
+    "app/businesspartners"
+  ]
 }
