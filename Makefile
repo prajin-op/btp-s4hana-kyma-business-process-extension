@@ -1,5 +1,5 @@
 
-DOCKER_ACCOUNT=shankarigr
+DOCKER_ACCOUNT=<DOCKER ACCOUNT>
 
 build-dbimage:
 	docker build --pull --rm -f db.Dockerfile -t $(DOCKER_ACCOUNT)/kymahdi:latest .
