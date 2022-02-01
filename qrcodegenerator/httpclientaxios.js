@@ -111,9 +111,9 @@ async function fetchXsrfToken(destinationConfiguration, accessToken, bpDetails, 
              console.log("success fetching xsrf token");
                 return headers;
         }).catch(error => {
-            console.log("erro rin fetching xsrf token");
+            console.log("errorin fetching xsrf token");
             logger.info("Error - Fetching CSRF token Error");
-             
+             logger.error(error);
             throw util.errorHandler(error, logger);
         });
 }
