@@ -111,7 +111,7 @@ async function fetchXsrfToken(destinationConfiguration, accessToken, bpDetails, 
              console.log("success fetching xsrf token");
                 return headers;
         }).catch(error => {
-            console.log("errorin fetching xsrf token");
+            console.log("errorin fetching xsrf token", error);
             logger.info("Error - Fetching CSRF token Error");
              logger.error(error);
             throw util.errorHandler(error, logger);
@@ -138,7 +138,7 @@ async function updateBpAddress(destinationConfiguration, accessToken, headers, b
              console.log("SUCCESS - Updating BP Address");
             logger.info("SUCCESS - Updating BP Address");
         }).catch(error => {
-                 console.log("Failed - Updating BP Address");
+                 console.log("Failed - Updating BP Address", error);
             logger.info("Error Updating BP Address", error);
             throw util.errorHandler(error, logger);
         });
@@ -163,7 +163,7 @@ async function updateBp(destinationConfiguration, accessToken, headers, bpDetail
         }).then(response =>{
             logger.info("Success - Updating BP");
         }).catch(error => {
-            logger.info("Error in Updating BP");
+            logger.info("Error in Updating BP", error);
             throw util.errorHandler(error, logger);
         });
 }
