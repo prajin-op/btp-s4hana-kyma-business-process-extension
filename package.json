@@ -6,7 +6,7 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@sap/cds": "5.6.2",
+    "@sap/cds": "5.8.0",
     "@sap/xb-msg-amqp-v100": "0.9.52",
     "@sap/xssec": "^3.2.3",
     "express": "^4",
@@ -48,11 +48,13 @@
         "[production]": {
           "kind": "enterprise-messaging-shared",
           "queue": {
-            "name": "refapps/vcap/event/CAP/0001"
+            "name": "$namespace/CAP/0001"
           },
           "vcap": {
             "label": "enterprise-messaging"
-          }
+          },
+          "publishPrefix": "$namespace/", 
+          "subscribePrefix": "$namespace/"
         }
       },
       "uaa": {
