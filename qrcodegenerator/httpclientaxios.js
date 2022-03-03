@@ -22,7 +22,6 @@ async function postImage(context, msg, event) {
             const data = await util.readDetails(destination, destinationName, context, logger);
             const response = await processBpPayload(data.authTokens[0].value, data.destinationConfiguration, msg, destinationNameFromContext);
             return response;
-                //return "Success";
         }catch(error){
             throw error;
         }
@@ -60,32 +59,6 @@ async function processBpPayload(accessToken, destinationConfiguration, msg, dest
             return error;
         }
 }
-
-/*async function fetchXsrfToken(destinationConfiguration, accessToken, bpDetails, destinationNameFromContext) {
-    const attachmentSrvApi = destinationNameFromContext.attachmentSrvApi;
-    return await axios({
-            method: 'get',
-            url: destinationConfiguration.URL + attachmentSrvApi + "/",
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-                'Content-Type': 'Image/png',
-                'Slug': bpDetails.businessPartner + ".png",
-                'BusinessObjectTypeName': destinationNameFromContext.businessObjectTypeName,
-                'LinkedSAPObjectKey': bpDetails.businessPartner,
-                'x-csrf-token': 'fetch'
-            }
-        }).then(response => {
-                const headers = {
-                    token: response.headers['x-csrf-token'],
-                    cookie: response.headers['set-cookie'][0]
-                };
-                logger.info("Success - Fetching CSRF Token : ");
-                return headers;
-        }).catch(error => {
-            logger.info("Error - Fetching CSRF token Error", error);
-            throw util.errorHandler(error, logger);
-        });
-}*/
 
 async function fetchXsrfToken(destinationConfiguration, accessToken, bpDetails, destinationNameFromContext) {
     const businessPartnerSrvApi = destinationNameFromContext.businessPartnerSrvApi;

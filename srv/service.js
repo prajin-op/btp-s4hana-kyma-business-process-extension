@@ -5,50 +5,37 @@ module.exports = async srv => {
   const axios = require('axios');
   const bupaSrv = await cds.connect.to("API_BUSINESS_PARTNER");
   const messaging = await cds.connect.to('messaging')
-  const namespace = messaging.options.credentials && messaging.options.credentials.namespace
   const { postcodeValidator } = require('postcode-validator');
   const LOG = cds.log('georel-service')
 
-  srv.on("READ", BusinessPartnerAddress, req => bupaSrv.tx(req).run(req.query))
-  srv.on("READ", BusinessPartner, req => bupaSrv.tx(req).run(req.query))
+  srv.on("READ", BusinessPartnerAddress, req => bupaSrv.run(req.query))
+  srv.on("READ", BusinessPartner, req => bupaSrv.run(req.query))
   //works locally
-  messaging.on(`${namespace}/ce/sap/s4/beh/businesspartner/v1/BusinessPartner/Created/v1`, async msg => {
-    try {
-      bp = "";
-      bp = (+(msg.data.BusinessPartner)).toString();
-      LOG.info("<< Business Partner creation event caught", bp);
-      const BUSINESSPARTNER = (+(msg.data.BusinessPartner)).toString();
-      const bpEntity = await bupaSrv.tx(msg).run(SELECT.one(BusinessPartner).where({ businessPartnerId: BUSINESSPARTNER }));
-      const result = await cds.tx(msg).run(INSERT.into(Notifications).entries({ businessPartnerId: BUSINESSPARTNER, verificationStatus_code: 'N', businessPartnerName: bpEntity.businessPartnerName }));
-      const address = await bupaSrv.tx(msg).run(SELECT.one(BusinessPartnerAddress).where({ businessPartnerId: BUSINESSPARTNER }));
+  messaging.on(`ce/sap/s4/beh/businesspartner/v1/BusinessPartner/Created/v1`, async msg => {
+      const BUSINESSPARTNER = msg.data.BusinessPartner
+      const bpEntity = await bupaSrv.run(SELECT.one(BusinessPartner).where({ businessPartnerId: BUSINESSPARTNER }));
+      LOG.debug("bpEntity", bpEntity);
+      const result = await cds.run(INSERT.into(Notifications).entries({ businessPartnerId: BUSINESSPARTNER, verificationStatus_code: 'N', businessPartnerName: bpEntity.businessPartnerName }));
+      const address = await bupaSrv.run(SELECT.one(BusinessPartnerAddress).where({ businessPartnerId: BUSINESSPARTNER }));
       // for the address to notification association - extra field
       if (address) {
         LOG.info("Address recieved");
         LOG.debug("Received address is", address);
-        const notificationObj = await cds.tx(msg).run(SELECT.one(Notifications).columns("ID").where({ businessPartnerId: BUSINESSPARTNER }));
+        const notificationObj = await cds.run(SELECT.one(Notifications).columns("ID").where({ businessPartnerId: BUSINESSPARTNER }));
         address.notifications_ID = notificationObj.ID;
-        const res = await cds.tx(msg).run(INSERT.into(Addresses).entries(address));
+        const res = await cds.run(INSERT.into(Addresses).entries(address));
         LOG.info("Address inserted");
       }
-    } catch (error) {
-      LOG.error("Error in message listener: ", error);
-    }
   });
 
-  messaging.on(`${namespace}/ce/sap/s4/beh/businesspartner/v1/BusinessPartner/Changed/v1`, async msg => {
-    try {
-      bpupdate = "";
-      bpupdate = (+(msg.data.BusinessPartner)).toString();
-      LOG.info("bpupdate", bpupdate);
-      const BUSINESSPARTNER = (+(msg.data.BusinessPartner)).toString();
-      const bpIsAlive = await cds.tx(msg).run(SELECT.one(Notifications, (n) => n.verificationStatus_code).where({ businessPartnerId: BUSINESSPARTNER }));
+  messaging.on(`ce/sap/s4/beh/businesspartner/v1/BusinessPartner/Changed/v1`, async msg => {
+      const BUSINESSPARTNER = msg.data.BusinessPartner
+      LOG.info("BUSINESSPARTNER", BUSINESSPARTNER);
+      const bpIsAlive = await cds.run(SELECT.one(Notifications, (n) => n.verificationStatus_code).where({ businessPartnerId: BUSINESSPARTNER }));
       if (bpIsAlive && bpIsAlive.verificationStatus_code == "V") {
-        const bpMarkVerified = await cds.tx(msg).run(UPDATE(Notifications).where({ businessPartnerId: BUSINESSPARTNER }).set({ verificationStatus_code: "C" }));
+        const bpMarkVerified = await cds.run(UPDATE(Notifications).where({ businessPartnerId: BUSINESSPARTNER }).set({ verificationStatus_code: "C" }));
       }
       LOG.info("<< Business Partner marked verified >>");
-    } catch (error) {
-      LOG.error("Error in message listener: ", error);
-    }
   });
 
   srv.after("UPDATE", "Notifications", (data, req) => {
@@ -80,9 +67,8 @@ module.exports = async srv => {
   });
 
   async function emitEvent(result, req) {
-    try {
       LOG.info("emit event");
-      const resultJoin = await cds.tx(req).run(SELECT.one("my.businessPartnerValidation.Notifications as N").leftJoin("my.businessPartnerValidation.Addresses as A").on("N.businessPartnerId = A.businessPartnerId").where({ "N.ID": result.ID }));
+      const resultJoin = await cds.run(SELECT.one("my.businessPartnerValidation.Notifications as N").leftJoin("my.businessPartnerValidation.Addresses as A").on("N.businessPartnerId = A.businessPartnerId").where({ "N.ID": result.ID }));
       const statusValues = { "N": "NEW", "P": "PROCESS", "INV": "INVALID", "V": "VERIFIED" }
       // Format JSON as per serverless requires
       const payload = {
@@ -95,11 +81,9 @@ module.exports = async srv => {
         "country": resultJoin.country,
         "addressModified": resultJoin.isModified
       }
-      LOG.info("<< formatted message>>>>>", payload);
-      messaging.tx(req).emit(`${namespace}/SalesService/d41d/BusinessPartnerVerified`, payload);
-    } catch (error) {
-      LOG.error("Error in emitting event: ", error);
-    }
+      LOG.info(`<< emit formatted >>>>> ${JSON.stringify(payload)}`);
+      let msg =  await messaging.emit(`SalesService/d41d/BusinessPartnerVerified`, payload);
+      LOG.info(`Message emitted to Queue ${msg}`);
   }
 
 }
