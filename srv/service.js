@@ -38,10 +38,10 @@ module.exports = async srv => {
       LOG.info("<< Business Partner marked verified >>");
   });
 
-  srv.after("UPDATE", "Notifications", (data, req) => {
+  srv.after("UPDATE", "Notifications", async (data, req) => {
     LOG.info("Notification update", data.businessPartnerId);
     if (data.verificationStatus_code === "V" || data.verificationStatus_code === "INV")
-      emitEvent(data, req);
+      await emitEvent(data, req);
   });
 
   srv.before("SAVE", "Notifications", req => {

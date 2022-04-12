@@ -62,7 +62,7 @@ async function processBpPayload(accessToken, destinationConfiguration, msg, dest
 
 async function fetchXsrfToken(destinationConfiguration, accessToken, bpDetails, destinationNameFromContext) {
     const businessPartnerSrvApi = destinationNameFromContext.businessPartnerSrvApi;
-    return await axios({
+    const response =  await axios({
             method: 'get',
             url: destinationConfiguration.URL  + "/sap/opu/odata/sap/" + businessPartnerSrvApi+"/A_BusinessPartnerAddress",
             headers: {
@@ -70,83 +70,80 @@ async function fetchXsrfToken(destinationConfiguration, accessToken, bpDetails, 
                 'x-csrf-token': 'fetch',
                 'SAP-Connectivity-SCC-Location_ID': destinationConfiguration.CloudConnectorLocationId 
             }
-        }).then(response => {
-                var cookies = '"';
-                for (var i = 0; i < response.headers["set-cookie"].length; i++) {
-                        cookies += response.headers["set-cookie"][i] + ";";
-                }
-                cookies += '"';
-                const headers = {
-                    token: response.headers['x-csrf-token'],
-                    cookie: cookies
-                };
-                logger.info("Success - Fetching CSRF Token : ");
-             console.log("success fetching xsrf token");
-                return headers;
         }).catch(error => {
             console.log("errorin fetching xsrf token");
             logger.info("Error - Fetching CSRF token Error");
              logger.error(error);
             throw util.errorHandler(error, logger);
         });
+    var cookies = '"';
+    for (var i = 0; i < response.headers["set-cookie"].length; i++) {
+        cookies += response.headers["set-cookie"][i] + ";";
+    }
+    cookies += '"';
+    const headers = {
+        token: response.headers['x-csrf-token'],
+        cookie: cookies
+    };
+    logger.info("Success - Fetching CSRF Token : ");
+    console.log("success fetching xsrf token");
+    return headers;
 }
 
 async function updateBpAddress(destinationConfiguration, accessToken, headers, bpDetails, destinationNameFromContext) {
-        const businessPartnerSrvApi = destinationNameFromContext.businessPartnerSrvApi;
-        return await axios({
-            method: 'patch',
-            url: destinationConfiguration.URL + "/sap/opu/odata/sap/" + businessPartnerSrvApi+"/A_BusinessPartnerAddress(BusinessPartner='" + bpDetails.businessPartner + "',AddressID='" + bpDetails.addressId + "')",
-            headers: {
-                'Authorization': `Basic ${accessToken}`,
-                'Content-Type': 'application/json',
-                'x-csrf-token': headers.token,
-                'Cookie': headers.cookie,
-                 'SAP-Connectivity-SCC-Location_ID': destinationConfiguration.CloudConnectorLocationId  
-            },
-            data: {
-                "PostalCode": bpDetails.postalCode,
-                "StreetName": bpDetails.streetName
-            }
-        }).then(response =>{
-             console.log("SUCCESS - Updating BP Address");
-            logger.info("SUCCESS - Updating BP Address");
-        }).catch(error => {
-                 console.log("Failed - Updating BP Address");
-            logger.info("Error Updating BP Address", error);
-            throw util.errorHandler(error, logger);
-        });
+    const businessPartnerSrvApi = destinationNameFromContext.businessPartnerSrvApi;
+    const response = await axios({
+        method: 'patch',
+        url: destinationConfiguration.URL + "/sap/opu/odata/sap/" + businessPartnerSrvApi+"/A_BusinessPartnerAddress(BusinessPartner='" + bpDetails.businessPartner + "',AddressID='" + bpDetails.addressId + "')",
+        headers: {
+            'Authorization': `Basic ${accessToken}`,
+            'Content-Type': 'application/json',
+            'x-csrf-token': headers.token,
+            'Cookie': headers.cookie,
+            'SAP-Connectivity-SCC-Location_ID': destinationConfiguration.CloudConnectorLocationId  
+        },
+        data: {
+            "PostalCode": bpDetails.postalCode,
+            "StreetName": bpDetails.streetName
+        }
+    }).catch(error => {
+        console.log("Failed - Updating BP Address");
+        logger.info("Error Updating BP Address", error);
+        throw util.errorHandler(error, logger);
+    });
+    console.log("SUCCESS - Updating BP Address");
+    logger.info("SUCCESS - Updating BP Address");
 }
 
 async function updateBp(destinationConfiguration, accessToken, headers, bpDetails, destinationNameFromContext) {
     const businessPartnerSrvApi = destinationNameFromContext.businessPartnerSrvApi;
-       return await axios({
-            method: 'patch',
-            url: destinationConfiguration.URL + "/sap/opu/odata/sap/" + businessPartnerSrvApi+ "/A_BusinessPartner('" + bpDetails.businessPartner + "')",
-            headers: {
-                'Authorization': `Basic ${accessToken}`,
-                'Content-Type': 'application/json',
-                'x-csrf-token': headers.token,
-                'Cookie': headers.cookie,
-                 'SAP-Connectivity-SCC-Location_ID': destinationConfiguration.CloudConnectorLocationId
-            },
-            data: {
-                "SearchTerm1": bpDetails.searchTerm1,
-                "BusinessPartnerIsBlocked": bpDetails.businessPartnerIsBlocked
-            }
-        }).then(response =>{
-            logger.info("Success - Updating BP");
-        }).catch(error => {
-            logger.info("Error in Updating BP");
-            throw util.errorHandler(error, logger);
-        });
+    const response = await axios({
+        method: 'patch',
+        url: destinationConfiguration.URL + "/sap/opu/odata/sap/" + businessPartnerSrvApi+ "/A_BusinessPartner('" + bpDetails.businessPartner + "')",
+        headers: {
+            'Authorization': `Basic ${accessToken}`,
+            'Content-Type': 'application/json',
+            'x-csrf-token': headers.token,
+            'Cookie': headers.cookie,
+            'SAP-Connectivity-SCC-Location_ID': destinationConfiguration.CloudConnectorLocationId
+        },
+        data: {
+            "SearchTerm1": bpDetails.searchTerm1,
+            "BusinessPartnerIsBlocked": bpDetails.businessPartnerIsBlocked
+        }
+    }).catch(error => {
+        logger.info("Error in Updating BP");
+        throw util.errorHandler(error, logger);
+    });
+    logger.info("Success - Updating BP");
 }
 
 async function postGeneratedImage(destinationConfiguration, accessToken, headers, bpDetails, destinationNameFromContext) {
     const attachmentSrvApi = destinationNameFromContext.attachmentSrvApi;
     const businessObjectTypeName = destinationNameFromContext.businessObjectTypeName;
-            return await generateQRCode(bpDetails).then(async image =>{
+        return await generateQRCode(bpDetails).then(async image =>{
                 const bp = bpDetails.businessPartner;
-                return await axios({
+                const response =  await axios({
                     method: 'post',
                     url: destinationConfiguration.URL + "/sap/opu/odata/sap/" + attachmentSrvApi+ "/AttachmentContentSet",
                     headers: {
@@ -160,15 +157,13 @@ async function postGeneratedImage(destinationConfiguration, accessToken, headers
                         'SAP-Connectivity-SCC-Location_ID': destinationConfiguration.CloudConnectorLocationId
                     },
                     data: image,
-                }).then(response =>{
-                    console.log("success image");
-                    logger.info("SUCCESS - Uploading Image");
                 }).catch(error => {
-                    console.log("uploading image");
-                        
+                    console.log("uploading image");   
                     logger.info("ERROR - Uploading Image");
                     throw util.errorHandler(error, logger);
                 });
+                    console.log("success image");
+                    logger.info("SUCCESS - Uploading Image");
             }).catch(error => {
                 logger.info("ERROR - uploading image");
                 throw error;

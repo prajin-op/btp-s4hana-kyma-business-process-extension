@@ -243,7 +243,7 @@ spec:
                           "credentials": {
                             "clientid": "$(conn_clientid)",
                             "clientsecret": "$(conn_clientsecret)",
-                            "onpremise_proxy_host": "connectivity-proxy.cc",
+                            "onpremise_proxy_host": "connectivity-proxy.kyma-system.svc.cluster.local",
                             "onpremise_proxy_port": "20003",
                             "url": "$(conn_token_service_url)"
                             },
