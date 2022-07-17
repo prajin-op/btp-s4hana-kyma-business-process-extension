@@ -1,65 +1,80 @@
 ---
-apiVersion: servicecatalog.k8s.io/v1beta1
+# apiVersion: servicecatalog.k8s.io/v1beta1
+# kind: ServiceInstance
+# metadata:
+#   name: kyma-app-host-instance
+# spec:
+#   clusterServiceClassExternalName: html5-apps-repo
+#   clusterServicePlanExternalName: app-host
+
+apiVersion: services.cloud.sap.com/v1alpha1
 kind: ServiceInstance
 metadata:
   name: kyma-app-host-instance
 spec:
-  clusterServiceClassExternalName: html5-apps-repo
-  clusterServicePlanExternalName: app-host
+  serviceOfferingName: html5-apps-repo
+  servicePlanName: app-host
 
 ---
-apiVersion: servicecatalog.k8s.io/v1beta1
+# apiVersion: servicecatalog.k8s.io/v1beta1
+# kind: ServiceBinding
+# metadata:
+#   name: kyma-app-host-binding
+# spec:
+#   instanceRef:
+#     name: kyma-app-host-instance
+
+apiVersion: services.cloud.sap.com/v1alpha1
 kind: ServiceBinding
 metadata:
   name: kyma-app-host-binding
 spec:
-  instanceRef:
-    name: kyma-app-host-instance
+  serviceInstanceName: kyma-app-host-instance
 
 
 ---
-apiVersion: servicecatalog.k8s.io/v1beta1
+apiVersion: services.cloud.sap.com/v1alpha1
 kind: ServiceBinding
 metadata:
-  name: kyma-xsuaa-binding
+  name: {{ .Release.Name }}-kymacap-xsuaa-binding
 spec:
-  instanceRef:
-    name: {{ .Release.Name }}-xsuaademo
+  serviceInstanceName: {{ .Release.Name }}-kymacap-xsuaademo  
+
 
 ---
-apiVersion: servicecatalog.kyma-project.io/v1alpha1
-kind: ServiceBindingUsage
-metadata:
-  name: kyma-xsuaa-binding
-  namespace: {{.Values.namespace}}
-  labels:
-     name: kyma-xsuaa-binding
-spec:
-  serviceBindingRef:
-    name: kyma-xsuaa-binding
-  usedBy:
-    kind: Deployment
-    name: html5appdeployer
+# apiVersion: servicecatalog.kyma-project.io/v1alpha1
+# kind: ServiceBindingUsage
+# metadata:
+#   name: kyma-xsuaa-binding
+#   namespace: {{.Values.namespace}}
+#   labels:
+#      name: kyma-xsuaa-binding
+# spec:
+#   serviceBindingRef:
+#     name: kyma-xsuaa-binding
+#   usedBy:
+#     kind: Deployment
+#     name: html5appdeployer
 ---
-apiVersion: servicecatalog.k8s.io/v1beta1
+apiVersion: services.cloud.sap.com/v1alpha1
 kind: ServiceInstance
 metadata:
   name: kyma-destination-instance
 spec:
-  clusterServiceClassExternalName: destination
-  clusterServicePlanExternalName: lite
+  serviceOfferingName: destination
+  servicePlanName: lite
   parameters:
     HTML5Runtime_enabled: true
     version: "1.0.0"
 
 ---
-apiVersion: servicecatalog.k8s.io/v1beta1
+apiVersion: services.cloud.sap.com/v1alpha1
 kind: ServiceBinding
 metadata:
-  name: kyma-destination-binding
+  name: {{ .Release.Name }}-kymacap-destination-binding
 spec:
-  instanceRef:
-    name: kyma-destination-instance       
+  serviceInstanceName: kyma-destination-instance   
+       
 
 ---
 apiVersion: batch/v1
@@ -88,10 +103,10 @@ spec:
               mountPath: /etc/secrets/sapcp/html5-apps-repo/kyma-app-host-instance
               readOnly: true
             - name: xsuaa-volume
-              mountPath: /etc/secrets/sapcp/xsuaa/{{ .Release.Name }}-xsuaademo
+              mountPath: /etc/secrets/sapcp/xsuaa/{{ .Release.Name }}-kymacap-xsuaa-binding
               readOnly: true
             - name: destination-volume
-              mountPath: /etc/secrets/sapcp/destination/kyma-destination-instance
+              mountPath: /etc/secrets/sapcp/destination/{{ .Release.Name }}-kymacap-destination-binding
               readOnly: true
           env:
             - name: EXIT_PROCESS_AFTER_UPLOAD
@@ -115,7 +130,7 @@ spec:
             secretName: kyma-app-host-binding
         - name: xsuaa-volume
           secret:
-            secretName: kyma-xsuaa-binding
+            secretName: {{ .Release.Name }}-kymacap-xsuaa-binding
         - name: destination-volume
           secret:
-            secretName: kyma-destination-binding
+            secretName: {{ .Release.Name }}-kymacap-dest-binding

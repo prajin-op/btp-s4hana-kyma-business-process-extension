@@ -42,128 +42,136 @@ stringData:
     }
 ---
 
-apiVersion: servicecatalog.k8s.io/v1beta1
+# apiVersion: services.cloud.sap.com/v1alpha1
+# kind: ServiceBinding
+# metadata:
+#   name: {{ .Release.Name }}-em-binding
+#   namespace: {{.Values.namespace}}
+#   labels:
+#     name: kyma-cap-s4ems
+# spec:
+#   serviceInstanceName: {{ .Release.Name }}emdemo
+
+  apiVersion: services.cloud.sap.com/v1alpha1
+  kind: ServiceBinding
+  metadata:
+      name: {{ .Release.Name }}-kymacap-em-binding
+  spec:
+      serviceInstanceName: {{ .Release.Name }}-kymacapemdemo
+      externalName: ''
+      parameters: {}     
+
+
+---
+
+# apiVersion: servicecatalog.kyma-project.io/v1alpha1
+# kind: ServiceBindingUsage
+# metadata:
+#   name: {{ .Release.Name }}-kymacap-emservicebindingusage
+#   namespace: {{.Values.namespace}}
+#   labels:
+#      name: kyma-cap-s4ems
+# spec:
+#   serviceInstanceName: kymacapemdemo
+#   parameters: 
+#     envPrefix:
+#       name: cds_requires_messaging_credentials_
+#   serviceBindingRef:
+#     name: kymacap-em-binding
+#   usedBy:
+#     kind: deployment
+#     name: kymacap-kymacap
+
+---
+
+apiVersion: services.cloud.sap.com/v1alpha1
 kind: ServiceBinding
 metadata:
-  name: {{ .Release.Name }}-em-binding
-  namespace: {{.Values.namespace}}
-  labels:
-    name: kyma-cap-s4ems
-spec:
-  instanceRef:
-    name: {{ .Release.Name }}emdemo
----
-
-apiVersion: servicecatalog.kyma-project.io/v1alpha1
-kind: ServiceBindingUsage
-metadata:
-  name: {{ .Release.Name }}-emservicebindingusage
+  name: {{ .Release.Name }}-kymacap-dest-binding
   namespace: {{.Values.namespace}}
   labels:
      name: kyma-cap-s4ems
 spec:
-  parameters: 
-    envPrefix:
-      name: cds_requires_messaging_credentials_
-  serviceBindingRef:
-    name: {{ .Release.Name }}-em-binding
-  usedBy:
-    kind: deployment
-    name: {{ .Release.Name }}-kymacap
+  serviceInstanceName: {{ .Release.Name }}-kymacap-destdemo
+---
+
+# apiVersion: servicecatalog.kyma-project.io/v1alpha1
+# kind: ServiceBindingUsage
+# metadata:
+#   name: {{ .Release.Name }}-destservicebindingusage
+#   namespace: {{.Values.namespace}}
+#   labels:
+#      name: kyma-cap-s4ems
+# spec:
+#   parameters:
+#     envPrefix:
+#       name: cds_requires_destination_credentials_
+#   serviceBindingRef:
+#     name: {{ .Release.Name }}-dest-binding
+#   usedBy:
+#     kind: deployment
+#     name: {{ .Release.Name }}-kymacap
 
 ---
 
-apiVersion: servicecatalog.k8s.io/v1beta1
+apiVersion: services.cloud.sap.com/v1alpha1
 kind: ServiceBinding
 metadata:
-  name: {{ .Release.Name }}-dest-binding
+  name: {{ .Release.Name }}-kymacap-xsuaa-binding
   namespace: {{.Values.namespace}}
   labels:
      name: kyma-cap-s4ems
 spec:
-  instanceRef:
-    name: {{ .Release.Name }}-destdemo
----
-
-apiVersion: servicecatalog.kyma-project.io/v1alpha1
-kind: ServiceBindingUsage
-metadata:
-  name: {{ .Release.Name }}-destservicebindingusage
-  namespace: {{.Values.namespace}}
-  labels:
-     name: kyma-cap-s4ems
-spec:
-  parameters:
-    envPrefix:
-      name: cds_requires_destination_credentials_
-  serviceBindingRef:
-    name: {{ .Release.Name }}-dest-binding
-  usedBy:
-    kind: deployment
-    name: {{ .Release.Name }}-kymacap
+  serviceInstanceName: {{ .Release.Name }}-kymacap-xsuaademo
 
 ---
+# apiVersion: servicecatalog.kyma-project.io/v1alpha1
+# kind: ServiceBindingUsage
+# metadata:
+#   name: {{ .Release.Name }}-xsuaaservicebindingusage
+#   namespace: {{.Values.namespace}}
+#   labels:
+#      name: kyma-cap-s4ems
+# spec:
+#   parameters:
+#     envPrefix:
+#       name: cds_requires_xsuaa_credentials_
+#   serviceBindingRef:
+#     name: {{ .Release.Name }}-xsuaa-binding
+#   usedBy:
+#     kind: deployment
+#     name: {{ .Release.Name }}-kymacap
 
-apiVersion: servicecatalog.k8s.io/v1beta1
+---
+
+apiVersion: services.cloud.sap.com/v1alpha1
 kind: ServiceBinding
 metadata:
-  name: {{ .Release.Name }}-xsuaa-binding
+  name: {{ .Release.Name }}-kymacap-conn-binding
   namespace: {{.Values.namespace}}
   labels:
      name: kyma-cap-s4ems
 spec:
-  instanceRef:
-    name: {{ .Release.Name }}-xsuaademo
-
----
-apiVersion: servicecatalog.kyma-project.io/v1alpha1
-kind: ServiceBindingUsage
-metadata:
-  name: {{ .Release.Name }}-xsuaaservicebindingusage
-  namespace: {{.Values.namespace}}
-  labels:
-     name: kyma-cap-s4ems
-spec:
-  parameters:
-    envPrefix:
-      name: cds_requires_xsuaa_credentials_
-  serviceBindingRef:
-    name: {{ .Release.Name }}-xsuaa-binding
-  usedBy:
-    kind: deployment
-    name: {{ .Release.Name }}-kymacap
+  serviceInstanceName: {{ .Release.Name }}-kymacap-conndemo
 
 ---
 
-apiVersion: servicecatalog.k8s.io/v1beta1
-kind: ServiceBinding
-metadata:
-  name: {{ .Release.Name }}-conn-binding
-  namespace: {{.Values.namespace}}
-  labels:
-     name: kyma-cap-s4ems
-spec:
-  instanceRef:
-    name: {{ .Release.Name }}-conndemo
-
----
-
-apiVersion: servicecatalog.kyma-project.io/v1alpha1
-kind: ServiceBindingUsage
-metadata:
-  name: {{ .Release.Name }}-connservicebindingusage
-  namespace: {{.Values.namespace}}
-  labels:
-     name: kyma-cap-s4ems
-spec:
-  parameters:
-    envPrefix:
-      name: conn_
-  serviceBindingRef:
-    name: {{ .Release.Name }}-conn-binding
-  usedBy:
-    kind: deployment
-    name: {{ .Release.Name }}-kymacap
+# apiVersion: servicecatalog.kyma-project.io/v1alpha1
+# kind: ServiceBindingUsage
+# metadata:
+#   name: {{ .Release.Name }}-connservicebindingusage
+#   namespace: {{.Values.namespace}}
+#   labels:
+#      name: kyma-cap-s4ems
+# spec:
+#   parameters:
+#     envPrefix:
+#       name: conn_
+#   serviceBindingRef:
+#     name: {{ .Release.Name }}-conn-binding
+#   usedBy:
+#     kind: deployment
+#     name: {{ .Release.Name }}-kymacap
 
 ---
 
@@ -193,6 +201,18 @@ spec:
         - name: hana-credentials-vol
           secret:
             secretName: {{ .Release.Name }}-hana-secret
+        - name: em-credentials-vol
+          secret:
+            secretName: {{ .Release.Name }}-kymacap-em-binding 
+        - name: xsuaa-credentials-vol
+          secret:
+            secretName: {{ .Release.Name }}-kymacap-xsuaa-binding
+        - name: dest-credentials-vol
+          secret:
+            secretName: {{ .Release.Name }}-kymacap-dest-binding
+        - name: conn-credentials-vol
+          secret:
+            secretName: {{ .Release.Name }}-kymacap-conn-binding                
       initContainers:
       - name: {{ .Release.Name }}-initdbservice
         image: {{.Values.hdiimage}}
@@ -224,6 +244,8 @@ spec:
         env:
           - name: CDS_CONFIG
             value: /etc/secrets/cds
+          - name: CDS_ENV_FEATURES_ASSERT_INTEGRITY
+            value: 'false'  
           - name: SERVERLESS_URL
             value: https://{{ .Release.Name }}-qrcodegenerator.{{ .Values.clusterurl }}
           - name: VCAP_SERVICES
@@ -241,11 +263,11 @@ spec:
                             "connsvc"
                           ],
                           "credentials": {
-                            "clientid": "$(conn_clientid)",
-                            "clientsecret": "$(conn_clientsecret)",
+                            "clientid": "sb-cloned2379d06ccc84eecba6bbeb1d200818e!b15623|connectivity!b137",
+                            "clientsecret": "a97dae04-9dc3-4ab4-a9d0-604b2d943bfc$wrKECi09IRAVlwZnYPs3AxxruqjOlpXwBCWNfX9yhaY=",
                             "onpremise_proxy_host": "connectivity-proxy.kyma-system.svc.cluster.local",
                             "onpremise_proxy_port": "20003",
-                            "url": "$(conn_token_service_url)"
+                            "url": "https://referenceapps-ga-saas.authentication.sap.hana.ondemand.com/oauth/token"
                             },
                           "syslog_drain_url": null,
                           "volume_mounts": []
@@ -256,6 +278,18 @@ spec:
           - name: hana-credentials-vol
             mountPath: /etc/secrets/cds/requires/db/credentials
             readOnly: true
+          - name: em-credentials-vol
+            mountPath: /etc/secrets/cds/requires/messaging/credentials
+            readOnly: true
+          - name: xsuaa-credentials-vol
+            mountPath: /etc/secrets/cds/requires/uaa/credentials
+            readOnly: true 
+          - name: dest-credentials-vol
+            mountPath: /etc/secrets/cds/requires/destination/credentials
+            readOnly: true
+          - name: conn-credentials-vol
+            mountPath: /etc/secrets/cds/requires/connectivity/credentials
+            readOnly: true        
   
 
 ---
@@ -298,5 +332,3 @@ spec:
       accessStrategies:
         - handler: noop
       mutators: []
-
-

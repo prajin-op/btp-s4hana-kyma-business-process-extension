@@ -10,7 +10,7 @@ logger.setLoggingLevel("info");
 async function postImage(context, msg, event) {
         try{
             logger.info("msg in onprem image", msg.data);
-                
+            logger.info("msg in process.env", process.env);  
             const destination = {};
             for (const envName of Object.getOwnPropertyNames(process.env).filter( name => name.startsWith("dest_"))) {
                 const name = envName.substr("dest_".length);

@@ -1,4 +1,4 @@
-FROM node:12-slim AS build
+FROM node:16-slim AS build
 
 ENV NODE_ENV=production
 WORKDIR /usr/src/app
@@ -7,7 +7,7 @@ RUN apt-get install -y openssl python make g++
 COPY gen/db/package.json .
 RUN npm install
 
-FROM node:12-slim
+FROM node:16-slim
 ENV NODE_ENV=production
 WORKDIR /usr/src/app
 RUN apt-get update

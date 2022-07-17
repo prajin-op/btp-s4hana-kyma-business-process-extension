@@ -1,26 +1,32 @@
 
-apiVersion: servicecatalog.k8s.io/v1beta1
+apiVersion: services.cloud.sap.com/v1alpha1
 kind: ServiceInstance
 metadata:
-  name: {{ .Release.Name }}-xsuaademo
-  namespace: {{.Values.namespace}}
+  name: {{ .Release.Name }}-kymacap-xsuaademo
+  namespace: amit
+  labels:
+    app.kubernetes.io/name: kyma-cap-s4ems
 spec:
-  clusterServiceClassExternalName: xsuaa
-  clusterServicePlanExternalName: application
+  externalName: ''
+  serviceOfferingName: xsuaa
+  servicePlanName: application
   parameters:
-    xsappname: {{ .Release.Name }}-BusinessPartnerValidation
+    xsappname: kymacap-BusinessPartnerValidation
     tenant-mode: dedicated
-    oauth2-configuration:
-      redirect-uris:
-        - https://*/**
+    oauth2-configuration: 
+      redirect-uris: 
+      - https://*/**
 
 ---
+
 apiVersion: v1
 kind: Secret
+type: Opaque
 metadata:
-  name: {{ .Release.Name }}-emdemo
-  namespace: {{.Values.namespace}}
-type: opaque
+  name: {{ .Release.Name }}-kymacap-emdemo
+  labels:
+    app.kubernetes.io/name: kyma-cap-s4ems
+  annotations: {}
 stringData: 
   emsecret: >
      {{.Values.emsecret}}
@@ -28,40 +34,49 @@ stringData:
 
 ---
 
-apiVersion: servicecatalog.k8s.io/v1beta1
+apiVersion: services.cloud.sap.com/v1alpha1
 kind: ServiceInstance
 metadata:
-  name: {{ .Release.Name }}emdemo
-  namespace: {{.Values.namespace}}
-spec: 
-  clusterServiceClassExternalName: enterprise-messaging
-  clusterServicePlanExternalName: default
-  parametersFrom: 
-    - secretKeyRef: 
-        name: {{ .Release.Name }}-emdemo
-        key: emsecret
+  name: {{ .Release.Name }}-kymacapemdemo
+  namespace: amit
+  labels:
+    app.kubernetes.io/name: kyma-cap-s4ems
+spec:
+  externalName: ''
+  serviceOfferingName: enterprise-messaging
+  servicePlanName: default
+  parameters:
+    {{.Values.emsecret}}
 
 ---
 
-apiVersion: servicecatalog.k8s.io/v1beta1
+apiVersion: services.cloud.sap.com/v1alpha1
 kind: ServiceInstance
 metadata:
-  name: {{ .Release.Name }}-destdemo
-  namespace: {{.Values.namespace}}
-spec: 
-  clusterServiceClassExternalName: destination
-  clusterServicePlanExternalName: lite
+  name: {{ .Release.Name }}-kymacap-destdemo
+  namespace: amit
+  labels:
+    app.kubernetes.io/name: kyma-cap-s4ems
+spec:
+  externalName: ''
+  serviceOfferingName: destination
+  servicePlanName: lite
+  parameters: {}
 
 ---
 
-apiVersion: servicecatalog.k8s.io/v1beta1
+apiVersion: services.cloud.sap.com/v1alpha1
 kind: ServiceInstance
 metadata:
-  name: {{ .Release.Name }}-conndemo
-  namespace: {{.Values.namespace}}
-spec: 
-  clusterServiceClassExternalName: connectivity
-  clusterServicePlanExternalName: connectivity_proxy
+  name: {{ .Release.Name }}-kymacap-conndemo
+  namespace: amit
+  labels:
+    app.kubernetes.io/name: kyma-cap-s4ems
+spec:
+  externalName: ''
+  serviceOfferingName: connectivity
+  servicePlanName: connectivity_proxy
+  parameters: {}
 
 
     

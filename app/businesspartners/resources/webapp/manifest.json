@@ -145,7 +145,7 @@
     },
     "sap.cloud": {
 		"public": true,
-		"service": "sap.bp"
+		"service": "com.bp.businesspartners"
 	},
     "sap.platform.hcp": {
         "_version": "1.1.0",

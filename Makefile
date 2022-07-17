@@ -1,16 +1,20 @@
 
-DOCKER_ACCOUNT=<DOCKER ACCOUNT>
+DOCKER_ACCOUNT=<DOCKER_REPOSITORY>
+
+cds-build:
+	cds build --production
 
 build-dbimage:
-	docker build --pull --rm -f db.Dockerfile -t $(DOCKER_ACCOUNT)/kymahdi:latest .
+	docker build --pull --rm -f db.Dockerfile -t $(DOCKER_ACCOUNT)/kyma-cap-s4ems-db:latest .
 
 build-capimage: ## Build the container without caching
-	docker build --pull --rm -f Dockerfile -t $(DOCKER_ACCOUNT)/kymacaps4ems:latest .
+	pack build kyma-cap-s4ems-srv --path gen/srv --builder paketobuildpacks/builder:base
+	docker tag kyma-cap-s4ems-srv:latest $(DOCKER_ACCOUNT)/kyma-cap-s4ems-srv:latest
 
 build-uiimage:
-	docker build --pull --rm -f app/businesspartners/Dockerfile -t $(DOCKER_ACCOUNT)/kymacaps4ui:latest ./app/businesspartners
+	docker build --pull --rm -f app/businesspartners/Dockerfile -t $(DOCKER_ACCOUNT)/kyma-cap-s4ems-html5-deployer:latest ./app/businesspartners
 
-push-images: build-dbimage build-capimage build-uiimage
-	docker push $(DOCKER_ACCOUNT)/kymahdi:latest
-	docker push $(DOCKER_ACCOUNT)/kymacaps4ems:latest
-	docker push $(DOCKER_ACCOUNT)/kymacaps4ui:latest
+push-images: cds-build build-dbimage build-capimage build-uiimage
+	docker push $(DOCKER_ACCOUNT)/kyma-cap-s4ems-db:latest
+	docker push $(DOCKER_ACCOUNT)/kyma-cap-s4ems-srv:latest
+	docker push $(DOCKER_ACCOUNT)/kyma-cap-s4ems-html5-deployer:latest

@@ -6,9 +6,12 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@sap/cds": "5.8.0",
+    "@sap-cloud-sdk/http-client": "^2.5.0",
+    "@sap-cloud-sdk/util": "^2.5.0",
+    "@sap/cds": "6.0.2",
     "@sap/xb-msg-amqp-v100": "0.9.52",
     "@sap/xssec": "^3.2.3",
+    "axios": "^0.25.0",
     "express": "^4",
     "hdb": "^0.18.2",
     "passport": "^0.4.1",
@@ -16,7 +19,7 @@
   },
   "devDependencies": {
     "@sap/ux-specification": "^1.90.15",
-    "sqlite3": "^4.2.0"
+    "sqlite3": "5.0.8"
   },
   "scripts": {
     "start": "cds run",
@@ -53,7 +56,7 @@
           "vcap": {
             "label": "enterprise-messaging"
           },
-          "publishPrefix": "$namespace/", 
+          "publishPrefix": "$namespace/",
           "subscribePrefix": "$namespace/"
         }
       },

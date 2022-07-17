@@ -1,24 +1,4 @@
 
-apiVersion: servicecatalog.kyma-project.io/v1alpha1
-kind: ServiceBindingUsage
-metadata:
-  name: {{ .Release.Name }}-destservicebindingusagefunction
-  namespace: {{.Values.namespace}}
-  labels:
-     name: kyma-cap-s4ems
-spec:
-  parameters:
-    envPrefix:
-      name: dest_
-  serviceBindingRef:
-    name: {{ .Release.Name }}-dest-binding
-  usedBy:
-    kind: serverless-function
-    name: {{ .Release.Name }}-qrcodegenerator
-
----
-
-
 apiVersion: serverless.kyma-project.io/v1alpha1
 kind: Function
 metadata:
@@ -43,6 +23,27 @@ spec:
         configMapKeyRef:
           name: {{ .Release.Name }}-qrcodeconfig
           key: destination_name
+    - name: dest_clientid
+      valueFrom:
+        secretKeyRef:
+          name: {{ .Release.Name }}-srv-destinations
+          key: clientid
+    - name: dest_clientsecret
+      valueFrom:
+        secretKeyRef:
+          name: {{ .Release.Name }}-srv-destinations
+          key: clientsecret
+    - name: dest_uri
+      valueFrom:
+        secretKeyRef:
+          name: {{ .Release.Name }}-srv-destinations
+          key: uri
+    - name: dest_url
+      valueFrom:
+        secretKeyRef:
+          name: {{ .Release.Name }}-srv-destinations
+          key: url
+          
 
 ---
 

@@ -1,7 +1,7 @@
 hanacredentials: ''
 
 emsecret: '{
-        "emname": "gaem",
+        "emname": "<emname>",
         "namespace": "refapps/vcap/event",
         "options": {
           "management": true,
