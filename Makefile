@@ -5,9 +5,10 @@ cds-build:
 	cds build --production
 
 build-dbimage:
-	docker build --pull --rm -f db.Dockerfile -t $(DOCKER_ACCOUNT)/kyma-cap-s4ems-db:latest .
+	pack build kyma-cap-s4ems-db --path gen/db --builder paketobuildpacks/builder:base
+	docker tag kyma-cap-s4ems-db:latest $(DOCKER_ACCOUNT)/kyma-cap-s4ems-db:latest
 
-build-capimage: ## Build the container without caching
+build-capimage:
 	pack build kyma-cap-s4ems-srv --path gen/srv --builder paketobuildpacks/builder:base
 	docker tag kyma-cap-s4ems-srv:latest $(DOCKER_ACCOUNT)/kyma-cap-s4ems-srv:latest
 
