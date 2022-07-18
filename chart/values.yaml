@@ -1,7 +1,7 @@
 global:
   domain: <DOMAIN_NAME>
   imagePullSecret:
-    name: blank
+    name: <DOCKER_SECRET>
 srv:
   bindings:
     uaa:
@@ -13,7 +13,7 @@ srv:
     messaging:
       serviceInstanceName: event-mesh
   image:
-    repository: <DOCKER_REPOSITORY>/kyma-cap-s4ems-srv
+    repository: <DOCKER_ACCOUNT>/kyma-cap-s4ems-srv
     tag: latest
   resources:
     limits:
@@ -56,7 +56,7 @@ xsuaa:
   config: xs-security.json
 hana_deployer:
   image:
-    repository: <DOCKER_REPOSITORY>/kyma-cap-s4ems-db
+    repository: <DOCKER_ACCOUNT>/kyma-cap-s4ems-db
     tag: latest
   bindings:
     hana:
@@ -82,7 +82,7 @@ html5_apps_deployer:
     srv-binding: 
       service: srv
   image:
-    repository: <DOCKER_REPOSITORY>/kyma-cap-s4ems-html5-deployer
+    repository: <DOCKER_ACCOUNT>/kyma-cap-s4ems-html5-deployer
     tag: latest
   bindings:
     xsuaa:
