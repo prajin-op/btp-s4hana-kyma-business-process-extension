@@ -104,12 +104,15 @@ The application requires below set of SAP Business Technology Platform Entitleme
      
      `kubectl get gateway -n kyma-system kyma-gateway -o jsonpath='{.spec.servers[0].hosts[0]}'`
      
-   - Create a secret for your Docker repository and and replace the value of 
+   - For a 
+   
+     private container registry - Create a secret for your Docker repository and replace the value of DOCKER_SECRET with the created secret name
    
       `imagePullSecret:
        name: <DOCKER_SECRET>`
-       
-       If its a public repository create an empty secret and add the secret name above.
+     
+     public container registry - remove the code snippet from values.yaml file.
+     
    - Find all `<DOCKER_ACCOUNT>` and replace all with your docker account/repository
    - Find all `<RELEASE_NAME>` and replace all with your Helm CHart's release name
    - Edit the below for function deployment
