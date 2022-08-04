@@ -35,13 +35,14 @@ The Business Partner Validation application is developed using the SAP Cloud App
 * SAP S/4HANA on premise system.
 * SAP Business Technology Platform account
 
-### For local development you would require the following:
+### Prerequisites:
 * [Node js](https://nodejs.org/en/download/)
 * [kubectl command line tool (kubectl)]( https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/)
 * [Visual Studio Code](https://cap.cloud.sap/docs/get-started/in-vscode)
 * [cds-dk](https://cap.cloud.sap/docs/get-started/)
 * [SQLite ](https://sqlite.org/download.html)
 * [Docker](https://www.docker.com/products/docker-desktop)
+* Refer here for other [tools](https://cap.cloud.sap/docs/guides/deployment/deploy-to-kyma#prerequisites) required
 
 ### Entitlements
 
@@ -62,70 +63,67 @@ The application requires below set of SAP Business Technology Platform Entitleme
 
 ### Step 2: [Setup connectivity between S/4HANA system, SAP BTP](https://github.com/SAP-samples/cloud-extension-s4hana-business-process/blob/mission/mission/cloud-connector/README.md)
 
-### Step 3: HANA setup
-1. [Create an instance of SAP HANA Cloud](https://help.sap.com/viewer/9ae9104a46f74a6583ce5182e7fb20cb/hanacloud/en-US/f7febb16072b41f7ac90abf5ea1d4b86.html)
-2. Click on Services
-3. Click on Service Maketplace
-4. Look for HDI container and Schema and create an instance for the same.
-5. Create a service key for the created instance and copy it in the clipboard for later use.
-
-### Step 4: Build and deploy the CAP application
+### Step 3: Build and deploy the CAP application
 
 #### Kubeconfig setup
-1. Open the Kyma Console UI
-2. Click on the right side corner on the user icon
-3. Click on get KubeConfig
-4. Goto the folder where you have downloaded the kubeconfig file
-5. Right click and copy the file
-6. Goto my computer
-7. Create folder and name it kubectl
-8. Paste the file there, This file is to be replaced when the token is expired
-9. Set environment variable for kubectl with the value as path for the folder
-10. Set environment variable for KUBECONFIG with the value as path for the pasted config file
-11. Execute `kubectl get pods` to test the setup
+1. Download KubeConfig file from SAP BTP cockpit Overview page
+2. Right click and copy the file
+3. Goto my computer
+4. Create folder and name it kubectl
+5. Paste the file there, This file is to be replaced when the token is expired
+6. Set environment variable for kubectl with the value as path for the folder
+7. Set environment variable for KUBECONFIG with the value as path for the pasted config file
+8. Execute `kubectl get pods` to test the setup
+9. Set the context for your Kyma namespace: 
+   
+   `kubectl config set-context --current --namespace <your_namespace>`
+
+
+#### HANA setup
+1. [Create an instance of SAP HANA Cloud](https://help.sap.com/viewer/9ae9104a46f74a6583ce5182e7fb20cb/hanacloud/en-US/f7febb16072b41f7ac90abf5ea1d4b86.html)
+2. Clone the extension application and navigate to the root folder of the app.
+
+   `git clone <git_url>` 
+   
+4. Run `./script/db.sh`
+5. The script does the below:
+   - Creates HDI Service instance with the name caphana
+   - Creates a service key corresponding to the hdi service instance
+   - Creates a secret in Kyma for the created HDI instance 
 
 #### Steps to deploy the application on kyma runtime
 
-1. Edit package.json file in the root folder with the corresponding queue name and destination name.
-2. Build the application
-   `cds build --production`  
-3. Build and push images:
-   - `docker build --pull --rm -f "db.Dockerfile" -t <dockerrepo>/kymahdi:latest "."`
-   - `docker build --pull --rm -f "Dockerfile" -t <dockerrepo>/kymacaps4ems:latest "."`
-   - `docker build --pull --rm -f "app\Dockerfileui" -t <dockerrepo>/kymacaps4ui:latest "app"`
-   - `docker push <dockerrepo>/kymahdi:latest`
-   - `docker push <dockerrepo>/kymacaps4ems:latest `
-   - `docker push <dockerrepo>/kymacaps4ui:latest`
-4. Open helmcharts/values.yaml
-   - replace the hdi secrets
-   - Under emsecret: Change the value of emname and namespace with the appropriate values. The namespace should be same as in package.json.
-   - Change System Name with the system name of your S/4  HANA, its something you have created in the subaccount
-   - Change hdiimage:"value" with the value you have give for your docker for hdi container 
-   - change capimage to CAP app's image name 
-   - change uiimage to UI image's image name 
-   - change value of your kyma gateway for capapp
-   - change value of your kyma gateway for uiapp
-   - replace gitusername with encoderd username
-   - replace gitpassword with encoded password 
-   - replace giturl with url of your git repository 
-   - replace gitbranch with the name of your branch
-   - replace namespace with the kyma namespace where the application is inteded to be deployed.
-   - replace release name in cpapp and uiapp
+1. Open Makefile and Edit the value for DOCKER_ACCOUNT. 
+3. Build the applications and also create and push the docker images to docker account by executing the below script:
+   	
+      `make push-images`
+      
+4. Open chart/values.yaml
+   - Edit the domain of your cluster, so that the URL of your CAP service can be generated. 
+     You can use the pre-configured domain name for your Kyma cluster:
+     
+     `kubectl get gateway -n kyma-system kyma-gateway -o jsonpath='{.spec.servers[0].hosts[0]}'`
+     
+   - For a 
+   
+     private container registry - Create a secret for your Docker repository and replace the value of DOCKER_SECRET with the created secret name
+   
+      `imagePullSecret:
+       name: <DOCKER_SECRET>`
+     
+     public container registry - remove the code snippet from values.yaml file.
+     
+   - Find all `<DOCKER_ACCOUNT>` and replace all with your docker account/repository
+   - Find all `<RELEASE_NAME>` and replace all with your Helm CHart's release name
+   - Edit the below for function deployment
+   	- replace gitusername with encoderd username
+   	- replace gitpassword with encoded password 
+   	- replace giturl with url of your git repository 
+   	- replace gitbranch with the name of your branch
 
-3. Deploy the application
+3. Run the below command to deploy your application
 
-	Navigate to helmcharts folder
-
-   `helm install <release name> ./ -n <namespace>`
-
-4. Navigate to Event Mesh Subscription
-5. Open your emclient and create a new queue with name as serverless. Add <em namespace>/SalesService/d41d/BusinessPartnerVerified topic as subscription to the created queue.
-6. Navigate to webhooks tab and Click on Create Webhook
-7. Enter Subscription name.
-8. Click on Queue Name drop down and select one "serverless" at end
-9. Get the API Rule of Serverless Function from kyma console and Paste it in Webhook URL
-10. Click on Create
-11. Click on actions dropdown and trigger handshake.
+   `helm upgrade --install <RELEASE_NAME> ./chart -n <NAMESPACE>`
 
 ### Step 5: [Configure event based communication between S/4HANA and Event Mesh](https://help.sap.com/viewer/810dfd34f2cc4f39aa8d946b5204fd9c/1809.000/en-US/fbb2a5980cb54110a96d381e136e0dd8.html)
 

@@ -5,9 +5,9 @@
 	"logoutEndpoint": "/do/logout"
 	},
 	"routes": [{
-	"source": "^/sales/(.*)$",
-	"destination": "srv-binding",
-	"authenticationType": "xsuaa"
+		"source": "^/sales/(.*)$",
+		"destination": "srv-binding",
+		"authenticationType": "xsuaa"
 	},{
 	"source": "^/resources/(.*)$",
 	"target": "/resources/$1",
