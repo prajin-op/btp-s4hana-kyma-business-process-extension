@@ -15,6 +15,8 @@ srv:
   image:
     repository: <DOCKER_ACCOUNT>/kyma-cap-s4ems-srv
     tag: latest
+  env:
+    SERVERLESS_URL: https://<RELEASE_NAME>-qrcodegenerator.<DOMAIN_NAME>
   resources:
     limits:
       cpu: 100m
