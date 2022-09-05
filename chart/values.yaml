@@ -31,6 +31,7 @@ srv:
       path: /
     readiness:
       path: /
+  startupTimeout: 300
   additionalVolumes:
     - name: connectivity-secret
       volumeMount:
