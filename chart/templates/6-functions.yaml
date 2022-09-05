@@ -1,5 +1,5 @@
 
-apiVersion: serverless.kyma-project.io/v1alpha1
+apiVersion: serverless.kyma-project.io/v1alpha2
 kind: Function
 metadata:
   name: {{ .Release.Name }}-qrcodegenerator
@@ -7,11 +7,15 @@ metadata:
   labels:
      name: kyma-cap-s4ems
 spec:
-  type: git
-  runtime: nodejs12
-  source: {{ .Release.Name }}-qrcodegenerator
-  reference: {{.Values.gitbranch}}
-  baseDir: /qrcodegenerator
+  runtime: nodejs14
+  source:
+    gitRepository:
+     url: {{.Values.giturl}}
+     reference: {{.Values.gitbranch}}
+     baseDir: /qrcodegenerator
+     auth:
+       type: basic
+       secretName: {{ .Release.Name }}-githubtools
   env:
     - name: http_proxy
       valueFrom:
@@ -47,7 +51,7 @@ spec:
 
 ---
 
-apiVersion: gateway.kyma-project.io/v1alpha1
+apiVersion: gateway.kyma-project.io/v1beta1
 kind: APIRule
 metadata:
   namespace: {{.Values.namespace}}
@@ -56,11 +60,11 @@ metadata:
     name: kyma-cap-s4ems
   name: {{ .Release.Name }}-qrcodegenerator
 spec:
+  host: {{ .Release.Name }}-qrcodegenerator.c-1056df0.stage.kyma.ondemand.com
   service:
-    host: {{ .Release.Name }}-qrcodegenerator
     name: {{ .Release.Name }}-qrcodegenerator
     port: 80
-  gateway: kyma-gateway.kyma-system.svc.cluster.local
+  gateway: kyma-system/kyma-gateway
   rules:
     - path: /.*
       methods: ["GET", "PUT", "POST", "HEAD", "PATCH", "DELETE" ]
