@@ -60,7 +60,7 @@ metadata:
     name: kyma-cap-s4ems
   name: {{ .Release.Name }}-qrcodegenerator
 spec:
-  host: {{ .Release.Name }}-qrcodegenerator.c-1056df0.stage.kyma.ondemand.com
+  host: {{ .Release.Name }}-qrcodegenerator.{{ .Values.global.domain }}
   service:
     name: {{ .Release.Name }}-qrcodegenerator
     port: 80
