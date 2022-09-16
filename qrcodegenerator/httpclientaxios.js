@@ -2,6 +2,7 @@
 const qr = require('qrcode');
 const axios = require("axios");
 const util = require("./util");
+const mock = require("./mock");
 const { PassThrough } = require('stream');
 const logger = require('cf-nodejs-logging-support');
 logger.setLoggingLevel("info");
@@ -9,7 +10,6 @@ logger.setLoggingLevel("info");
 
 async function postImage(context, msg, event) {
         try{
-            logger.info("msg in onprem image", msg.data);
             logger.info("msg in process.env", process.env);  
             const destination = {};
             for (const envName of Object.getOwnPropertyNames(process.env).filter( name => name.startsWith("dest_"))) {
@@ -20,7 +20,13 @@ async function postImage(context, msg, event) {
             const destinationNameFromContext = JSON.parse(destinationNameFromContextString);
             const destinationName = destinationNameFromContext.name;
             const data = await util.readDetails(destination, destinationName, context, logger);
-            const response = await processBpPayload(data.authTokens[0].value, data.destinationConfiguration, msg, destinationNameFromContext);
+            console.log("dataauthTokensvalue", data);
+                var response = '';
+            if (data.destinationConfiguration.ProxyType === "Internet") {
+                response = await mock.processBpPayloadForInternet(data.destinationConfiguration, msg, destinationNameFromContext);
+            } else{
+                response = await processBpPayload(data.authTokens[0].value, data.destinationConfiguration, msg, destinationNameFromContext);
+            }
             return response;
         }catch(error){
             throw error;
@@ -71,7 +77,6 @@ async function fetchXsrfToken(destinationConfiguration, accessToken, bpDetails, 
                 'SAP-Connectivity-SCC-Location_ID': destinationConfiguration.CloudConnectorLocationId 
             }
         }).catch(error => {
-            console.log("errorin fetching xsrf token");
             logger.info("Error - Fetching CSRF token Error");
              logger.error(error);
             throw util.errorHandler(error, logger);
@@ -107,11 +112,9 @@ async function updateBpAddress(destinationConfiguration, accessToken, headers, b
             "StreetName": bpDetails.streetName
         }
     }).catch(error => {
-        console.log("Failed - Updating BP Address");
         logger.info("Error Updating BP Address", error);
         throw util.errorHandler(error, logger);
     });
-    console.log("SUCCESS - Updating BP Address");
     logger.info("SUCCESS - Updating BP Address");
 }
 

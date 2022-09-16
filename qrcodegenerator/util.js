@@ -2,6 +2,7 @@ const axios = require("axios");
 const oauth = require("./oauth");
 async function readDetails(destination, destinationName, context, logger) {
         try{
+            console.log("read details", destination);
             const destinationConfiguration = await readDestinationUrl(destination, destinationName, logger);
             return destinationConfiguration;
         }catch(error) {
@@ -21,12 +22,14 @@ async function readDestinationUrl(destination, destinationName, logger) {
 }
 
 function getCredentials(destination, logger) {
+    console.log("inside getCredentials", destination.clientid);
     try {
         const credentials = {
             clientid: destination.clientid,
             clientsecret: destination.clientsecret,
             url: destination.url
         };
+            console.log("inside credentials ",credentials);
         return credentials;
     } catch (error) {
         logger.info("error in getCredentials");
