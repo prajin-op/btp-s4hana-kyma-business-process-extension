@@ -25,7 +25,7 @@ Use the following steps to create an SAP HANA Cloud instance on SAP BTP:
 
    ![HANA](./images/createDatabase05.png)
 
-7. In the tab for SAP HANA Advanced Settings, you can leave the default values to **Allow only SAP BTP IP Addresses** and choose **Review and Create**.
+7. In the tab for SAP HANA Advanced Settings, choose **Allow all IP Addresses** and choose **Review and Create**.
 
    ![HANA](./images/createDatabase06.png)
 

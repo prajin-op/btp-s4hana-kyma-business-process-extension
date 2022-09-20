@@ -24,6 +24,10 @@
 
     public container registry - Create a dummy secret and replace the value of DOCKER_SECRET with the created secret name
 
+    ```shell
+    kubectl create secret generic <DOCKER_SECRET> -n <NAMESPACE>
+    ```
+
 5. Find all <DOCKER_ACCOUNT> and replace all with your docker account/repository.
 
 6. Find all <RELEASE_NAME> and replace all with your Helm Chart's release name. This can be any name of your choice.

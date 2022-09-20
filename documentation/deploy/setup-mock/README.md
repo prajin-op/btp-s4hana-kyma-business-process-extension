@@ -1,0 +1,111 @@
+# Set Up Mock Server
+
+## Clone the Mock Server
+
+Clone the mock server application from [GitHub](https://github.tools.sap/refapps/kyma-cap-s4ems.git) using the branch `mockserver`:
+
+```
+git clone https://github.tools.sap/refapps/kyma-cap-s4ems.git -b mock
+```
+
+## Deploy the mock server to SAP BTP Kyma runtime
+
+To deploy the application, perform the following steps:
+
+1. Navigate to the charts folder in the cloned source code.
+
+2. Edit the domain of your cluster, so that the URL of your CAP service can be generated. You can use the preconfigured domain name for your Kyma cluster:
+
+    ```shell  
+    kubectl get gateway -n kyma-system kyma-gateway -o jsonpath='{.spec.servers[0].hosts[0]}'
+    ```
+2. Find all <DOCKER_ACCOUNT> and replace all with your docker account/repository.
+
+3.  For a private container registry - Create a secret for your Docker repository and replace the value of DOCKER_SECRET with the created secret name.
+   
+    imagePullSecret: name: <DOCKER_SECRET>
+
+    public container registry - Create a dummy secret and replace the value of DOCKER_SECRET with the created secret name
+
+**Note:** Please make sure that you deploy the mock server to the same namespace where the Kyma application have been deployed.
+
+4. Run the following command to deploy your application
+
+    ```shell 
+    helm upgrade --install <RELEASE_NAME> ./chart -n <NAMESPACE>
+    ```
+
+### Set Up Destination in SAP BTP
+
+1. Open your SAP BTP account and navigate to your **Subaccount**.
+
+2. Choose **Connectivity** in the menu on the left then choose **Destinations** &rarr; **New Destination**.
+
+3. Enter the following information to the Destination Configuration and **Save** your input:
+
+    - Name: `s4h`
+    - Type: `HTTP`
+    - URL: `https://<mock_srv_url>`
+    - Authentication: `No Authentication`
+    - proxy type: `Internet`
+
+### Demo Script
+
+1. Start your Business Partner Validation Application
+
+- Go to *Instances and Subscriptions.*
+- Find *Launchpad Service* and click to open the application
+- In the Website, Manager find your created Website and click on tile to open
+- Click on Business Partner Validation tile
+- The list of BusinessPartners along with their verification status gets displayed.
+
+ ![App](./images/mock01.png)
+
+2. Create a new BusinessPartner in the mock server using business partner API:
+
+```
+POST https://<mock_srv_url>/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner
+
+{
+    "BusinessPartner": "25599",
+    "BusinessPartnerFullName": "Max Mustermann",
+    "FirstName": "Max",
+    "LastName": "Mustermann",
+    "BusinessPartnerIsBlocked": true,
+    "Language": "EN",
+    "to_BusinessPartnerAddress": [
+        {
+            "BusinessPartner": "25599",
+            "AddressID": "99",
+            "StreetName": "Platz der Republik",
+            "HouseNumber": "1",
+            "PostalCode": "10557",
+            "CityName": "Berlin",
+            "Country": "DE",
+            "Language": "EN"
+        }
+    ]
+}
+```
+3. Now, go back to the BusinessPartnerValidation application to see if the new BusinessPartner has appeared as a new entry in the UI.
+
+ ![App](./images/mock01.png)
+
+4. Go to the details page for the new BusinessPartner
+
+5. Click on Edit and set the Status to *Verified*
+
+ ![Backend](./images/mock02.png)
+
+6. (Optional) You can configure Event Mesh in a way so that you can see the created Event. For that you could create an additional queue that subscribes to the topic as well.
+
+ ![Backend](./images/mock03.png)
+
+7. Notice that the changes reflected back to the Business Partner in the mock server.
+
+```
+GET https:/<MOCK_SRV_URL>/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner('25555')
+
+```
+
+8. Play around with the app.

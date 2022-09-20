@@ -27,7 +27,7 @@ John who is an employee of Business Partner Validation Firm iCredible, which is 
 
 ### Solution Diagram
 
-![solution diagram](./documentation/images/solutionDiagram1.png)
+![solution diagram](./documentation/images/solutionDiagram.jpg)
 
 The Business Partner Validation application is developed using the SAP Cloud Application programming Model (CAP) and runs on the SAP BTP,  Kyma runtime. It consumes platform services like SAP Event Mesh, SAP HANA and Connectivity. The events occuring in S/4 HANA on premise are inserted into the Event Mesh queue. The application running in Kyma is notified on events, consumes them from the queue and inserts the event data into the HANA database. The Business Partner Validation Application uses S/4 HANA REST API's to read additional Business Partner Data from the S/4 HANA system. in a next step, the Business Partner Validation App uses an event-driven approach as well by firing events that get consumed by Serverless Function which posts the relevant business partner data to S/4 HANA on premise system using S4HANA oData api's.
 
@@ -59,9 +59,9 @@ The application requires below set of SAP Business Technology Platform Entitleme
 
 ## Configuration
 
-### Step 1: [S/4HANA Enable OData Service for business partner](https://github.com/SAP-samples/cloud-extension-s4hana-business-process/blob/mission/mission/configure-oData-Service/README.md)
+### Step 1: [S/4HANA Enable OData Service for business partner](./documentation/set%20up/s4h-setup/README.md)
 
-### Step 2: [Setup connectivity between S/4HANA system, SAP BTP](https://github.com/SAP-samples/cloud-extension-s4hana-business-process/blob/mission/mission/cloud-connector/README.md)
+### Step 2: [Setup connectivity between S/4HANA system, SAP BTP](./documentation/set%20up/connectivity/README.md)
 
 ### Step 3: Build and deploy the CAP application
 
@@ -80,7 +80,7 @@ The application requires below set of SAP Business Technology Platform Entitleme
 
 
 #### HANA setup
-1. [Create an instance of SAP HANA Cloud](https://help.sap.com/viewer/9ae9104a46f74a6583ce5182e7fb20cb/hanacloud/en-US/f7febb16072b41f7ac90abf5ea1d4b86.html)
+1. [Create an instance of SAP HANA Cloud](./documentation/set%20up/hana/README.md)
 2. Clone the extension application and navigate to the root folder of the app.
 
    `git clone <git_url>` 
@@ -108,10 +108,14 @@ The application requires below set of SAP Business Technology Platform Entitleme
    
      private container registry - Create a secret for your Docker repository and replace the value of DOCKER_SECRET with the created secret name
    
-      `imagePullSecret:
+      `imagePullSecret: 
        name: <DOCKER_SECRET>`
      
-     public container registry - remove the code snippet from values.yaml file.
+     public container registry - Create a dummy secret and replace the value of DOCKER_SECRET with the created secret name.
+     
+     ```shell
+    kubectl create secret generic <DOCKER_SECRET> -n <NAMESPACE>
+    ```
      
    - Find all `<DOCKER_ACCOUNT>` and replace all with your docker account/repository
    - Find all `<RELEASE_NAME>` and replace all with your Helm CHart's release name
@@ -125,75 +129,77 @@ The application requires below set of SAP Business Technology Platform Entitleme
 
    `helm upgrade --install <RELEASE_NAME> ./chart -n <NAMESPACE>`
 
-### Step 5: [Configure event based communication between S/4HANA and Event Mesh](https://help.sap.com/viewer/810dfd34f2cc4f39aa8d946b5204fd9c/1809.000/en-US/fbb2a5980cb54110a96d381e136e0dd8.html)
+### Step 5: [Configure event based communication between S/4HANA and Event Mesh](./documentation/deploy/configure-channel/README.md)
 
 
 ## Demo script
    
-2. In the kyma console find the URL for the app ` BusinessPartnerValidation-ui` - this is the launch URL for the Business Partner Validation application.
+1. Start your Business Partner Validation Application
 
-3. Launch the URL in a browser.
+- Go to *Instances and Subscriptions.*
+- Find *Launchpad Service* and click to open the application
+- In the Website, find your created Website and click on tile to open
 
-4. Click on Business Partner Validation tile
+2. Click on Business Partner Validation tile
 
 ![fiori tile](./documentation/images/fioriLaunchpad.JPG)
 
-5. The list of BusinessPartners along with their verification status gets displayed. 
+3. The list of BusinessPartners along with their verification status gets displayed. 
 
 ![BP list](./documentation/images/BPListView.JPG)
 
-6. Login to the S/4HANA on-premise system
+4. Login to the S/4HANA on-premise system
 
 ![S/4HANA login](./documentation/images/GuiLogin.JPG)
 
-7. Enter transaction code 'bp'
+5. Enter transaction code 'bp'
 
 ![bp transaction](./documentation/images/BPtransaction.JPG)
 
-8. Click on Person
+6. Click on Person
 
 ![person](./documentation/images/person.png)
 
-9. Provide first name, last name for the business partner
+7. Provide first name, last name for the business partner
 ![name](./documentation/images/name.png)
 
-10. Provide the address
+8. Provide the address
 ![address](./documentation/images/bpaddress.png)
 
-11. Move to the status tab and check mark the 'Central Block' lock. Save the BP. This will create a new Business Partner 
+9. Move to the status tab and check mark the 'Central Block' lock. Save the BP. This will create a new Business Partner 
 
 ![lock](./documentation/images/lock.png)
 
-12. Now go back to the BusinessPartnerValidation application to see if the new BusinessPartners has come on the UI
+10. Now go back to the BusinessPartnerValidation application to see if the new BusinessPartners has come on the UI
 
 ![new bp](./documentation/images/bpNew.png)
 
-13. Go to the details page for the new BusinessPartner. Click on edit.
+11. Go to the details page for the new BusinessPartner. Click on edit.
 
 ![edit bp](./documentation/images/editBP.png)
 
-14. Change the Verification Status to VERIFIED. You can also edit the street name, postal code also if needed. Save the data. 
+12. Change the Verification Status to VERIFIED. You can also edit the street name, postal code also if needed. Save the data. 
 
 ![edit values](./documentation/images/editValue.png)
 
-15. Open S/4HANA system, bp transaction. Search for the newly created bp
+13. Open S/4HANA system, bp transaction. Search for the newly created bp
 
 ![search bp](./documentation/images/searchBP.png)
 
-16. Double click on the BP
+14. Double click on the BP
 
 ![click bp](./documentation/images/clickBP.png)
 
-17. You can see that the central Block lock has been removed 
+15. You can see that the central Block lock has been removed 
 
 ![release lock](./documentation/images/releasedLock.png)
 
-18. The serverless application has also uploaded a QR code for the address details of the BP to the S/4HANA system. 
+16. The serverless application has also uploaded a QR code for the address details of the BP to the S/4HANA system. 
 You can view this by clicking on the icon in the top left corner. You will have to give permission for downloading the image. 
 
 ![attachment List](./documentation/images/attachmentList.png)
 
-19. You can also notice that in the BusinessPartner Validation UI, the status is now set as COMPLETED.
+17. You can also notice that in the BusinessPartner Validation UI, the status is now set as COMPLETED.
 
 ## Known Issues
 

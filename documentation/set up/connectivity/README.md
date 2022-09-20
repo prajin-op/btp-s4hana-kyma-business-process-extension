@@ -66,9 +66,7 @@ In this section we set up the end-to-end communication between the SAP S/4HANA o
     ![add system](./images/add-system4.png)
 
 
-    5. Select X.509 Certificate (General Usage) - next
-
-    ![add system](./images/add-system5.png)
+    5. Choose Principal Type 'None' and press Next - next
 
 
     6. For the Host in Request Header select **Use Virtual Host** - next
@@ -99,20 +97,14 @@ In this section we set up the end-to-end communication between the SAP S/4HANA o
    ![add resource](./images/CCAddResource2.png)
 
 
-9.  Synchronize your settings with your SAP BTP account
-    1.  Select the **Principal Propagation** tabulator
-    2.  Click on Synchronize
-
-    ![synchronize](./images/cc-synchronize.png)
-
-10. Check the availability of the internal system
+9. Check the availability of the internal system
     1. In the Access Control tabulator click on **Check availability of internal host**
     2. Status should be green
     3. Check Result should turn to Reachable
 
      ![status](./images/cc-status.png)
 
-11. In the overview of your subaccount you can see the Connector State to the SAP BTP
+10. In the overview of your subaccount you can see the Connector State to the SAP BTP
 
     ![status](./images/cc-status2.png)
 
@@ -134,7 +126,7 @@ With this step the on-premise setup is finished.
     * **URL**:  URL of the virtual host that we have exposed in the Cloud Connector in Section A. =  https://\<virtual host\>:\<virtual port\>, in our case, https://s4h:443/
 
     * **Proxy Type**: OnPremise
-    * **Authentication**: Principal Propagation. You can also use 'Basic Authentication' with your backend user and password to test for demo purposes.
+    * **Authentication**: Basic Authentication.
     * **Location ID**: optional field, you have use this field if you connect more than one cloud connectors to your account. See [Destination Configuration Help page](https://help.sap.com/viewer/6d3eac5a9e3144a7b43932a1078c7628/Cloud/en-US/0a2e5a45d5494ec08318ead2019d54db.html).
 
     Add the following properties by clicking on the **New Property** button:
@@ -156,52 +148,6 @@ With this step the on-premise setup is finished.
 
 *[See also destination management on SAP Cloud Platform](https://help.sap.com/viewer/cca91383641e40ffbe03bdc78f00f681/Cloud/en-US/84e45e071c7646c88027fffc6a7bb787.html)*
 
-
-### **C: Troubleshooting**
-<a id="troubleshooting"></a>
-Here are some hints when you face later errors by calling a backend service with Principal Propagation:
-
-1. Ensure that you are using the latest version latest version of Cloud Connector and Java VM
-
-   ![Troubleshooting](./images/toubleshooting1.png)
-
-2. If the OData service is not accessible the connection with principal propagation might not be correct. Set up a destination with basic authentication and see if you can now access the service. Use the credentials of the S/4HANA user you have created in the SAP S/4HANA setup. If this works use again the principal propagation destination and check with the following steps the propagation of the principal.
-
-   ![Troubleshooting](./images/basicauthentication.png)
-
-
-3. Set the trace log level in Cloud Connector. Enable TLS Trace.
-
-   ![Troubleshooting](./images/toubleshooting2.png)
-
-4. In SAP S/4HANA system call SAP Transaction Codes: **SMICM** or **SM50** - go to View Log - set Trace Level to : 2
-
-   **Hint:** Reset the log level back to the default values when done
-
-   ![Troubleshooting](./images/toubleshooting3.png)
-
-
-5. Then again start a request from the SAP BTP application.
-6. If Principal Propagation is not working check in Cloud Connector ljs_trace.log the x.509 short live certificate
-
-   ![Troubleshooting](./images/toubleshooting4.png)
-
-7. Check Trusted Authorities in ljs_trace.log
-
-   ![Troubleshooting](./images/toubleshooting5.png)
-
-8. Check the short live certificate sent to the backend
-
-   ![Troubleshooting](./images/toubleshooting7.png)
-
-9.  In the SAP S/4HANA system check if the forwarded short live certificate is accepted in the backend
-
-   ![Troubleshooting](./images/toubleshooting6.png)
-
-Additional links:
-
-* [Blog: Cloud Connector Troubleshooting](https://blogs.sap.com/2019/01/26/cloud-connector-guided-answers-and-troubleshooting/)
-* [Cloud Connector: Guided Answers](https://ga.support.sap.com/dtp/viewer/index.html#/tree/2183/actions/27936)
 
 ## Summary
 We have established a secure connection between the SAP S/4HANA on-premise system and the SAP Business Technology Platform (SAP BTP) subaccount and we're now ready for building SAP S/4HANA extension on the SAP BTP.
