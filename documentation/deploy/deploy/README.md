@@ -47,3 +47,4 @@
     ```shell 
     helm upgrade --install <RELEASE_NAME> ./chart -n <NAMESPACE>
     ```
+    **[NOTE]:** Instance of SAP BTP connectivity service (connectivity-proxy) plan is created to establish a secure tunnel between SAP BTP Kyma environment and a system in your On-Premise network. This provisioning must be done only once in your cluster.                                                   [Refer](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/0c035010a9d64cc8a02d872829c7fa75.html) for more details.
