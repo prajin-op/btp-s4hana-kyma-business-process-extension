@@ -12,16 +12,25 @@ git clone https://github.tools.sap/refapps/kyma-cap-s4ems.git -b mock
 
 To deploy the application, perform the following steps:
 
-1. Navigate to the charts folder in the cloned source code.
+1. Navigate to root folder int he cloned source code and run the following commands to build and push the docker image
 
-2. Edit the domain of your cluster, so that the URL of your CAP service can be generated. You can use the preconfigured domain name for your Kyma cluster:
+    ```shell  
+    cds build --production
+    pack build mock --path gen/srv --builder paketobuildpacks/builder:base
+    docker tag mock:latest <DOCKER_ACCOUNT>/mock:latest
+    docker push <DOCKER_ACCOUNT>/mock:latest
+    ```
+
+2. Navigate to the charts folder in the cloned source code.
+
+3. Edit the domain of your cluster, so that the URL of your CAP service can be generated. You can use the preconfigured domain name for your Kyma cluster:
 
     ```shell  
     kubectl get gateway -n kyma-system kyma-gateway -o jsonpath='{.spec.servers[0].hosts[0]}'
     ```
-2. Find all <DOCKER_ACCOUNT> and replace all with your docker account/repository.
+4. Find all <DOCKER_ACCOUNT> and replace all with your docker account/repository.
 
-3.  For a private container registry - Create a secret for your Docker repository and replace the value of DOCKER_SECRET with the created secret name.
+5.  For a private container registry - Create a secret for your Docker repository and replace the value of DOCKER_SECRET with the created secret name.
    
     imagePullSecret: name: <DOCKER_SECRET>
 
@@ -29,7 +38,7 @@ To deploy the application, perform the following steps:
 
 **Note:** Please make sure that you deploy the mock server to the same namespace where the Kyma application have been deployed.
 
-4. Run the following command to deploy your application
+6. Run the following command to deploy your application
 
     ```shell 
     helm upgrade --install <RELEASE_NAME> ./chart -n <NAMESPACE>
