@@ -1,9 +1,0 @@
-{{- include "cap.sapcp.bindings" (merge
-        (dict "bindings"
-            (dict "binding"
-                (dict "serviceInstanceName" "connectivity")
-            )
-            "root" .
-            "name" "connectivity"
-        ) . )
-}}

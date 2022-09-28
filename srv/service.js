@@ -56,15 +56,29 @@ module.exports = async srv => {
     req.data.isModified = true;
   });
 
-  //check with navin
   srv.after("PATCH", "Addresses", (data, req) => {
-    const isValidPinCode = postcodeValidator(data.postalCode, data.country);
+    LOG.info("Received address in PATCH", data);
+    var isValidPinCode = true;
+    if(data.postalCode){
+      isValidPinCode = validatePostcode(data);
+    }
     if (!isValidPinCode) {
       LOG.debug("Invalid postal code has been provided");
       return req.error({ code: '400', message: "invalid postal code", numericSeverity: 2, target: 'postalCode' });
     }
     return req.info({ numericSeverity: 1, target: 'postalCode' });
   });
+
+  async function validatePostcode(data){
+    var isValidPinCode;
+    if(data.postalCode){
+      Log.info("data", data);
+      const address = await SELECT.one(Addresses).where({ ID: data.ID });
+      isValidPinCode = postcodeValidator(data.postalCode, address.country);
+      Log.info("isValidPinCOde",isValidPinCode);
+      return isValidPinCode;
+    }
+  }
 
   async function emitEvent(result, req) {
       LOG.info("emit event");

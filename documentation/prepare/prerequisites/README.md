@@ -41,7 +41,15 @@ The application requires the following [Entitlements and Quotas](https://help.sa
 | Destination Service               |            |          1          |
 | Connectivity Service              | proxy      |          1          |
 
+## Instance of connectivity service
 
+Instance of SAP BTP connectivity service (connectivity-proxy plan) is created to establish a secure tunnel between SAP BTP Kyma environment and a system in your On-Premise network. This provisioning must be done only once in your cluster.                                                   [Refer](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/0c035010a9d64cc8a02d872829c7fa75.html) for more details.
+ If the connectivity service is not provisioned after creation of cluster by your administrator, you can do it by running the below command
+
+    ```shell  
+    kubectl apply -f ./script/connectivity.yaml
+    ```
+    
 ## Prerequisites for SAP HANA Cloud
 
 Make sure that you have an instance of SAP HANA database in your space. See section [Create an SAP HANA Database Instance Using SAP HANA Cloud Central](https://help.sap.com/docs/HANA_CLOUD/9ae9104a46f74a6583ce5182e7fb20cb/784a1dbb421a4da29fb1e3bdf5f198ec.html) on SAP Help Portal for more details.
