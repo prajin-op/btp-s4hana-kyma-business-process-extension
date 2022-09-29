@@ -20,9 +20,17 @@ async function processBpPayloadForInternet(destinationConfiguration, msg, destin
             if (bpDetails.addressModified && bpDetails.addressModified != undefined) {
                 await updateBpAddress(destinationConfiguration, bpDetails, destinationNameFromContext);
                 await updateBp(destinationConfiguration, bpDetails, destinationNameFromContext);
+                if(!bpDetails.businessPartnerIsBlocked){
+                   await postGeneratedImage(destinationConfiguration, bpDetails, destinationNameFromContext);
+                   return "SUCCESS";
+                }
                 return "SUCCESS"; 
             } else {
                 await updateBp(destinationConfiguration, bpDetails, destinationNameFromContext);
+                if(!bpDetails.businessPartnerIsBlocked && bpDetails.addressId != undefined){
+                    await postGeneratedImage(destinationConfiguration, bpDetails, destinationNameFromContext);
+                    return "SUCCESS";
+                }
                 return "SUCCESS";
             }
         }catch(error){
