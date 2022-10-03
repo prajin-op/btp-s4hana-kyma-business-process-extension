@@ -5,7 +5,7 @@
 Clone the mock server application from [GitHub](https://github.tools.sap/refapps/kyma-cap-s4ems.git) using the branch `mockserver`:
 
 ```
-git clone https://github.tools.sap/refapps/kyma-cap-s4ems.git -b mock
+git clone <Git URL> -b mockserver
 ```
 
 ## Deploy the mock server to SAP BTP Kyma runtime
@@ -16,9 +16,9 @@ To deploy the application, perform the following steps:
 
     ```shell  
     cds build --production
-    pack build mock --path gen/srv --builder paketobuildpacks/builder:base
-    docker tag mock:latest <DOCKER_ACCOUNT>/mock:latest
-    docker push <DOCKER_ACCOUNT>/mock:latest
+    pack build kymamock --path gen/srv --builder paketobuildpacks/builder:base
+    docker tag mock:latest <DOCKER_ACCOUNT>/kymamock:latest
+    docker push <DOCKER_ACCOUNT>/kymamock:latest
     ```
 
 2. Navigate to the charts folder in the cloned source code.
@@ -57,6 +57,7 @@ To deploy the application, perform the following steps:
     - URL: `https://<mock_srv_url>`
     - Authentication: `No Authentication`
     - proxy type: `Internet`
+    - Select `Use default JDK truststore`
 
 ### Demo Script
 

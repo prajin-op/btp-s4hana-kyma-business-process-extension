@@ -3,9 +3,7 @@
  **[NOTE]:** Instance of SAP BTP connectivity service (connectivity-proxy plan) is created to establish a secure tunnel between SAP BTP Kyma environment and a system in your On-Premise network. This provisioning must be done only once in your cluster.                                                   [Refer](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/0c035010a9d64cc8a02d872829c7fa75.html) for more details.
  If the connectivity service is not provisioned after creation of cluster by your administrator, you can do it by running the below command
 
-    ```shell  
-    kubectl apply -f ./script/connectivity.yaml
-    ```
+     kubectl apply -f ./script/connectivity.yaml -n <NAME_SPACE>
 
 1. Navigate to root folder of the cloned source code.
 
@@ -37,19 +35,21 @@
 
 5. Find all <DOCKER_ACCOUNT> and replace all with your docker account/repository.
 
-6. Find all <RELEASE_NAME> and replace all with your Helm Chart's release name. This can be any name of your choice.
+7. Find all <CONNECTIVITY_SERVICE_SECRET> and replace all with your connectivity secret name.
 
-7. Edit the following for function deployment
+8. Find all <RELEASE_NAME> and replace all with your Helm Chart's release name. This can be any name of your choice.
 
-8. Replace gitusername with encoded username.
+9. Edit the following for function deployment
 
-9.  Replace gitpassword with encoded password.
+10. Replace gitusername with encoded username.
 
-10. Replace giturl with url of your git repository.
+11.  Replace gitpassword with encoded password.
 
-11. Replace gitbranch with the name of your branch.
+12. Replace giturl with url of your git repository.
 
-12. Run the following command to deploy your application
+13. Replace gitbranch with the name of your branch.
+
+14. Run the following command to deploy your application
 
     ```shell 
     helm upgrade --install <RELEASE_NAME> ./chart -n <NAMESPACE>

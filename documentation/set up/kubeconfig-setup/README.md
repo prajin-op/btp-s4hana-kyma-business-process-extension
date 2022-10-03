@@ -29,11 +29,12 @@ Here are the steps using kubectl:
 Open a shell and run:
 
    ```shell
-   kubectl create namespace <YOU_NAMESPACE_NAME>
+   kubectl create namespace <YOUR_NAMESPACE_NAME>
+   kubectl label namespace <YOUR_NAMESPACE_NAME> istio-injection=enabled
    ```
 
 Here are the steps using the Kyma Dashboard:
 
-1. Open the Kyma Dashboard and choose **Add new namespace** Provide the namespace name and choose **Create**.
+1. Open the Kyma Dashboard and choose **Add new namespace** Provide the namespace name, **Enable Sidecar Injection** and choose **Create**.
 
    ![](images/createNamespace.png)

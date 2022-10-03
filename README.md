@@ -112,12 +112,14 @@ The application requires below set of SAP Business Technology Platform Entitleme
        name: <DOCKER_SECRET>`
      
      public container registry - Create a dummy secret and replace the value of DOCKER_SECRET with the created secret name.
-     
+    
+     Execute the below command to create a secret
      ```shell
-    kubectl create secret generic <DOCKER_SECRET> -n <NAMESPACE>
-    ```
+     kubectl create secret generic <DOCKER_SECRET> -n <NAMESPACE>
+     ```
      
    - Find all `<DOCKER_ACCOUNT>` and replace all with your docker account/repository
+   - Find all `<CONNECTIVITY_SECRET>` and replace all with your connectivity secret
    - Find all `<RELEASE_NAME>` and replace all with your Helm CHart's release name
    - Edit the below for function deployment
    	- replace gitusername with encoderd username

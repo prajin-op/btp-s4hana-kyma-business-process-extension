@@ -59,7 +59,7 @@ In this section we set up the end-to-end communication between the SAP S/4HANA o
     ![add system](./images/add-system3.png)
 
 
-    4. Enter a virtual host name and port, for example: **bupa**. This will then later used as URL in the destination at your SAP BTP subaccount, choose **Next**.
+    4. Enter a virtual host name and port, for example: **s4h**. This will then later used as URL in the destination at your SAP BTP subaccount, choose **Next**.
 
      ***Hint:** For security reasons it's recommended that the virtual host and port differ from the host and port of the on-premise system*
 
@@ -104,10 +104,6 @@ In this section we set up the end-to-end communication between the SAP S/4HANA o
 
      ![status](./images/cc-status.png)
 
-10. In the overview of your subaccount you can see the Connector State to the SAP BTP
-
-    ![status](./images/cc-status2.png)
-
 With this step the on-premise setup is finished.
 
 ### **B: Create Destination on SAP BTP**
@@ -121,22 +117,15 @@ With this step the on-premise setup is finished.
    ![destination](./images/scp-destination.png)
 
 3. Setup Destination - enter the following values
-    * **Name**:  bupa  --> this destination is later used at the sample application.
+    * **Name**:  s4h  --> this destination is later used at the sample application.
     * **Type**:  select HTTP
     * **URL**:  URL of the virtual host that we have exposed in the Cloud Connector in Section A. =  https://\<virtual host\>:\<virtual port\>, in our case, https://s4h:443/
 
     * **Proxy Type**: OnPremise
     * **Authentication**: Basic Authentication.
     * **Location ID**: optional field, you have use this field if you connect more than one cloud connectors to your account. See [Destination Configuration Help page](https://help.sap.com/viewer/6d3eac5a9e3144a7b43932a1078c7628/Cloud/en-US/0a2e5a45d5494ec08318ead2019d54db.html).
-
-    Add the following properties by clicking on the **New Property** button:
-
-    * Name: **HTML5.DynamicDestination** - value: **true**
-    * Name: **SAP-Client** - value: **the SAP-Client of your SAP S/4HANA system**
-    * Name: **WebIDEEnabled** - value: **true**
-    * Name: **WebIDESystem** - value: **System ID of your SAP S/4HANA system**
-    * Name: **WebIDEUsage** - value: **odata\_abap**
-
+    * **User**: User name for Basic Authentication
+    * **password**: Password for Basic Authentication
 
    ![destination](./images/scp-destination3a.png)
 

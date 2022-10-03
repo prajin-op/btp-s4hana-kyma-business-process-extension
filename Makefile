@@ -2,7 +2,7 @@
 DOCKER_ACCOUNT=<DOCKER_REPOSITORY>
 
 cds-build:
-        npm i
+	npm i
 	cds build --production
 
 build-dbimage:

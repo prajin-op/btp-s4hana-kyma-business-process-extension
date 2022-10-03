@@ -1,4 +1,4 @@
-global:
+  global:
     domain: <DOMAIN_NAME>
     imagePullSecret:
       name: <DOCKER_SECRET>

@@ -4,6 +4,10 @@
 
     `git clone <git_url>`
 
+2. set the namespace
+    
+    `kubectl config set-context --current --namespace <NAME_SPACE>`
+
 2. Run ./script/db.sh
 
 >Note:  Ensure you have logged in to Cloud Foundry CLI.

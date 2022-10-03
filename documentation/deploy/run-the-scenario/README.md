@@ -60,3 +60,10 @@
 12. Go to the Status tab. You can see that the central Block lock has been removed.
 
  ![Backend](./images/endtoend13.png)
+ 
+13. The serverless application has also uploaded a QR code for the address details of the BP to the S/4HANA system. 
+You can view this by clicking on the icon in the top left corner. You will have to give permission for downloading the image. 
+
+![attachment List](./images/attachmentList.png)
+
+17. You can also notice that in the BusinessPartner Validation UI, the status is now set as COMPLETED.
