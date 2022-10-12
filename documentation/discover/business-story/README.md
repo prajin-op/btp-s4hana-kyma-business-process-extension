@@ -9,9 +9,9 @@ The main intent of this scenario is to complement an existing business process i
 
 The application showcases:
 
-- Building applications on SAP Business Technology Platform (BTP) using SAP Cloud Application Programming Model(CAP)
+- Building applications on SAP Business Technology Platform (SAP BTP) using SAP Cloud Application Programming Model (CAP)
 - Consuming events from SAP S/4HANA on-premise using SAP Event Mesh
-- Consuming REST APIs from SAP S/4HANA on-premise using SAP Business Technology Platform (SAP BTP) Connectivity Service
+- Consuming REST APIs from SAP S/4HANA on-premise using SAP BTP, Connectivity Service
 - Building and deploying a function in SAP BTP Kyma Runtime, Serverless
 
 ## Business Scenario

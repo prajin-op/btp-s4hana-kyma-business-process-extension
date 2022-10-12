@@ -14,6 +14,7 @@ The **kubectl** command line tool lets you control your clusters. You will use i
    # assuming the kubeconfig file name is kubeconfig.yaml
    export KUBECONFIG=kubeconfig.yaml
    ```
+
 3. Using the following command you can recheck if your configuration was successful:
 
    ```
@@ -25,8 +26,7 @@ The **kubectl** command line tool lets you control your clusters. You will use i
 4. Create a namespace:
 Either you can create the namespaces using kubectl or using the Kyma dashboard.
 
-Here are the steps using kubectl:
-Open a shell and run:
+Here are the steps using kubectl. Open a shell and run:
 
    ```shell
    kubectl create namespace <YOUR_NAMESPACE_NAME>

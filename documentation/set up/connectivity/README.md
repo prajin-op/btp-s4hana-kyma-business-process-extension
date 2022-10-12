@@ -39,60 +39,54 @@ In this section we set up the end-to-end communication between the SAP S/4HANA o
    ![Add Subaccount](./images/addSubAccount.png)
 
 5. Cloud to on-premise setup:
-   1. In the added Subaccount, select the **Cloud to On-Premise** tabulator.
+   1. In the added Subaccount, select the **Cloud to On-Premise** tab.
    2. In the **Mapping Virtual to Internal System** section choose the **+** button.
 
    ![Add System](./images/CCAddResource.png)
 
-6. In the screens of the **Add System** Wizzard enter the following:
+6. In the screens of the **Add System** wizard enter the following:
 
     1. Select **ABAP** and choose **Next**.
 
     ![add system](./images/add-system1.png)
 
-    2. Select HTTPS - next
+    2. Select **HTTPS** &rarr; **next**.
 
     ![add system](./images/add-system2.png)
 
-    3. Enter the host (IP Adress or host name) and port of your SAP S/4HANA system - next
+    3. Enter the host (IP Address or host name) and port of your SAP S/4HANA system. Choose **next**.
 
     ![add system](./images/add-system3.png)
 
-
     4. Enter a virtual host name and port, for example: **s4h**. This will then later used as URL in the destination at your SAP BTP subaccount, choose **Next**.
 
-     ***Hint:** For security reasons it's recommended that the virtual host and port differ from the host and port of the on-premise system*
+     ***Hint:** For security reasons it's recommended that the virtual host and port differ from the host and port of the on-premise system*.
 
     ![add system](./images/add-system4.png)
 
-
     5. Choose Principal Type 'None' and press Next - next
-
 
     6. For the Host in Request Header select **Use Virtual Host** - next
 
     ![add system](./images/add-system6.png)
 
-
     7. Enter a description for the system mapping - next
 
     ![add system](./images/add-system7.png)
 
-
     8. In the Summary check **Check Internal Host** - click on Finish
 
     ![add system](./images/add-system8.png)
-
 
 7. In the resource section press + to add a resource
 
     ![add resource](./images/add-resource.png)
 
 8. Add Resource
-   1. Enter the URL root path to the S/4HANA APIs: **/** . Here we are exposing for demo purposes, the root URL exposing all paths but for productive usage, kindly expose only the relevant path from your backend system.
-   2. AccessPolicy: set **Path and all sub-paths**
-   3. Enter a description
-   4. Press Save
+   1. Enter the URL root path to the SAP S/4HANA APIs: **/** . Here we are exposing for demo purposes, the root URL exposing all paths but for productive usage, kindly expose only the relevant path from your backend system.
+   2. AccessPolicy: set **Path and all sub-paths**.
+   3. Enter a description.
+   4. Choose **Save**.
 
    ![add resource](./images/CCAddResource2.png)
 
@@ -117,6 +111,7 @@ With this step the on-premise setup is finished.
    ![destination](./images/scp-destination.png)
 
 3. Setup Destination - enter the following values
+
     * **Name**:  s4h  --> this destination is later used at the sample application.
     * **Type**:  select HTTP
     * **URL**:  URL of the virtual host that we have exposed in the Cloud Connector in Section A. =  https://\<virtual host\>:\<virtual port\>, in our case, https://s4h:443/
@@ -129,17 +124,18 @@ With this step the on-premise setup is finished.
 
    ![destination](./images/scp-destination3a.png)
 
-4. Choose **Save** and then select **Check Connection**
+4. Choose **Save** and then select **Check Connection**.
 
    ![check connection](./images/scp-destination3.png)
 
    >Troubleshooting: If you receive an error: "Backend status could not be determined" then try to edit and set the Location ID parameter in 'Cloud connector- Configure end-to-end Connection, step 4' above and also give the same Location ID in your destination. Location ID could be any alpha numeric unique identifier in your sub-account. See [Cloud Connector help](https://help.sap.com/viewer/cca91383641e40ffbe03bdc78f00f681/Cloud/en-US/db9170a7d97610148537d5a84bf79ba2.html#loiodb9170a7d97610148537d5a84bf79ba2__configure_proxy) page.
 
-*[See also destination management on SAP Cloud Platform](https://help.sap.com/viewer/cca91383641e40ffbe03bdc78f00f681/Cloud/en-US/84e45e071c7646c88027fffc6a7bb787.html)*
+*[See also destination management on SAP BTP](https://help.sap.com/viewer/cca91383641e40ffbe03bdc78f00f681/Cloud/en-US/84e45e071c7646c88027fffc6a7bb787.html)*
 
 
 ## Summary
-We have established a secure connection between the SAP S/4HANA on-premise system and the SAP Business Technology Platform (SAP BTP) subaccount and we're now ready for building SAP S/4HANA extension on the SAP BTP.
+
+We have established a secure connection between the SAP S/4HANA on-premise system and the SAP BTP subaccount and we're now ready for building SAP S/4HANA extension on the SAP BTP.
 
 
 

@@ -1,10 +1,10 @@
 # Set Up the SAP S/4HANA System
 
-In this section, you'll learn how to activate an OData API service in an SAP S/4HANA system, create a user and assign the necessary roles and authorization objects.
+In this section, you will learn how to activate an OData API service in an SAP S/4HANA system, create a user, and assign the necessary roles and authorization objects.
 
 You need to be an SAP S/4HANA administrator to be able to follow the steps.
 
-**Note:** The following screenshots are done with SAP GUI 7.50 - by using SAP GUI 7.60 the usage could differ, for example tick button instead of a continue button and so on.
+> The following screenshots are done with SAP GUI 7.50 - by using SAP GUI 7.60 the usage could differ, for example tick button instead of a continue button and so on.
 
 ## Activate the OData Service
 
@@ -158,16 +158,16 @@ In this section, we generate a custom authorization object, which is necessary t
 
 11. Complete Comparison
 
-    ![User Comparions](./images/complete-comparison.png)
+    ![User Comparisons](./images/complete-comparison.png)
 
 12. Choose Save and you have finished the setup of the user profile.
 
 
-***Hint:** If the Authentication tabulator turns to red, select this tabulator and select again **Change Authorization Data** - click again on Generate (Shift+F5) - Choose **Save.***
+***Hint:** If the Authentication tabulator turns to red, select this tabulator, and select again **Change Authorization Data** - click again on Generate (Shift+F5) - Choose **Save.***
 
 ### Test the API\_BUSINESS\_PARTNER\_SRV
 
-To see if the setup was done correctly call the Business Partner API with the new user.
+To see if the setup was done correctly, call the Business Partner API with the new user.
 
 * Call Transaction /N/IWFND/MAINT\_SERVICE
     1. Double-click on ZAPI\_BUSINESS\_PARTNER
@@ -178,7 +178,7 @@ To see if the setup was done correctly call the Business Partner API with the ne
 
     Hint: If you use a CAL system, kindly check and use the relevant IP address instead of the default system host name as the host name has to be resolvable by the browser.
 
-* Enter the credentials of the user we've created. You should then see the structure of the BusinessPartner OData service.
+* Enter the credentials of the user that we have created. You should then see the structure of the BusinessPartner OData service.
 
     ![Test Bupa](./images/test-bupa2.png)
 
@@ -192,6 +192,6 @@ This completes this mission section.
 
 You have activated an API in the SAP S/4HANA on-premise system and created a user with the necessary roles for CRUD operations of Business Partner data and to access the API\_BUSINESS\_PARTNER\_SRV OData service.
 
-***Hint:** the simplest way for adding additional users with the same roles is just to copy this user profile in the SU01 transaction*
+***Hint:** The simplest way for adding additional users with the same roles is just to copy this user profile in the SU01 transaction*.
 
-[see also SAP Help: Activate and Maintain Services](https://help.sap.com/viewer/68bf513362174d54b58cddec28794093/202009.002/en-US/bb2bfe50645c741ae10000000a423f68.html)
+See section [Activate and Maintain Services](https://help.sap.com/viewer/68bf513362174d54b58cddec28794093/202009.002/en-US/bb2bfe50645c741ae10000000a423f68.html) on SAP Help Portal for more details.

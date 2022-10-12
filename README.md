@@ -1,23 +1,24 @@
 # SAP S/4HANA Extended Business Process Scenario in Kyma
 ## Description
+
 The main intent of this scenario is to complement an existing business process in an SAP solution – currently SAP S/4HANA with additional business process steps. This involves adding major logic and/or additional data and goes beyond simple UI changes.
 
 This application showcases:
 
-- Building applications on SAP Business Technology Platform (BTP) using [SAP Cloud Application Programming Model(CAP)](https://cap.cloud.sap/docs/)
-- Consuming events from SAP S/4HANA on premise using [SAP Event Mesh](https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/df532e8735eb4322b00bfc7e42f84e8d.html)
-- Consuming REST APIs from SAP S/4HANA on premise using SAP Business Technology Platform Connectivity Service
+- Building applications on SAP Business Technology Platform (SAP BTP) using [SAP Cloud Application Programming Model (CAP)](https://cap.cloud.sap/docs/)
+- Consuming events from SAP S/4HANA on-premise using [SAP Event Mesh](https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/df532e8735eb4322b00bfc7e42f84e8d.html)
+- Consuming REST APIs from SAP S/4HANA on premise using SAP BTP Platform Connectivity Service
 - Building and deploying a function in [SAP BTP Kyma Runtime, Serverless](https://kyma-project.io/docs/components/serverless)
 
 ## Business Scenario
 
-A business scenario is used to showcase how to build a S/4 HANA on premise extension Application on SAP BTP, Kyma runtime.
+A business scenario is used to showcase how to build a SAP S/4HANA on-premise extension Application on SAP BTP, Kyma runtime.
 
-John who is an employee of Business Partner Validation Firm iCredible, which is a third-party vendor of ACME Corporation would like to get notifications whenever new Business Partners are added in the S/4HANA backend system of ACME Corporation. John would then be able to review the Business Partner details in his extension app. He would proceed to visit the Business Partner’s registered office and do some background verification. John would then proceed to update/validate the verification details into the extension app. Once the details are verified, the Business Partner gets activated in the S/4HANA system of ACME Corporation.
+John who is an employee of Business Partner Validation Firm iCredible, which is a third-party vendor of ACME Corporation would like to get notifications whenever new Business Partners are added in the SAP S/4HANA backend system of ACME Corporation. John would then be able to review the Business Partner details in his extension app. He would proceed to visit the Business Partner’s registered office and do some background verification. John would then proceed to update/validate the verification details into the extension app. Once the details are verified, the Business Partner gets activated in the SAP S/4HANA system of ACME Corporation.
 
-- Custom extension application that works independently from S/4HANA.
+- Custom extension application that works independently from SAP S/4HANA.
 
-- Changes in S/4 communicated via events in real time to extension application.
+- Changes in SAP S/4HANA communicated via events in real time to extension application.
 
 - Compute intensive processing available on demand (using serverless).
 
@@ -29,15 +30,17 @@ John who is an employee of Business Partner Validation Firm iCredible, which is 
 
 ![solution diagram](./documentation/images/solutionDiagram.jpg)
 
-The Business Partner Validation application is developed using the SAP Cloud Application programming Model (CAP) and runs on the SAP BTP,  Kyma runtime. It consumes platform services like SAP Event Mesh, SAP HANA and Connectivity. The events occuring in S/4 HANA on premise are inserted into the Event Mesh queue. The application running in Kyma is notified on events, consumes them from the queue and inserts the event data into the HANA database. The Business Partner Validation Application uses S/4 HANA REST API's to read additional Business Partner Data from the S/4 HANA system. in a next step, the Business Partner Validation App uses an event-driven approach as well by firing events that get consumed by Serverless Function which posts the relevant business partner data to S/4 HANA on premise system using S4HANA oData api's.
+The Business Partner Validation application is developed using the SAP Cloud Application Programming Model (CAP) and runs on the SAP BTP, Kyma runtime. It consumes platform services like SAP Event Mesh, SAP HANA and Connectivity. The events occuring in SAP S/4HANA on-premise are inserted into the SAP Event Mesh queue. The application running in Kyma is notified on events, consumes them from the queue and inserts the event data into the SAP HANA database. The Business Partner Validation Application uses SAP S/4HANA REST API's to read additional Business Partner Data from the SAP S/4HANA system. in a next step, the Business Partner Validation App uses an event-driven approach as well by firing events that get consumed by Serverless Function which posts the relevant business partner data to SAP S/4HANA on premise system using SAP S4/HANA OData api's.
 
 ## Requirements
-* SAP S/4HANA on premise system.
-* SAP Business Technology Platform account
 
-### Prerequisites:
-* [Node js](https://nodejs.org/en/download/)
-* [kubectl command line tool (kubectl)]( https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/)
+* SAP S/4HANA on-premise system.
+* SAP BTP account
+
+### Prerequisites
+
+* [Node.js](https://nodejs.org/en/download/)
+* [kubectl command line tool]( https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/)
 * [Visual Studio Code](https://cap.cloud.sap/docs/get-started/in-vscode)
 * [cds-dk](https://cap.cloud.sap/docs/get-started/)
 * [SQLite ](https://sqlite.org/download.html)
@@ -46,7 +49,7 @@ The Business Partner Validation application is developed using the SAP Cloud App
 
 ### Entitlements
 
-The application requires below set of SAP Business Technology Platform Entitlements/Quota
+The application requires the following set of SAP BTP Entitlements and Quota:
 
 | Service                           | Plan       | Number of Instances |
 |-----------------------------------|------------|:-------------------:|
@@ -59,14 +62,16 @@ The application requires below set of SAP Business Technology Platform Entitleme
 
 ## Configuration
 
-### Step 1: [S/4HANA Enable OData Service for business partner](./documentation/set%20up/s4h-setup/README.md)
 
-### Step 2: [Setup connectivity between S/4HANA system, SAP BTP](./documentation/set%20up/connectivity/README.md)
+### Step 1: [SAP S/4HANA Enable OData Service for Business Partner](./documentation/set%20up/s4h-setup/README.md)
 
-### Step 3: Build and deploy the CAP application
+### Step 2: [Setup Connectivity between SAP S/4HANA System, SAP BTP](./documentation/set%20up/connectivity/README.md)
 
-#### Kubeconfig setup
-1. Download KubeConfig file from SAP BTP cockpit Overview page
+### Step 3: Build and Deploy the CAP Application
+
+#### Kubeconfig Setup
+
+1. Download KubeConfig file from SAP BTP cockpit overview page
 2. Right click and copy the file
 3. Goto my computer
 4. Create folder and name it kubectl
@@ -74,40 +79,42 @@ The application requires below set of SAP Business Technology Platform Entitleme
 6. Set environment variable for kubectl with the value as path for the folder
 7. Set environment variable for KUBECONFIG with the value as path for the pasted config file
 8. Execute `kubectl get pods` to test the setup
-9. Set the context for your Kyma namespace: 
-   
+9. Set the context for your Kyma namespace:
+
    `kubectl config set-context --current --namespace <your_namespace>`
 
 
-#### HANA setup
-1. [Create an instance of SAP HANA Cloud](./documentation/set%20up/hana/README.md)
+#### SAP HANA Setup
+
+1. [Create an Instance of SAP HANA Cloud](./documentation/set%20up/hana/README.md)
+
 2. Clone the extension application and navigate to the root folder of the app.
 
-   `git clone <git_url>` 
-   
-4. Run `./script/db.sh`
-5. The script does the below:
-   - Creates HDI Service instance with the name caphana
+   `git clone <git_url>`
+
+3. Run `./script/db.sh`
+4. The script does the below:
+   - Creates HDI Service instance with the name **caphana**
    - Creates a service key corresponding to the hdi service instance
-   - Creates a secret in Kyma for the created HDI instance 
+   - Creates a secret in Kyma for the created HDI instance
 
-#### Steps to deploy the application on kyma runtime
+#### Steps to Deploy the Application on Kyma Runtime
 
-1. Open Makefile and Edit the value for DOCKER_ACCOUNT. 
-3. Build the applications and also create and push the docker images to docker account by executing the below script:
-   	
+1. Open Makefile and Edit the value for DOCKER_ACCOUNT.
+2. Build the applications and also create and push the docker images to docker account by executing the below script:
+
       `make push-images`
-      
-4. Open chart/values.yaml
-   - Edit the domain of your cluster, so that the URL of your CAP service can be generated. 
+
+3. Open chart/values.yaml
+   - Edit the domain of your cluster, so that the URL of your CAP service can be generated.
      You can use the pre-configured domain name for your Kyma cluster:
-     
+
      `kubectl get gateway -n kyma-system kyma-gateway -o jsonpath='{.spec.servers[0].hosts[0]}'`
-     
-   - For a 
-   
+
+   - For a
+
      private container registry - Create a secret for your Docker repository and replace the value of DOCKER_SECRET with the created secret name
-   
+
       `imagePullSecret: 
        name: <DOCKER_SECRET>`
      
@@ -123,22 +130,23 @@ The application requires below set of SAP Business Technology Platform Entitleme
    - Find all `<RELEASE_NAME>` and replace all with your Helm CHart's release name
    - Edit the below for function deployment
    	- replace gitusername with encoderd username
-   	- replace gitpassword with encoded password 
-   	- replace giturl with url of your git repository 
+   	- replace gitpassword with encoded password
+   	- replace giturl with url of your git repository
    	- replace gitbranch with the name of your branch
 
-3. Run the below command to deploy your application
+4. Run the below command to deploy your application
 
    `helm upgrade --install <RELEASE_NAME> ./chart -n <NAMESPACE>`
 
-### Step 5: [Configure event based communication between S/4HANA and Event Mesh](./documentation/deploy/configure-channel/README.md)
+
+### Step 4: [Configure event based communication between S/4HANA and Event Mesh](./documentation/deploy/configure-channel/README.md)
 
 
 ## Demo script
    
 1. Start your Business Partner Validation Application
 
-- Go to *Instances and Subscriptions.*
+- Go to **Instances and Subscriptions**.
 - Find *Launchpad Service* and click to open the application
 - In the Website, find your created Website and click on tile to open
 
@@ -203,13 +211,15 @@ You can view this by clicking on the icon in the top left corner. You will have 
 
 17. You can also notice that in the BusinessPartner Validation UI, the status is now set as COMPLETED.
 
+
 ## Known Issues
 
 No known issues.
 
 ## How to Obtain Support
 
-In case you find a bug, or you need additional support, please [open an issue](https://github.com/SAP-samples/cloud-extension-s4hana-business-process/issues/new) here in GitHub.
+In case you find a bug, or you need additional support, please [open an issue](https://github.com/SAP-samples/cloud-extension-s4hana-business-process/issues/new) in GitHub.
 
 ## License
-Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved. This project is licensed under the Apache Software License, version 2.0 except as noted otherwise in the [LICENSE](LICENSES/Apache-2.0.txt) file.
+
+Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved. This project is licensed under the Apache Software License, version 2.0 except as noted otherwise in the [LICENSE](LICENSES/Apache-2.0.txt) file.

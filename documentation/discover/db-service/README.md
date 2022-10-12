@@ -5,7 +5,7 @@ The database microservice is responsible for creating database tables, which are
 ## How Does It Work?
 
 Service instance of SAP HANA Cloud is a prerequisite, which is needed to deploy the database artifacts.
-HDI container is created in SAP HANA Cloud and a corresponding SAP HANA secret would be created in the SAP BTP Kyma environment via the [db script](../../tree/main/script/db.sh). The database artifacts are then deployed using a job to the HDI container using the credentials available in the SAP HANA secret.
+HDI container is created in SAP HANA Cloud and a corresponding SAP HANA secret would be created in the SAP BTP, Kyma environment via the [db script](../../tree/main/script/db.sh). The database artifacts are then deployed using a job to the HDI container using the credentials available in the SAP HANA secret.
 
 ## Database Tables That Are Used
 

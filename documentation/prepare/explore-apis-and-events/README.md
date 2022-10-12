@@ -3,7 +3,7 @@
 
 ## Introduction
 
-You'll look up the required API on SAP API Business Hub and download its specification as an EDMX file.
+You will look up the required API on SAP API Business Hub and download its specification as an EDMX file.
 
 **Persona:** SAP BTP Developer
 

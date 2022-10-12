@@ -3,17 +3,17 @@
 For this mission, we will SAP HANA Cloud as our persistence layer.
 Use the following steps to create an SAP HANA Cloud instance on SAP BTP:
 
-1. In the SAP BTP cockpit enter the space you have created in the previous tutorial.
+1. In the SAP BTP cockpit, enter the space you have created in the previous tutorial.
 
-2. Select the **SAP HANA Cloud** section and choose **Create** and in the drop-down then select **SAP HANA Database**.
+2. Select the **SAP HANA Cloud** section and choose **Create** and in the dropdown then select **SAP HANA Database**.
 
     ![HANA](./images/createDatabase.png)
 
-3. You will be logged in to SAP HANA Cloud Central. Choose the type of  SAP HANA Cloud instance as **SAP HANA Cloud, SAP HANA Database** and select **Next Step**.
+3. You will be logged in to SAP HANA Cloud Central. Choose the type of SAP HANA Cloud instance as **SAP HANA Cloud, SAP HANA Database** and select **Next Step**.
 
    ![HANA](./images/createDatabase02.png)
 
-4. In the next tab, choose the SAP BTP **Organization** and **Space** from the drop-down box. Enter an **Instance name**, also enter a valid database **Administrator Password** and select **Next Step**.
+4. In the next tab, choose the SAP BTP **Organization** and **Space** from the dropdown box. Enter an **Instance name**, also enter a valid database **Administrator Password**, and select **Next Step**.
 
    ![HANA](./images/createDatabase03.png)
 
