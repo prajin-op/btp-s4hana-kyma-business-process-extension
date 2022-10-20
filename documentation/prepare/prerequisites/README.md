@@ -7,7 +7,7 @@ This section contains the prerequisites that you have to fulfill before you get 
 * [SAP S/4HANA](https://www.sap.com/india/products/s4hana-erp.html) system
 * [Global account](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/)
 * [SAP S/4HANA Cloud](https://www.sap.com/products/erp/s4hana-erp.html) system
-* [Optional] If you don't have an SAP S/4HANA Cloud system you can run this mission by installing a mock server. 
+* [Optional] If you don't have an SAP S/4HANA Cloud system you can run this mission by installing a [mock server](../../deploy/setup-mock/README.md). 
 
 ## Tools
 

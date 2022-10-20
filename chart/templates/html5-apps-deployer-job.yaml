@@ -35,7 +35,15 @@ spec:
         imagePullPolicy: {{ include "cap.imagePullPolicy" $ }}
         volumeMounts:
           {{- include "cap.sapcp.bindingsVolumeMounts" $ | nindent 10 }}
+        resources:
+          {{- toYaml .Values.html5_apps_deployer.resources | nindent 10 }}
         env:
+          {{- range $k, $v := .Values.html5_apps_deployer.env }}
+          - name: {{ $k }}
+            value: {{ $v | quote }}
+          {{- end }}
+          - name: SERVICE_BINDING_ROOT
+            value: /bindings
           - name: EXIT_PROCESS_AFTER_UPLOAD
             value: "true"
           - name: PORT

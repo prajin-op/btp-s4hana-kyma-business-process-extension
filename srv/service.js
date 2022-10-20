@@ -6,7 +6,7 @@ module.exports = async srv => {
   const bupaSrv = await cds.connect.to("API_BUSINESS_PARTNER");
   const messaging = await cds.connect.to('messaging')
   const { postcodeValidator } = require('postcode-validator');
-  const LOG = cds.log('georel-service')
+  const LOG = cds.log('kyma-service')
 
   srv.on("READ", BusinessPartnerAddress, req => bupaSrv.run(req.query))
   srv.on("READ", BusinessPartner, req => bupaSrv.run(req.query))
@@ -72,10 +72,10 @@ module.exports = async srv => {
   async function validatePostcode(data){
     var isValidPinCode;
     if(data.postalCode){
-      Log.info("data", data);
+      LOG.info("data", data);
       const address = await SELECT.one(Addresses).where({ ID: data.ID });
       isValidPinCode = postcodeValidator(data.postalCode, address.country);
-      Log.info("isValidPinCOde",isValidPinCode);
+      LOG.info("isValidPinCOde",isValidPinCode);
       return isValidPinCode;
     }
   }

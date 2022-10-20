@@ -9,10 +9,10 @@ The main intent of this scenario is to complement an existing business process i
 
 The application showcases:
 
-- Building applications on SAP Business Technology Platform (SAP BTP) using SAP Cloud Application Programming Model (CAP)
-- Consuming events from SAP S/4HANA on-premise using SAP Event Mesh
-- Consuming REST APIs from SAP S/4HANA on-premise using SAP BTP, Connectivity Service
-- Building and deploying a function in SAP BTP Kyma Runtime, Serverless
+- Building applications on SAP Business Technology Platform (SAP BTP) using [SAP Cloud Application Programming Model (CAP)](https://cap.cloud.sap/docs/)
+- Consuming events from SAP S/4HANA on-premise using [SAP Event Mesh](https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/df532e8735eb4322b00bfc7e42f84e8d.html)
+- Consuming REST APIs from SAP S/4HANA on-premise using SAP BTP Platform Connectivity Service
+- Building and deploying a function in [SAP BTP Kyma Runtime, Serverless](https://kyma-project.io/docs/components/serverless)
 
 ## Business Scenario
 
@@ -29,7 +29,7 @@ Scenario details:
 
 ## Solution Architecture
 
-The Business Partner Validation application is developed using the SAP Cloud Application Programming Model (CAP) and runs on the SAP BTP, Kyma runtime. It consumes platform services like SAP Event Mesh, SAP HANA, and Connectivity. The events occurring in SAP S/4HANA on-premise are inserted into the SAP Event Mesh queue. The application running in Cloud Foundry is notified of events, consumes them from the queue and inserts the event data into the SAP HANA database. The Business Partner Validation Application uses SAP S/4HANA REST APIs to read additional Business Partner Data from the SAP S/4HANA system. In the next step, the Business Partner Validation App uses an event-driven approach as well by firing events that get consumed by Serverless Application, which posts the relevant business partner data to SAP S/4HANA on-premise system using SAP S/4HANA OData APIs.
+The Business Partner Validation application is developed using the SAP Cloud Application Programming Model (CAP) and runs on the SAP BTP, Kyma runtime. It consumes platform services like SAP Event Mesh, SAP HANA, and Connectivity. The events occurring in SAP S/4HANA on-premise are inserted into the SAP Event Mesh queue. The application running in Kyma is notified of events, consumes them from the queue and inserts the event data into the SAP HANA database. The Business Partner Validation Application uses SAP S/4HANA REST APIs to read additional Business Partner Data from the SAP S/4HANA system. In the next step, the Business Partner Validation App uses an event-driven approach as well by firing events that get consumed by Serverless Application, which posts the relevant business partner data to SAP S/4HANA on-premise system using SAP S/4HANA OData APIs.
 
 ![solution diagram](../../images/solutionDiagram.jpg)
 

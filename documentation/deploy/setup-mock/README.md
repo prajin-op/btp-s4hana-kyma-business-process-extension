@@ -17,7 +17,7 @@ To deploy the application, perform the following steps:
     ```shell  
     cds build --production
     pack build kymamock --path gen/srv --builder paketobuildpacks/builder:base
-    docker tag mock:latest <DOCKER_ACCOUNT>/kymamock:latest
+    docker tag kymamock:latest <DOCKER_ACCOUNT>/kymamock:latest
     docker push <DOCKER_ACCOUNT>/kymamock:latest
     ```
 
@@ -26,7 +26,7 @@ To deploy the application, perform the following steps:
 3. Edit the domain of your cluster, so that the URL of your CAP service can be generated. You can use the preconfigured domain name for your Kyma cluster:
 
     ```shell  
-    kubectl get gateway -n kyma-system kyma-gateway -o jsonpath='{.spec.servers[0].hosts[0]}'
+    kubectl get configmap -n kube-system shoot-info -ojsonpath='{.data.domain}'
     ```
 4. Find all <DOCKER_ACCOUNT> and replace all with your docker account/repository.
 
@@ -38,11 +38,14 @@ To deploy the application, perform the following steps:
 
 **Note:** Please make sure that you deploy the mock server to the same namespace where the Kyma application have been deployed.
 
-6. Run the following command to deploy your application
+6. Find all <RELEASE_NAME_OF_KYMAAPP> and replace all with the release name of deployed Cap application.
+
+7. Run the following command to deploy your application
 
     ```shell 
     helm upgrade --install <RELEASE_NAME> ./chart -n <NAMESPACE>
     ```
+**Note:** Please make sure that the release names are different for mock server and cap application.
 
 ### Set Up Destination in SAP BTP
 

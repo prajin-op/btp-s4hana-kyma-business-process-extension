@@ -71,4 +71,3 @@ spec:
       accessStrategies:
         - handler: allow
       mutators: []
-

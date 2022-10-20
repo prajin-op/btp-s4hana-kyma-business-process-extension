@@ -5,6 +5,11 @@
 
      kubectl apply -f ./script/connectivity.yaml -n <NAME_SPACE>
 
+ **[NOTE]:** If connectivity service instance resides in a different space, then create the secret for connectivity service by running the below command.
+ Make sure you update the `connectivity-secret.yaml` file with the required encoded values before secret creation.
+ 
+     kubectl apply -f ./script/connectivity-secret.yaml -n <NAME_SPACE>
+
 1. Navigate to root folder of the cloned source code.
 
 2. Open Makefile and edit the value for <DOCKER_ACCOUNT>.
@@ -15,23 +20,17 @@
     make push-images
     ```
 
-4. Open `chart/values.yaml` file:
+4. Open the `chart/values.yaml` file:
 
     Edit the domain of your cluster, so that the URL of your CAP service can be generated. You can use the pre-configured domain name for your Kyma cluster:
 
     ```shell
-    kubectl get gateway -n kyma-system kyma-gateway -o jsonpath='{.spec.servers[0].hosts[0]}'
+    kubectl get configmap -n kube-system shoot-info -ojsonpath='{.data.domain}'
     ```
 
 5. For a private container registry create a secret for your Docker repository and replace the value of <DOCKER_SECRET> with the created secret name:
 
     imagePullSecret: name: <DOCKER_SECRET>
-
-    Fo a public container registry create a dummy secret and replace the value of <DOCKER_SECRET> with the created secret name:
-
-    ```shell
-    kubectl create secret generic <DOCKER_SECRET> -n <NAMESPACE>
-    ```
 
 6. Find all <DOCKER_ACCOUNT> and replace all with your docker account/repository.
 
@@ -39,16 +38,17 @@
 
 8. Find all <RELEASE_NAME> and replace all with your Helm Chart's release name. This can be any name of your choice.
 
-9. Replace <gitusername> with encoded username.
+9. Find all <DB_SECRET_NAME> and replace all with the DB secret name. The DB secret name will be `caphana`, if the [db script](../../../script/db.sh) is not modified.
 
-10. Replace <gitpassword> with encoded password.
+10. Replace <gitusername> with encoded username.
 
-11. Replace <giturl> with url of your git repository.
+11. Replace <gitpassword> with encoded password.
 
-12. Replace <gitbranch> with the name of your branch.
+12. Replace <giturl> with url of your git repository.
 
-13. Run the following command to deploy your application:
+13. Replace <gitbranch> with the name of your branch.
 
+14. Run the following command to deploy your application:
 
     ```shell
     helm upgrade --install <RELEASE_NAME> ./chart -n <NAMESPACE>
