@@ -22,65 +22,42 @@ In this section, you will set up the subaccount in SAP BTP for developing the Ea
 
    * For categorizing your subaccount you can add some labels. Choose **Create**.
 
-5. Add entitlements:
+4. Add entitlements:
 
    1. Choose **Entitlements** &rarr; **Configure Entitlements** &rarr; **Add Service Plan**.
    ![entitlement](images/entitlements1.png)
 
-   2. Search for **SAP HANA Cloud** and select the **hana** service plan. For testing only, you can also choose the **hana-free** plan.
+   2. Search for **SAP HANA Cloud** and select the **tools (Application)** service plan. 
 
    ![entitlement hana](images/ent-hana.png)
 
-   3. Search for **Cloud Foundry Runtime** and select the **MEMORY** plan.
-
-   ![entitlement runtime](images/ent-runtime.png)
-
-   4. Search for **Kyma Runtime** and select the respective plan.
+   3. Search for **Kyma Runtime** and select the respective plan.
 
    ![entitlement runtime](images/kyma-entitlements.png)
 
-   5. Do the same for the following services:
+   4. Do the same for the following services:
 
       'SAP HANA Schemas & HDI container' ->Select Available Plans -> "hdi-shared"
       'Event Mesh' -> Select Available Service Plans -> "default"
       'Connectivity Service' -> Select Available Service Plans -> "proxy"
       'Launchpad Service' -> Select Available Service Plans -> "standard"
 
-   7. Choose **Add 7 Service Plans**.
+   5. Choose **Add 6 Service Plans**.
 
-   8. Choose **Save**.
+   6. Choose **Save**.
 
-4. Enable the Cloud Foundry environment:
-
-   ![enable CF](./images/cf1.png)
-
-   1. In the **Plan** field, select **standard**.
-   2. Choose **Create**.
-
-   ![enable CF](./images/cf2.png)
-
-4. Enable the Kyma environment:
+5. Enable the Kyma environment:
 
    ![enable Kyma](./images/enable-kyma.png)
 
    1. In the **Plan** field, select **standard**.
    2. Choose **Create**.
 
-6. Create a space in the Cloud Foundry environment.
-
-   1. Go to the **Overview** section in SAP BTP cockpit, and add a space to the Cloud Foundry environment.
-
-   ![create space](./images/create-space1.png)
-
-   2. Fill in the **Space Name** field and assign the **Space Manager** and **Space Developer** roles to your user.
-
-   ![create space](./images/create-space2.png)
-
-7. To add additional users to the subaccount, choose **Security** &rarr; **Users** and choose **Create**.
+6. To add additional users to the subaccount, choose **Security** &rarr; **Users** and choose **Create**.
 
    ![users](./images/user1.png)
 
-8. In the **User Name** field, enter the user ID in the selected identity provider.
+7. In the **User Name** field, enter the user ID in the selected identity provider.
 
    ![users](./images/user2.png)
 
@@ -94,13 +71,7 @@ In this section, you will set up the subaccount in SAP BTP for developing the Ea
 
    ![role collection](./images/rolecollection1.png)
 
-9.  Add users to the space.
-
-   1. Select **Cloud Foundry** &rarr; **Space** and choose your space. Then, choose **Members**, add the emails of the team members, and assign the necessary roles to them.
-
-   ![Space Members](images/space-members.png)
-
-10. Enable Launchpad Subscription:
+9. Enable Launchpad Subscription:
     
     1. In SAP BTP cockpit navigate to the **Services** &rarr; **Instances and Subscriptions** and choose **create**.
 
@@ -111,4 +82,12 @@ In this section, you will set up the subaccount in SAP BTP for developing the Ea
     4. Choose **Create**.
 
     ![lunchpad1](./images/launchpad2.png)
+
+10. Enable SAP HANA Cloud Subscription:
+
+    1. In SAP BTP cockpit navigate to the **Services** &rarr; **Instances and Subscriptions** and choose **create**.
+    2. In the **service** field choose **SAP HANA Cloud**.
+    3. In the **Plan** choose **tools**.
+    4. Choose **Create**.
+
 

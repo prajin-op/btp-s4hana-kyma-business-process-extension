@@ -12,7 +12,6 @@ This section contains the prerequisites that you have to fulfill before you get 
 ## Tools
 
 * [Node.js](https://nodejs.org/en/download/) - find the latest Node.js version supported by [CAP](https://cap.cloud.sap/docs/advanced/troubleshooting#node-version).
-* [Cloud Foundry command line interface (v7 version or later)](https://github.com/cloudfoundry/cli/wiki/V7-CLI-Installation-Guide).
 * [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 * [Visual Studio Code](https://code.visualstudio.com/download) or another suitable IDE or editor of your choice
 * [kubectl command line tool (kubectl)]( https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/)
@@ -24,9 +23,7 @@ This section contains the prerequisites that you have to fulfill before you get 
 
 ## SAP BTP Provider Account
 
-* Enable SAP BTP Cloud Foundry [global account](https://developers.sap.com/tutorials/cp-cf-entitlements-add.html).
 * SAP BTP [subaccount](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/8ed4a705efa0431b910056c0acdbf377.html?locale=en-US#loio8d6e3a0fa4ab43e4a421d3ed08128afa)
-* SAP BTP space
 
 ### Entitlements
 
@@ -35,7 +32,7 @@ The application requires the following [Entitlements and Quotas](https://help.sa
 | Service                           | Plan       | Number of Instances |
 |-----------------------------------|------------|:-------------------:|
 | SAP HANA Schemas & HDI Containers | hdi-shared |          1          |
-| SAP HANA Cloud                    | hana       |          1          |
+| SAP HANA Cloud                    | tools      |          1          |
 | Event Mesh                        | default    |          1          |
 | Kyma runtime                      |            |          1          |
 | Destination Service               |            |          1          |

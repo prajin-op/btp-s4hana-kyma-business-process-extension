@@ -21,7 +21,6 @@
     1. [Configure Command Line Tool *kubectl*](set%20up/kubeconfig-setup/README.md)
 4. [Deploy](deploy/README.md)
     1. [Determine Placeholders](deploy/prepare-deployment/README.md)
-    1. [Create an HDI Container and its Corresponding Secrets](deploy/create-hdicontainer/README.md)
     1. [Deploy the Application to SAP BTP, Kyma Runtime](deploy/deploy/README.md)
     1. [Configure Event-Based Communication between SAP S/4HANA and SAP Event Mesh](deploy/configure-channel/README.md)
     1. [Run the Business Partner Application](deploy/run-the-scenario/README.md)
