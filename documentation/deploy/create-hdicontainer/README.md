@@ -4,13 +4,13 @@
 
     `git clone <git_url>`
 
-2. set the namespace
-    
+2. Set the namespace:
+
     `kubectl config set-context --current --namespace <NAME_SPACE>`
 
-2. Run ./script/db.sh
+2. Run `./script/db.sh`:
 
->Note:  Ensure you have logged in to Cloud Foundry CLI.
+>Note: Ensure you have logged in to Cloud Foundry CLI.
 >
 >The script does the following:
 > - Creates HDI Service instance with the name `caphana`

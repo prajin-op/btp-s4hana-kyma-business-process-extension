@@ -71,12 +71,11 @@ The application requires the following set of [Entitlements and Quotas](https://
 ### Step 2: [Setup Connectivity between SAP S/4HANA System, SAP BTP](./documentation/set%20up/connectivity/README.md)
 
 ### Step 3: Build and Deploy the CAP Application
-
-- [Kubeconfig Setup](./documentation/set%20up/kubeconfig-setup/README.md)
-- [Create an Instance of SAP HANA Cloud](./documentation/set%20up/hana/README.md)
-- [Create an HDI container and its corresponding secrets](./documentation/deploy/create-hdicontainer/README.md)
-- [Determine placeholders](./documentation/deploy/prepare-deployment/README.md)
-- [Deploy the application to SAP BTP Kyma runtime](./documentation/deploy/README.md)
+- [Configure Your Global Account and Subaccounts in SAP BTP ](configure-account/README.md)
+- [Configure Command Line Tool kubectl](./documentation/set%20up/kubeconfig-setup/README.md)
+- [Create an SAP HANA Cloud Instance](./documentation/set%20up/hana/README.md)
+- [Determine Placeholder Values](./documentation/deploy/prepare-deployment/README.md)
+- [Deploy the Application to SAP BTP Kyma Runtime](./documentation/deploy/README.md)
 
 ### Step 4: [Configure Event-Based Communication between SAP S/4HANA and SAP Event Mesh](./documentation/deploy/configure-channel/README.md)
 
@@ -98,11 +97,11 @@ The application requires the following set of [Entitlements and Quotas](https://
 
 ![S/4HANA login](./documentation/images/GuiLogin.JPG)
 
-7. Enter the transaction code 'bp'.
+7. Enter the transaction code **bp**.
 
 ![bp transaction](./documentation/images/BPtransaction.JPG)
 
-8. Click on **Person**.
+8. Choose **Person**.
 
 ![person](./documentation/images/person.png)
 

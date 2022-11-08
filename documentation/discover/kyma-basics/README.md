@@ -1,6 +1,6 @@
 # Discover the Basics of SAP BTP, Kyma Runtime
 
-Before going deeper with this mission, we recommend knowing the basics on how to use Kyma in a single tenant application.
+Before you continue with this mission, we recommend knowing the basics on how to use Kyma in a single tenant application.
 
 The mission [Getting Started with the SAP BTP, Kyma runtime](https://discovery-center.cloud.sap/missiondetail/3252/3281/) provides a good overview on how to provision and configure systems in the SAP BTP, Kyma runtime.
 

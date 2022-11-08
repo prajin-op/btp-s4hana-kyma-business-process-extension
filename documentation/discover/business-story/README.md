@@ -43,7 +43,7 @@ The tutorial is provided on the "as-is" basis. Currently, there are no known iss
 
 ## How to Obtain Support
 
-- Create an issue to get support or to report a bug in [GitHub](https://github.tools.sap/refapps/kyma-cap-s4ems/issues).
+Create an issue to get support or to report a bug in [GitHub](https://github.tools.sap/refapps/kyma-cap-s4ems/issues).
 
 ## License
 

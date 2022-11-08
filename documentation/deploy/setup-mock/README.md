@@ -12,7 +12,7 @@ git clone <Git URL> -b mockserver
 
 To deploy the application, perform the following steps:
 
-1. Navigate to root folder int he cloned source code and run the following commands to build and push the docker image
+1. Navigate to root folder int he cloned source code and run the following commands to build and push the docker image:
 
     ```shell  
     cds build --production
@@ -21,31 +21,32 @@ To deploy the application, perform the following steps:
     docker push <DOCKER_ACCOUNT>/kymamock:latest
     ```
 
-2. Navigate to the charts folder in the cloned source code.
+2. Navigate to the **charts** folder in the cloned source code.
 
 3. Edit the domain of your cluster, so that the URL of your CAP service can be generated. You can use the preconfigured domain name for your Kyma cluster:
 
     ```shell  
     kubectl get configmap -n kube-system shoot-info -ojsonpath='{.data.domain}'
     ```
-4. Find all <DOCKER_ACCOUNT> and replace all with your docker account/repository.
+4. Find all values for <DOCKER_ACCOUNT> and replace all with your docker account/repository.
 
-5.  For a private container registry - Create a secret for your Docker repository and replace the value of DOCKER_SECRET with the created secret name.
+5. For a private container registry: Create a secret for your Docker repository and replace the value of <DOCKER_SECRET> with the created secret name.
    
     imagePullSecret: name: <DOCKER_SECRET>
 
-    public container registry - Create a dummy secret and replace the value of DOCKER_SECRET with the created secret name
+    public container registry: Create a dummy secret and replace the value of <DOCKER_SECRET> with the created secret name.
 
-**Note:** Please make sure that you deploy the mock server to the same namespace where the Kyma application have been deployed.
+**Note:** Make sure that you deploy the mock server to the same namespace where the Kyma application have been deployed.
 
-6. Find all <RELEASE_NAME_OF_KYMAAPP> and replace all with the release name of deployed Cap application.
+6. Find all values for <RELEASE_NAME_OF_KYMAAPP> and replace all with the release name of deployed CAP application.
 
-7. Run the following command to deploy your application
+7. Run the following command to deploy your application:
 
     ```shell 
     helm upgrade --install <RELEASE_NAME> ./chart -n <NAMESPACE>
     ```
-**Note:** Please make sure that the release names are different for mock server and cap application.
+    
+**Note:** Make sure that the release names are different for mock server and CAP application.
 
 ### Set Up Destination in SAP BTP
 
@@ -64,17 +65,17 @@ To deploy the application, perform the following steps:
 
 ### Demo Script
 
-1. Start your Business Partner Validation Application
+1. Start your Business Partner Validation Application:
 
-- Go to *Instances and Subscriptions.*
-- Find *Launchpad Service* and click to open the application
-- In the Website, Manager find your created Website and click on tile to open
-- Click on Business Partner Validation tile
-- The list of BusinessPartners along with their verification status gets displayed.
+- Go to **Instances and Subscriptions**.
+- Find **Launchpad Service** and click to open the application.
+- In the Website Manager find your created Website and click on tile to open it.
+- Click on **Business Partner Validation** tile.
+- The list of Business Partners along with their verification status gets displayed.
 
  ![App](./images/mock01.png)
 
-2. Create a new BusinessPartner in the mock server using business partner API:
+2. Create a new Business Partner in the mock server using business partner API:
 
 ```
 POST https://<mock_srv_url>/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner
@@ -100,17 +101,18 @@ POST https://<mock_srv_url>/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPar
     ]
 }
 ```
-3. Now, go back to the BusinessPartnerValidation application to see if the new BusinessPartner has appeared as a new entry in the UI.
+
+3. Now, go back to the BusinessPartnerValidation application to see if the new Business Partner has appeared as a new entry in the UI.
 
  ![App](./images/mock01.png)
 
-4. Go to the details page for the new BusinessPartner
+4. Go to the details page for the new Business Partner.
 
-5. Click on Edit and set the Status to *Verified*
+5. Choose **Edit** and set the Status to **Verified**.
 
  ![Backend](./images/mock02.png)
 
-6. (Optional) You can configure Event Mesh in a way so that you can see the created Event. For that you could create an additional queue that subscribes to the topic as well.
+6. (Optional) You can configure SAP Event Mesh in a way so that you can see the created event. For that you could create an additional queue that subscribes to the topic as well.
 
  ![Backend](./images/mock03.png)
 

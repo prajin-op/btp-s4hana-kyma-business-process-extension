@@ -24,7 +24,7 @@
     1. [Deploy the Application to SAP BTP, Kyma Runtime](deploy/deploy/README.md)
     1. [Configure Event-Based Communication between SAP S/4HANA and SAP Event Mesh](deploy/configure-channel/README.md)
     1. [Run the Business Partner Application](deploy/run-the-scenario/README.md)
-    1. Optional [Setup Mock Server](deploy/setup-mock/README.md)
+    1. Optional [Set Up Mock Server](deploy/setup-mock/README.md)
 5. [Complete](complete/README.md)
     1. [Complete the Mission](complete/complete-mission/README.md)
     2. [Provide Your Feedback](complete/give-feedback/README.md)

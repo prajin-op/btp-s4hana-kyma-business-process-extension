@@ -9,7 +9,7 @@ See section [Creating RFC Destination](https://help.sap.com/docs/r/810dfd34f2cc4
 
 1. Open your browser and navigate to your subaccount in SAP BTP Cockpit.
 
-2. Navigate to **Overview** and click on **consoleURL** under Kyma
+2. Navigate to **Overview** and click on **consoleURL** under **Kyma**.
 
 3. On the Kyma Console, navigate to your **namespace** and then to **secrets**.
 
@@ -25,7 +25,7 @@ See section [Creating RFC Destination](https://help.sap.com/docs/r/810dfd34f2cc4
 
  ![Configure Channel](./images/EventBased4.png)
 
- 3. In the popup choose a **channel name**, for example, 'S4EM', provide a description and paste the **Service Key** you have created in the earlier steps using `event-mesh-template.json` file.
+ 3. In the popup, choose a **channel name**, for example, 'S4EM', provide a description and paste the **Service Key** you have created in the earlier steps using `event-mesh-template.json` file.
 
  4. Choose **save configuration**.
 
@@ -39,6 +39,6 @@ See section [Creating RFC Destination](https://help.sap.com/docs/r/810dfd34f2cc4
 
   ![Check Connection](./images/EventBased6.png)
 
- 8. In the next screen choose **Create** &rarr; **Topic** and choose: "BusinessPartner/created/V1" and "BusinessPartner/changed/V1".
+ 8. In the next screen, choose **Create** &rarr; **Topic** and choose: "BusinessPartner/created/V1" and "BusinessPartner/changed/V1".
 
  ![Create Outbound Bindings](./images/EventBased7.png)
