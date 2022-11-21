@@ -39,17 +39,15 @@
 
 8. Find all values for <RELEASE_NAME> and replace all with your Helm Chart's release name. This can be any name of your choice.
 
-9. Find all values for <DB_SECRET_NAME> and replace all with the database secret name. The database secret name will be `caphana`, if the [db script](../../../script/db.sh) is not modified.
+9. Replace the value <gitusername> with encoded username.
 
-10. Replace the value <gitusername> with encoded username.
+10. Replace the value <gitpassword> with encoded password.
 
-11. Replace the value <gitpassword> with encoded password.
+11. Replace the value <giturl> with url of your git repository.
 
-12. Replace the value <giturl> with url of your git repository.
+12. Replace the values <gitbranch> with the name of your branch.
 
-13. Replace the values <gitbranch> with the name of your branch.
-
-14. Run the following command to deploy your application:
+13. Run the following command to deploy your application:
 
     ```shell
     helm upgrade --install <RELEASE_NAME> ./chart -n <NAMESPACE>

@@ -1,8 +1,10 @@
 # Configure Your Subaccount in SAP BTP
 
-In this section, you will set up the subaccount in SAP BTP for developing the Easy Franchise application.
+In this section, you will set up the subaccount in SAP BTP for developing the S/4HANA Kyma extension application.
 
 **Prerequisite:** You must have an administrator role for SAP BTP.
+
+>Note: Ignore step 1 [Log in to the SAP BTP cockpit] till section 3 in Step 4 [Add entitlements], if SAP BTP set-up Automator is used.
 
 1. Log in to the SAP BTP cockpit and select your global account.
 
@@ -27,20 +29,20 @@ In this section, you will set up the subaccount in SAP BTP for developing the Ea
    1. Choose **Entitlements** &rarr; **Configure Entitlements** &rarr; **Add Service Plan**.
    ![entitlement](images/entitlements1.png)
 
-   2. Search for **SAP HANA Cloud** and select the **tools (Application)** service plan. 
-
-   ![entitlement hana](images/ent-hana.png)
-
-   3. Search for **Kyma Runtime** and select the respective plan.
+   2. Search for **Kyma Runtime** and select the respective plan.
 
    ![entitlement runtime](images/kyma-entitlements.png)
+
+   3. Search for **SAP HANA Cloud** and select the **tools (Application)** service plan. 
+
+   ![entitlement hana](images/ent-hana.png)
 
    4. Do the same for the following services:
 
       'SAP HANA Schemas & HDI container' ->Select Available Plans -> "hdi-shared"
       'Event Mesh' -> Select Available Service Plans -> "default"
       'Connectivity Service' -> Select Available Service Plans -> "proxy"
-      'Launchpad Service' -> Select Available Service Plans -> "standard"
+      'Launchpad Service' -> Select Available Service Plans -> "standard" [ignore if you had used BTP Setup Automator]
 
    5. Choose **Add 6 Service Plans**.
 

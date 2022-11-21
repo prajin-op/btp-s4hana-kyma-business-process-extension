@@ -1,15 +1,17 @@
 # Discover
 
-Welcome to this tutorial explaining how SAP partners can develop a multitenant extension application running on the SAP BTP, Kyma environment. The documentation provides first a section explaining the details of the application components and then a step-by-step guide on how to develop, deploy, and run the multitenant application.
+Welcome to this tutorial explaining how customers can develop an S/4HANA extension application running on the SAP BTP, Kyma environment. The documentation provides first a section explaining the details of the application components and then a step-by-step guide on how to develop, deploy, and run the extension application.
 
 Before starting the tutorial, here is all you need to know:
 
-- [Learn the Basics of SAP BTP](btp-basics/README.md)
-- [Discover the Basics of SAP BTP, Kyma Runtime](kyma-basics/README.md)
-- [Learn the Business Scenario of this Mission](business-story/README.md)
-- [Prerequisites and Required Systems](prerequisites/README.md)
-- [Understand the Database Service](db-service/README.md)
-- [Understand the Business Partner Service](bp-service/README.md)
-- [Understand the QRCode Generator](qrcodegenerator/README.md)
-- [Understand the Approuter](approuter/README.md)
-- [CAP on Kyma](cap-on-kyma/README.md)
+- [Learn how to use missions and project boards in SAP Discovery Center](./how-to-use-missions/README.md)
+- [The Mission Story](./business-story/README.md)
+- [Learn the Basics of SAP BTP](./btp-basics/README.md)
+- [Explore SAP Integration Suite](./sap-integration-suite/README.md)
+- [Learn the concepts behind business events and event-driven architectures](./event-driven-architecture/README.md)
+- [Learn about SAP Event Mesh](./sap-event-mesh/README.md)
+- [Discover the Cloud Application Programming Model (CAP)](./discover-cap/README.md)
+- [Discover the SAP Cloud SDK](./discover-sap-cloud-sdk/README.md)
+- [Discover SAPUI5 and SAP Fiori Elements](./ui5-fiori-elements-business-app-studio/README.md)
+- [Learn About of SAP BTP, Kyma Runtime](./kyma-basics/README.md)
+- [CAP on Kyma](./cap-on-kyma/README.md)
