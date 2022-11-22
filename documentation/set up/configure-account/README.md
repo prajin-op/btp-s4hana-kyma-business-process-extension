@@ -4,8 +4,6 @@ In this section, you will set up the subaccount in SAP BTP for developing the S/
 
 **Prerequisite:** You must have an administrator role for SAP BTP.
 
->Note: Ignore step 1 [Log in to the SAP BTP cockpit] till section 3 in Step 4 [Add entitlements], if SAP BTP set-up Automator is used.
-
 1. Log in to the SAP BTP cockpit and select your global account.
 
 2. In the **Account Explorer**, choose **Create** &rarr; **Subaccount**.
@@ -39,10 +37,10 @@ In this section, you will set up the subaccount in SAP BTP for developing the S/
 
    4. Do the same for the following services:
 
-      'SAP HANA Schemas & HDI container' ->Select Available Plans -> "hdi-shared"
-      'Event Mesh' -> Select Available Service Plans -> "default"
-      'Connectivity Service' -> Select Available Service Plans -> "proxy"
-      'Launchpad Service' -> Select Available Service Plans -> "standard" [ignore if you had used BTP Setup Automator]
+      - 'SAP HANA Schemas & HDI container' ->Select Available Plans -> "hdi-shared"
+      - 'Event Mesh' -> Select Available Service Plans -> "default"
+      - 'Connectivity Service' -> Select Available Service Plans -> "proxy"
+      - 'Launchpad Service' -> Select Available Service Plans -> "standard"
 
    5. Choose **Add 6 Service Plans**.
 
