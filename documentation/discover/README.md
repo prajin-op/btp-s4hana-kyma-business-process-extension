@@ -12,6 +12,6 @@ Before starting the tutorial, here is all you need to know:
 - [Learn about SAP Event Mesh](./sap-event-mesh/README.md)
 - [Discover the SAP Cloud Application Programming Model (CAP)](./discover-cap/README.md)
 - [Discover the SAP Cloud SDK](./discover-sap-cloud-sdk/README.md)
-- [Discover SAPUI5 and SAP Fiori Elements](./ui5-fiori-elements-business-app-studio/README.md)
+- [Discover SAPUI5 and SAP Fiori Elements](./ui5-fiori-elements-business-app-studio-launchpad/README.md)
 - [Learn About of SAP BTP, Kyma Runtime](./kyma-basics/README.md)
 - [CAP on Kyma](./cap-on-kyma/README.md)
