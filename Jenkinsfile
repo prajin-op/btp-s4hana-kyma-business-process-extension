@@ -11,7 +11,7 @@ node('kyma-agent'){
       jsonfile['namespace'] = 'refapps/kyma-cap-s4ems-op/event'
       writeJSON file: './chart/event-mesh.json', json: jsonfile
       bat '''
-      sed -i "s/<DOCKER_REPOSITORY>/prajinop/g" Makefile
+      sed -i "s/<DOCKER_REPOSITORY>/prajinop/g" Jenkins_Makefile
       sed -i -e "s/<domain>/c-4eb97ca.stage.kyma.ondemand.com/g" ./chart/values.yaml
       sed -i -e "s/<RELEASE_NAME>/kymareleaseop/g" ./chart/values.yaml
       sed -i -e "s,<DOCKER_ACCOUNT>,prajinop,g" ./chart/values.yaml
