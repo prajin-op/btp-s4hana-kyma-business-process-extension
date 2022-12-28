@@ -2,7 +2,7 @@
 # yaml-language-server: $schema=./values.root.schema.json
 
 global:
-  domain: <DOMAIN>
+  domain: <domain>
   imagePullSecret: {}
 srv:
   bindings:
