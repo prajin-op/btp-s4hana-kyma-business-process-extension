@@ -10,7 +10,8 @@ build-dbimage:
 	docker tag kyma-cap-s4ems-db:latest $(DOCKER_ACCOUNT)/kyma-cap-s4ems-db:latest
 
 build-capimage:
-	docker build --pull --rm -f "Dockerfile" -t $(DOCKER_ACCOUNT)/kyma-cap-s4ems-srv:latest ".
+	pack build kyma-cap-s4ems-srv --path gen/srv --builder paketobuildpacks/builder:base
+	docker tag kyma-cap-s4ems-srv:latest $(DOCKER_ACCOUNT)/kyma-cap-s4ems-srv:latest
 
 build-uiimage:
 	docker build --pull --rm -f app/businesspartners/Dockerfile -t $(DOCKER_ACCOUNT)/kyma-cap-s4ems-html5-deployer:latest ./app/businesspartners
