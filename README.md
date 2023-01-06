@@ -1,3 +1,4 @@
+[![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/btp-s4hana-kyma-business-process-extension)](https://api.reuse.software/info/github.com/SAP-samples/btp-s4hana-kyma-business-process-extension)
 # SAP S/4HANA Extend Business Process Scenario in SAP BTP, Kyma Runtime
 ## Description
 
@@ -71,7 +72,7 @@ The application requires the following set of [Entitlements and Quotas](https://
 ### Step 2: [Setup Connectivity between SAP S/4HANA System, SAP BTP](./documentation/set%20up/connectivity/README.md)
 
 ### Step 3: Build and Deploy the CAP Application
-- [Configure Your Global Account and Subaccounts in SAP BTP ](configure-account/README.md)
+- [Configure Your Global Account and Subaccounts in SAP BTP ](./documentation/set%20up/configure-account/README.md)
 - [Configure Command Line Tool kubectl](./documentation/set%20up/kubeconfig-setup/README.md)
 - [Create an SAP HANA Cloud Instance](./documentation/set%20up/hana/README.md)
 - [Determine Placeholder Values](./documentation/deploy/prepare-deployment/README.md)
@@ -153,8 +154,8 @@ No known issues.
 
 ## How to Obtain Support
 
-In case you find a bug, or you need additional support, please open an issue here in GitHub.
+In case you find a bug, or you need additional support, please open an issue here in [GitHub](https://github.com/SAP-samples/btp-s4hana-kyma-business-process-extension/issues).
 
 ## License
 
-Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved. This project is licensed under the Apache Software License, version 2.0 except as noted otherwise in the [LICENSE](LICENSES/Apache-2.0.txt) file.
+Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved. This project is licensed under the Apache Software License, version 2.0 except as noted otherwise in the [LICENSE](LICENSE) file.
