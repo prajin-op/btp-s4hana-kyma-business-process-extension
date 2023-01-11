@@ -4,8 +4,13 @@ node('kyma-agent'){
   try {
     stage('Build'){
       deleteDir()
+	    checkout scm
+	    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'githubbase64secret', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+	      bat '''
+	      sed -i "s/<base64encodeduser>/%USERNAME%/g" ./chart/values.yaml
+      	      sed -i "s/<base_64_encoded_GIT_secret>/%PASSWORD%/g" ./chart/values.yaml
+	      '''
       withKubeConfig([credentialsId: 'kubeconfig-i572426']) {
-      checkout scm
       jsonfile = readJSON file: './chart/event-mesh.json'
       jsonfile['emname'] = 'kyma-cap-s4ems-op'
       jsonfile['namespace'] = 'refapps/kyma-cap-s4ems-op/event'
@@ -16,13 +21,12 @@ node('kyma-agent'){
       sed -i -e "s/<RELEASE_NAME>/kymareleaseop/g" ./chart/values.yaml
       sed -i -e "s,<DOCKER_ACCOUNT>,prajinop,g" ./chart/values.yaml
       sed -i -e "s/<CONNECTIVITY_SECRET>/kyma-cap-s4ems-connectivity-secret/g" ./chart/values.yaml
-      sed -i -e "s/<base64encodeduser>/aTU3MjQyNg==/g" ./chart/values.yaml
-      sed -i -e "s/<base_64_encoded_GIT_secret>/Z2hwX2JrS21WVUVDYVVEMllEQ1ZqTU1sS0ZldjdOZndNUDF6b2k2aA==/g" ./chart/values.yaml
       sed -i "s,<git_repo_url>,https://github.tools.sap/I572426/kyma-cap-s4ems.git,g" ./chart/values.yaml
       sed -i "s,xsappname: kyma-cap-s4ems,xsappname: kyma-cap-s4ems-op,g" ./chart/values.yaml
       sed -i "s/<branch>/master/g" ./chart/values.yaml	
       make push-images -f ./Jenkins_Makefile
       '''
+      }
     }
   }
     stage('Deploy'){
