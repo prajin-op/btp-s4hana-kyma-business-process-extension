@@ -62,7 +62,7 @@ The application requires the following set of [Entitlements and Quotas](https://
 | Event Mesh                        | default            |          1          |
 | Kyma runtime                      |                    |          1          |
 | Connectivity Service              | connectivity_proxy |          1          |
-| Launchpad Service                 | standard           |  Subscription       |
+| SAP Build Work Zone               | standard           |  Subscription       |
 
 ## Configuration
 
@@ -84,7 +84,7 @@ The application requires the following set of [Entitlements and Quotas](https://
 ## Demo Script
    
 1. To start your Business Partner Validation Application go to **Instances and Subscriptions**.
-2. Find **Launchpad Service** and click to open the application.
+2. Find **SAP Build Work Zone** and click to open the application.
 3. On the website, find your created website and click on the tile to open it.
 4. Click on the **Business Partner Validation** tile.
 
