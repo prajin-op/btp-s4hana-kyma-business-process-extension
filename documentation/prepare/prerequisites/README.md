@@ -21,7 +21,7 @@ This section contains the prerequisites that you have to fulfill before you get 
 * [Docker](https://www.docker.com/products/docker-desktop)
 * See [prerequisites section](https://cap.cloud.sap/docs/guides/deployment/deploy-to-kyma#prerequisites) for Deploying CAP Applications to Kyma runtime for other required tools.
 
-### Entitlements
+## Entitlements
 
 The application requires the following [Entitlements and Quotas](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/00aa2c23479d42568b18882b1ca90d79.html?locale=en-US) in the SAP BTP cockpit:
 
