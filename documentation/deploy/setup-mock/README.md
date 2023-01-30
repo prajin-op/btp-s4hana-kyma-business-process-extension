@@ -1,5 +1,5 @@
 # Set Up Mock Server
-
+Mock Server can be used in case there is no S/4HANA system available for testing this mission. Mock Server is a [CAP](https://cap.cloud.sap/docs/get-started/) based application that servers API and Events required for this mission.
 ## Clone the Mock Server
 
 Clone the mock server application from [GitHub](https://github.com/SAP-samples/btp-s4hana-kyma-business-process-extension) using the branch `mockserver`:
