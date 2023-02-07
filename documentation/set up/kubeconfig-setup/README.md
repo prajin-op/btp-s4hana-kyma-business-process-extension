@@ -11,18 +11,18 @@ The **kubectl** command line tool lets you control your clusters. You will use i
 3. Refer [here](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/3e25944e491049b2aeec68c562a5ee48.html) to access a Kyma Instance using kubectl.
 
 4. Create a namespace:
-5. Either you can create the namespaces using kubectl or using the Kyma dashboard.
+Either you can create the namespaces using kubectl or using the Kyma dashboard.
 
-   Here are the steps using kubectl. Open a shell and run:
+Here are the steps using kubectl. Open a shell and run:
 
-         ```shell
-         kubectl create namespace <YOUR_NAMESPACE_NAME>
-         kubectl label namespace <YOUR_NAMESPACE_NAME> istio-injection=enabled
-         ```
+   ```shell
+   kubectl create namespace <YOUR_NAMESPACE_NAME>
+   kubectl label namespace <YOUR_NAMESPACE_NAME> istio-injection=enabled
+   ```
 
-   Here are the steps using the Kyma Dashboard:
+Here are the steps using the Kyma Dashboard:
 
-   1. Open the Kyma Dashboard and choose **Add new** namespace**. Enter a value in the **Name** field.
-   2. Switch the toggle button **Enable Sidecar Injection**. 
-      ![](images/createNamespace.png)
-   > Note: Side Car injection must be enabled to run this application.
+1. Open the Kyma Dashboard and choose **Add new** namespace**. Enter a value in the **Name** field.
+2. Switch the toggle button **Enable Sidecar Injection**. 
+   ![](images/createNamespace.png)
+  > Note: Side Car injection must be enabled to run this application.
