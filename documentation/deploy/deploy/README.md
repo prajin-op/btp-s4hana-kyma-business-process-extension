@@ -13,15 +13,16 @@
 
  2. If the connectivity service is not provisioned after creation of cluster by your administrator, you can do it by running the following command:
 
-     kubectl apply -f ./script/connectivity.yaml -n <NAME_SPACE>
+    ```
+    kubectl apply -f ./script/connectivity.yaml -n <NAME_SPACE>
+    ```
 
- **[NOTE]:** If connectivity service instance resides in a different namespace, then create the secret for connectivity service by running the following command.
+    **[NOTE]:** If connectivity service instance resides in a different namespace, then create the secret for connectivity service by running the following command.
  Make sure you update the `connectivity-secret.yaml` file with the required encoded values before secret creation.
 
+     ```
      kubectl apply -f ./script/connectivity-secret.yaml -n <NAME_SPACE>
-
-
-
+     ```
 3. Open Makefile and edit the value for <DOCKER_ACCOUNT>.
 
 4. Build the applications and also create and push the docker images to docker account by executing the following script:
@@ -40,7 +41,9 @@
 
 6. For a private container registry, create a secret for your Docker repository and replace the value of <DOCKER_SECRET> with the created secret name:
 
-    imagePullSecret: name: <DOCKER_SECRET>
+   ```
+   imagePullSecret: name: <DOCKER_SECRET>
+   ```
 
 7. Find all values for <DOCKER_ACCOUNT> and replace all with your docker account/repository.
 
