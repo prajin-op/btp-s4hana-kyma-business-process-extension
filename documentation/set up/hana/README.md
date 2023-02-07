@@ -1,6 +1,6 @@
 # Create an SAP HANA Cloud Instance
 
-For this mission, we will SAP HANA Cloud as our persistence layer.
+For this mission, we will use SAP HANA Cloud as our persistence layer.
 Use the following steps to create an SAP HANA Cloud instance on SAP BTP:
 
 1. Navigate to SAP HANA Cloud Subscription Application:
