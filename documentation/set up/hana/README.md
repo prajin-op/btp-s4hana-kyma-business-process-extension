@@ -12,7 +12,7 @@ Use the following steps to create an SAP HANA Cloud instance on SAP BTP:
 
 2. You will be logged in to SAP HANA Cloud Central. Choose **Create Instance**.
 
-3.  Choose the type of SAP HANA Cloud instance as **SAP HANA Cloud, SAP HANA Database** and select **Next Step**.
+3. Choose the type of SAP HANA Cloud instance as **SAP HANA Cloud, SAP HANA Database** and select **Next Step**.
 
    ![HANA](./images/createDatabase02.png)
 
