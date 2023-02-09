@@ -33,7 +33,7 @@ The application requires the following [Entitlements and Quotas](https://help.sa
 | Event Mesh                        | default            |          1          |
 | Kyma runtime                      |                    |          1          |
 | Connectivity Service              | connectivity_proxy |          1          |
-| SAP Build Work Zone               | standard           |  Subscription       |
+| SAP Build Work Zone               | standard/free      |  Subscription       |
 
 ## Instance of Connectivity Service
 

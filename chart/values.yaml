@@ -2,7 +2,7 @@
 # yaml-language-server: $schema=./values.root.schema.json
 
 global:
-  domain: <domain>
+  domain: <DOMAIN>
   imagePullSecret: {}
 srv:
   bindings:
@@ -18,7 +18,7 @@ srv:
     repository: <DOCKER_ACCOUNT>/kyma-cap-s4ems-srv
     tag: latest
   env:
-    SERVERLESS_URL: https://<RELEASE_NAME>-qrcodegenerator.<domain>
+    SERVERLESS_URL: https://<RELEASE_NAME>-qrcodegenerator.<DOMAIN>
   resources:
     limits:
       ephemeral-storage: 1G
