@@ -65,11 +65,11 @@ node('kyma-agent'){
       checkout scm
       catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
         withKubeConfig([credentialsId: 'kubeconfig-i572426']) {
-          bat '''
-	  Start-Sleep -s 180
-          cd ./tests/testscripts/util
-	  kubectl get secret s4kymarelease-srv-auth -n cicdkyma -o json > appenv.json
-	  npm test     
+		powershell 'Start-Sleep -Seconds 180'
+		bat '''
+		cd ./tests/testscripts/util
+		kubectl get secret s4kymarelease-srv-auth -n cicdkyma -o json > appenv.json
+		npm test     
           '''
         }
       }
@@ -77,8 +77,8 @@ node('kyma-agent'){
     stage('Undeploy'){
       withKubeConfig([credentialsId: 'kubeconfig-i572426']) {
       bat '''
-//       helm uninstall s4kymamock -n cicdkyma
-//       helm uninstall s4kymarelease -n cicdkyma
+      helm uninstall s4kymamock -n cicdkyma
+      helm uninstall s4kymarelease -n cicdkyma
       '''
     }
   }
