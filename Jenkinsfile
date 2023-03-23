@@ -18,7 +18,6 @@ node('kyma-agent'){
       xssecjson = readJSON file: './chart/xs-security.json'
       xssecjson['xsappname'] = 'kyma-s4ems'
       bat '''
-      sed -i "/^runAsNonRoot/d" ./chart/charts/web-application/templates/deployment.yaml
       sed -i "s/<DOCKER_REPOSITORY>/prajinop/g" Jenkins_Makefile
       sed -i -e "s/<DOMAIN>/aaee644.kyma.ondemand.com/g" ./chart/values.yaml
       sed -i -e "s/<RELEASE_NAME>/s4kymarelease/g" ./chart/values.yaml
@@ -28,6 +27,7 @@ node('kyma-agent'){
       sed -i "s,<git_repo_url>,https://github.tools.sap/I572426/kyma-cap-s4ems.git,g" ./chart/values.yaml
       sed -i "s,xsappname: kyma-cap-s4ems,xsappname: kyma-s4ems,g" ./chart/values.yaml
       sed -i "s/<git_branch>/master/g" ./chart/values.yaml
+      sed -i "s,runAsNonRoot: true,runAsNonRoot: false,g"
       make push-images -f ./Jenkins_Makefile
       '''
       }
