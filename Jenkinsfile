@@ -24,7 +24,9 @@ node('kyma-agent'){
       sed -i -e "s/<namespace>/cicdkyma/g" ./chart/values.yaml
       sed -i "s,<git_repo_url>,https://github.tools.sap/I572426/kyma-cap-s4ems.git,g" ./chart/values.yaml
       sed -i "s,xsappname: kyma-cap-s4ems,xsappname: kyma-cap-s4ems-op,g" ./chart/values.yaml
-      sed -i "s/<git_branch>/master/g" ./chart/values.yaml	
+      sed -i "s/<git_branch>/master/g" ./chart/values.yaml
+      sed -i '107d' ./chart/charts/web-application/templates/deployment.yaml
+      sed -i '108d' ./chart/charts/web-application/templates/deployment.yaml
       make push-images -f ./Jenkins_Makefile
       '''
       }
