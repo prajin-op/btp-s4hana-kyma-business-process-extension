@@ -56,6 +56,7 @@ node('kyma-agent'){
   }
     stage('Deploy Mock-Server'){
       withKubeConfig([credentialsId: 'kubeconfig-i572426']) {
+	      powershell 'Start-Sleep -Seconds 180'
         bat '''
         helm upgrade --install s4kymamock ./chart -n cicdkyma
         '''
