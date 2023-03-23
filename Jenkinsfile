@@ -18,12 +18,12 @@ node('kyma-agent'){
       xssecjson = readJSON file: './chart/xs-security.json'
       xssecjson['xsappname'] = 'kyma-s4ems'
       def deploymentfile = readFile './chart/charts/web-application/templates/deployment.yaml'
-      deploymentfile = deploymentfile.replaceAll(/^runAsNonRoot.*$/m, '')
       def lines = deploymentfile.readLines()
       lines.remove(106)
       deploymentfile = lines.join('\n')
       writeFile file: './chart/charts/web-application/templates/deployment.yaml', text: deploymentfile
       bat '''
+      sed -i "/^runAsNonRoot/d" ./chart/charts/web-application/templates/deployment.yaml
       sed -i "s/<DOCKER_REPOSITORY>/prajinop/g" Jenkins_Makefile
       sed -i -e "s/<DOMAIN>/aaee644.kyma.ondemand.com/g" ./chart/values.yaml
       sed -i -e "s/<RELEASE_NAME>/s4kymarelease/g" ./chart/values.yaml
