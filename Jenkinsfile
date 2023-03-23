@@ -7,23 +7,24 @@ node('kyma-agent'){
 	    checkout scm
 	    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'githubbase64secret', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
 	      bat '''
-	      sed -i "s/<base64encodeduser>/%USERNAME%/g" ./chart/values.yaml
+	      sed -i "s/<base64_encodeduser>/%USERNAME%/g" ./chart/values.yaml
       	      sed -i "s/<base_64_encoded_GIT_secret>/%PASSWORD%/g" ./chart/values.yaml
 	      '''
       withKubeConfig([credentialsId: 'kubeconfig-i572426']) {
       jsonfile = readJSON file: './chart/event-mesh.json'
-      jsonfile['emname'] = 'kyma-cap-s4ems-op'
-      jsonfile['namespace'] = 'refapps/kyma-cap-s4ems-op/event'
+      jsonfile['emname'] = 'kymaems'
+      jsonfile['namespace'] = 'refapps/kymaems/event'
       writeJSON file: './chart/event-mesh.json', json: jsonfile
       bat '''
       sed -i "s/<DOCKER_REPOSITORY>/prajinop/g" Jenkins_Makefile
-      sed -i -e "s/<domain>/c-4eb97ca.stage.kyma.ondemand.com/g" ./chart/values.yaml
-      sed -i -e "s/<RELEASE_NAME>/kymareleaseop/g" ./chart/values.yaml
+      sed -i -e "s/<DOMAIN>/aaee644.kyma.ondemand.com/g" ./chart/values.yaml
+      sed -i -e "s/<RELEASE_NAME>/s4kymarelease/g" ./chart/values.yaml
       sed -i -e "s,<DOCKER_ACCOUNT>,prajinop,g" ./chart/values.yaml
       sed -i -e "s/<CONNECTIVITY_SECRET>/kyma-cap-s4ems-connectivity-secret/g" ./chart/values.yaml
+      sed -i -e "s/<namespace>/cicdkyma/g" ./chart/values.yaml
       sed -i "s,<git_repo_url>,https://github.tools.sap/I572426/kyma-cap-s4ems.git,g" ./chart/values.yaml
       sed -i "s,xsappname: kyma-cap-s4ems,xsappname: kyma-cap-s4ems-op,g" ./chart/values.yaml
-      sed -i "s/<branch>/master/g" ./chart/values.yaml	
+      sed -i "s/<git_branch>/master/g" ./chart/values.yaml	
       make push-images -f ./Jenkins_Makefile
       '''
       }
@@ -32,32 +33,39 @@ node('kyma-agent'){
     stage('Deploy'){
       withKubeConfig([credentialsId: 'kubeconfig-i572426']) {
       bat '''
-      helm upgrade --install kymareleaseop ./chart -n prajin
+      helm upgrade --install s4kymarelease ./chart -n cicdkyma --set-file event-mesh.jsonParameters=chart/event-mesh.json --set-file xsuaa.jsonParameters=chart/xs-security.json
       '''
       }
     }
-    stage('Deploy-Mock-Server'){
+    stage('Build Mock-Server'){
       withKubeConfig([credentialsId: 'kubeconfig-i572426']) {
       bat '''
       git clone https://github.com/SAP-samples/btp-s4hana-kyma-business-process-extension.git -b mockserver
+      sed -i -e "s/<DOMAIN_NAME>/aaee644.kyma.ondemand.com/g" ./chart/values.yaml
+      sed -i -e "s/<RELEASE_NAME_OF_KYMAAPP>/s4kymamock/g" ./chart/values.yaml
+      sed -i -e "s/<DOCKER_ACCOUNT>/prajinop/g" ./chart/values.yaml
       cds build --production
       pack build kymamock --path gen/srv --builder paketobuildpacks/builder:base
       docker tag mock:latest prajinop/kymamock:latest
       docker push prajinop/kymamock:latest
-      sed -i -e "s/<DOMAIN_NAME>/c-4eb97ca.stage.kyma.ondemand.com/g" ./chart/values.yaml
-      sed -i -e "s/<RELEASE_NAME_OF_KYMAAPP>/kymamock/g" ./chart/values.yaml
-      sed -i -e "s/<DOCKER_ACCOUNT>/prajinop/g" ./chart/values.yaml
-      helm upgrade --install kymamock ./chart -n prajin
       '''
     }
   }
+    stage('Deploy Mock-Server'){
+      withKubeConfig([credentialsId: 'kubeconfig-i572426']) {
+        bat '''
+        helm upgrade --install s4kymamock ./chart -n cicdkyma
+        '''
+      }
+    }
     stage('Integration-tests'){
       checkout scm
       catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
         withKubeConfig([credentialsId: 'kubeconfig-i572426']) {
           bat '''
           cd ./tests/testscripts/util
-          npm test     
+	  kubectl get secret s4kymarelease-srv-auth -n cicdkyma -o json > appenv.json
+	  npm test     
           '''
         }
       }
@@ -65,7 +73,8 @@ node('kyma-agent'){
     stage('Undeploy'){
       withKubeConfig([credentialsId: 'kubeconfig-i572426']) {
       bat '''
-      helm uninstall kymareleaseop -n prajin
+      helm uninstall s4kymamock -n cicdkyma
+      helm uninstall s4kymarelease -n cicdkyma
       '''
     }
   }
