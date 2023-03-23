@@ -3,7 +3,8 @@ let id = new Date().getTime().toString().slice(0,9);
 var payload = {
   "BusinessPartner": id,
   "BusinessPartnerIsBlocked": true,
-  "BusinessPartnerFullName": "White Sky"
+  "BusinessPartnerFullName": "White Sky",
+  "BusinessPartnerName" : `Prajin ${id}`
 };
 const chai = require('chai');
 const chaiHttp = require('chai-http');
