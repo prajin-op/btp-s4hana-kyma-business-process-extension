@@ -45,7 +45,7 @@ node('kyma-agent'){
       bat '''
       git clone https://github.com/SAP-samples/btp-s4hana-kyma-business-process-extension.git -b mockserver
       sed -i -e "s/<DOMAIN_NAME>/aaee644.kyma.ondemand.com/g" ./chart/values.yaml
-      sed -i -e "s/<RELEASE_NAME_OF_KYMAAPP>/s4kymamock/g" ./chart/values.yaml
+      sed -i -e "s/<RELEASE_NAME_OF_KYMAAPP>/s4kymarelease/g" ./chart/values.yaml
       sed -i -e "s/<DOCKER_ACCOUNT>/prajinop/g" ./chart/values.yaml
       cds build --production
       pack build kymamock --path gen/srv --builder paketobuildpacks/builder:base
