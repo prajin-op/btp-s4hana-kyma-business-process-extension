@@ -24,7 +24,7 @@ node('kyma-agent'){
       sed -i -e "s,<DOCKER_ACCOUNT>,prajinop,g" ./chart/values.yaml
       sed -i -e "s/<CONNECTIVITY_SECRET>/kyma-cap-s4ems-connectivity-secret/g" ./chart/values.yaml
       sed -i -e "s/<namespace>/cicdkyma/g" ./chart/values.yaml
-      sed -i "s,<git_repo_url>,https://github.tools.sap/I572426/kyma-cap-s4ems.git,g" ./chart/values.yaml
+      sed -i "s,<git_repo_url>,https://github.tools.sap/refapps/kyma-cap-s4ems.git,g" ./chart/values.yaml
       sed -i "s,xsappname: kyma-cap-s4ems,xsappname: kyma-s4ems,g" ./chart/values.yaml
       sed -i "s/<git_branch>/master/g" ./chart/values.yaml
       sed -i "s,runAsNonRoot: true,runAsNonRoot: false,g" ./chart/charts/web-application/templates/deployment.yaml
