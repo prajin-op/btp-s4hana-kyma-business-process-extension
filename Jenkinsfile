@@ -76,6 +76,7 @@ node('kyma-agent'){
     stage('Undeploy'){
       withKubeConfig([credentialsId: 'kubeconfig-i572426']) {
       bat '''
+      helm uninstall s4kymarelease -n cicdkyma
     
       '''
     }
