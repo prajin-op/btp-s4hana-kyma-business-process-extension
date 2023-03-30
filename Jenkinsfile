@@ -64,7 +64,7 @@ node('kyma-agent'){
       checkout scm
       catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
         withKubeConfig([credentialsId: 'kubeconfig-i572426']) {
-		powershell 'Start-Sleep -Seconds 100'
+		powershell 'Start-Sleep -Seconds 180'
 		bat '''
 		cd ./tests/testscripts/util
 		kubectl get secret s4kymarelease-srv-auth -n cicdkyma -o json > appenv.json
