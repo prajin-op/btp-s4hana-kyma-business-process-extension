@@ -18,7 +18,7 @@ node('kyma-agent'){
       xssecjson = readJSON file: './chart/xs-security.json'
       xssecjson['xsappname'] = 'kyma-s4ems'
       bat '''
-      sed -i "s/<DOCKER_REPOSITORY>/prajinop/g" Jenkins_Makefile
+      sed -i "s/<DOCKER_REPOSITORY>/prajinop/g" Makefile
       sed -i -e "s/<DOMAIN>/aaee644.kyma.ondemand.com/g" ./chart/values.yaml
       sed -i -e "s/<RELEASE_NAME>/s4kymarelease/g" ./chart/values.yaml
       sed -i -e "s,<DOCKER_ACCOUNT>,prajinop,g" ./chart/values.yaml
@@ -27,8 +27,7 @@ node('kyma-agent'){
       sed -i "s,<git_repo_url>,https://github.tools.sap/refapps/kyma-cap-s4ems.git,g" ./chart/values.yaml
       sed -i "s,xsappname: kyma-cap-s4ems,xsappname: kyma-s4ems,g" ./chart/values.yaml
       sed -i "s/<git_branch>/master/g" ./chart/values.yaml
-      sed -i "s,runAsNonRoot: true,runAsNonRoot: false,g" ./chart/charts/web-application/templates/deployment.yaml
-      make push-images -f ./Jenkins_Makefile
+      make push-images
       '''
       }
     }
@@ -56,9 +55,8 @@ node('kyma-agent'){
   }
     stage('Deploy Mock-Server'){
       withKubeConfig([credentialsId: 'kubeconfig-i572426']) {
-	      powershell 'Start-Sleep -Seconds 180'
+	      powershell 'Start-Sleep -Seconds 100'
         bat '''
-        helm upgrade --install s4kymamock ./chart -n cicdkyma
         '''
       }
     }
@@ -66,7 +64,7 @@ node('kyma-agent'){
       checkout scm
       catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
         withKubeConfig([credentialsId: 'kubeconfig-i572426']) {
-		powershell 'Start-Sleep -Seconds 180'
+		powershell 'Start-Sleep -Seconds 100'
 		bat '''
 		cd ./tests/testscripts/util
 		kubectl get secret s4kymarelease-srv-auth -n cicdkyma -o json > appenv.json
@@ -78,7 +76,6 @@ node('kyma-agent'){
     stage('Undeploy'){
       withKubeConfig([credentialsId: 'kubeconfig-i572426']) {
       bat '''
-      helm uninstall s4kymamock -n cicdkyma
       helm uninstall s4kymarelease -n cicdkyma
       '''
     }
@@ -89,6 +86,6 @@ node('kyma-agent'){
 		currentBuild.result = "FAILURE"
 }
   finally {
-		//  emailext body: '$DEFAULT_CONTENT', subject: '$DEFAULT_SUBJECT', to: 'DL_5731D8E45F99B75FC100004A@global.corp.sap,DL_58CB9B1A5F99B78BCC00001A@global.corp.sap'
+		emailext body: '$DEFAULT_CONTENT', subject: '$DEFAULT_SUBJECT', to: 'DL_5731D8E45F99B75FC100004A@global.corp.sap'
 	}
 }
