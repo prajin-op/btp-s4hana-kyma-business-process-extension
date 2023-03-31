@@ -57,6 +57,7 @@ node('kyma-agent'){
       withKubeConfig([credentialsId: 'kubeconfig-i572426']) {
 	      powershell 'Start-Sleep -Seconds 100'
         bat '''
+	kubectl rollout restart deployment s4kymamock-srv -n cicdkyma
         '''
       }
     }
